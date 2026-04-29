@@ -10,7 +10,7 @@
             <template #prefix>
               <SvgIcon name="Add" :size="20" />
             </template>
-            <n-thing title="创建新歌单" />
+            <n-thing title="Create New Playlist" />
           </n-list-item>
           <!-- 已有歌单 -->
           <n-list-item
@@ -34,9 +34,9 @@
                 </template>
               </n-image>
             </template>
-            <n-thing :title="index === 0 ? '我喜欢的音乐' : item.name">
+            <n-thing :title="index === 0 ? 'Liked Songs' : item.name">
               <template #description>
-                <n-text depth="3" class="size">{{ item.count }} 首音乐</n-text>
+                <n-text depth="3" class="size">{{ item.count }} songs</n-text>
               </template>
             </n-thing>
           </n-list-item>
@@ -52,7 +52,7 @@
             <template #prefix>
               <SvgIcon name="Add" :size="20" />
             </template>
-            <n-thing title="创建新歌单" />
+            <n-thing title="Create New Playlist" />
           </n-list-item>
           <!-- 本地歌单列表 -->
           <template v-if="localPlaylists.length > 0">
@@ -79,12 +79,12 @@
               </template>
               <n-thing :title="item.name">
                 <template #description>
-                  <n-text depth="3" class="size">{{ item.songs.length }} 首音乐</n-text>
+                  <n-text depth="3" class="size">{{ item.songs.length }} songs</n-text>
                 </template>
               </n-thing>
             </n-list-item>
           </template>
-          <n-empty v-else description="暂无本地歌单" style="padding: 40px 0" />
+          <n-empty v-else description="No local playlists" style="padding: 40px 0" />
         </n-list>
       </n-scrollbar>
     </template>
@@ -132,24 +132,24 @@ const localPlaylists = computed(() => localStore.localPlaylists);
 const addToOnlinePlaylist = debounce(
   async (id: number, index: number) => {
     if (isLogin() === 2) {
-      window.$message.warning("该登录模式暂不支持该操作");
+      window.$message.warning("This login mode does not support this action yet");
       return;
     }
-    loadingMsg.value = window.$message.loading("正在添加歌曲至歌单", { duration: 0 });
+    loadingMsg.value = window.$message.loading("Adding songs to playlist", { duration: 0 });
     const ids = props.data.map((item) => item.id).filter((item) => item !== 0);
     const result = await playlistTracks(id, ids);
     if (loadingMsg.value) loadingMsg.value.destroy();
     if (result.status === 200) {
       if (result.body?.code !== 200) {
-        window.$message.error(result.body?.message || "添加失败，请重试");
+        window.$message.error(result.body?.message || "Add failed, please try again");
         return;
       }
       emit("close");
-      window.$message.success("添加歌曲至歌单成功");
+      window.$message.success("Songs added to playlist successfully");
       if (index === 0) await updateUserLikeSongs();
       await updateUserLikePlaylist();
     } else {
-      window.$message.error(result?.message || "添加失败，请重试");
+      window.$message.error(result?.message || "Add failed, please try again");
     }
   },
   500,
@@ -159,7 +159,7 @@ const addToOnlinePlaylist = debounce(
 // 添加到本地歌单
 const addToLocalPlaylist = debounce(
   async (playlistId: number) => {
-    loadingMsg.value = window.$message.loading("正在添加歌曲至本地歌单", { duration: 0 });
+    loadingMsg.value = window.$message.loading("Adding songs to local playlist", { duration: 0 });
     try {
       // 本地歌曲使用 id 的字符串形式
       const songIds = props.data.map((item) => item.id.toString());
@@ -168,16 +168,16 @@ const addToLocalPlaylist = debounce(
       if (result.success) {
         emit("close");
         if (result.addedCount > 0) {
-          window.$message.success(`成功添加 ${result.addedCount} 首歌曲至本地歌单`);
+          window.$message.success(`Added ${result.addedCount} songs to local playlist`);
         } else {
-          window.$message.info("所选歌曲已在歌单中");
+          window.$message.info("Selected songs are already in this playlist");
         }
       } else {
-        window.$message.error("添加失败，歌单不存在");
+        window.$message.error("Add failed, playlist does not exist");
       }
     } catch (error) {
       if (loadingMsg.value) loadingMsg.value.destroy();
-      window.$message.error("添加失败，请重试");
+      window.$message.error("Add failed, please try again");
     }
   },
   500,

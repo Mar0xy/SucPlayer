@@ -1,25 +1,25 @@
 <template>
   <n-scrollbar style="max-height: 70vh" class="font-manager">
     <div class="set-list">
-      <n-h3 prefix="bar">通用字体</n-h3>
+      <n-h3 prefix="bar">General Fonts</n-h3>
       <n-card v-if="isElectron" class="set-item">
         <div class="label">
-          <n-text class="name">字体设置样式</n-text>
-          <n-text class="tip" :depth="3"> 下面的字体如何显示，如何设置 </n-text>
+          <n-text class="name">Font setting style</n-text>
+          <n-text class="tip" :depth="3"> Choose how font options are displayed and configured </n-text>
         </div>
         <n-select
           v-model:value="settingStore.fontSettingStyle"
           :options="[
             {
-              label: '自定义 CSS 字体',
+              label: 'Custom CSS fonts',
               value: 'custom',
             },
             {
-              label: '多字体备选',
+              label: 'Multiple font fallbacks',
               value: 'multi',
             },
             {
-              label: '单字体选择',
+              label: 'Single font selection',
               value: 'single',
             },
           ]"
@@ -31,8 +31,8 @@
         <div class="label">
           <div style="display: flex; justify-content: space-between; align-items: center">
             <div class="info" style="display: flex; flex-direction: column">
-              <n-text class="name">全局字体</n-text>
-              <n-text class="tip" :depth="3">应用到软件内所有非特定区域的字体</n-text>
+              <n-text class="name">Global font</n-text>
+              <n-text class="tip" :depth="3">Applied to all non-specific areas in the app</n-text>
             </div>
             <Transition name="fade" mode="out-in">
               <n-button
@@ -42,7 +42,7 @@
                 secondary
                 @click="settingStore.globalFont = 'default'"
               >
-                恢复默认
+                Restore
               </n-button>
             </Transition>
           </div>
@@ -52,7 +52,7 @@
             v-if="settingStore.fontSettingStyle === 'custom' || !isElectron"
             v-model:value="settingStore.globalFont"
             :update-value-on-input="false"
-            placeholder="输入字体名称"
+            placeholder="Enter font name"
             class="set"
           />
           <n-select
@@ -77,13 +77,13 @@
       </n-card>
     </div>
     <div class="set-list" v-if="isElectron">
-      <n-h3 prefix="bar">桌面歌词</n-h3>
+      <n-h3 prefix="bar">Desktop Lyrics</n-h3>
       <n-card class="set-item" :class="{ 'input-mode': isInputMode }">
         <div class="label">
           <div class="label-header">
             <div class="info" style="display: flex; flex-direction: column">
-              <n-text class="name">桌面歌词字体</n-text>
-              <n-text class="tip" :depth="3"> 桌面歌词使用的字体 </n-text>
+              <n-text class="name">Desktop lyric font</n-text>
+              <n-text class="tip" :depth="3"> Font used for desktop lyrics </n-text>
             </div>
             <Transition name="fade" mode="out-in">
               <n-button
@@ -98,7 +98,7 @@
                   }
                 "
               >
-                恢复默认
+                Restore
               </n-button>
             </Transition>
           </div>
@@ -108,7 +108,7 @@
             v-if="settingStore.fontSettingStyle === 'custom'"
             :value="desktopLyricConfig.fontFamily"
             :update-value-on-input="false"
-            placeholder="输入字体名称"
+            placeholder="Enter font name"
             class="set"
             @update:value="
               (val) => {
@@ -148,8 +148,8 @@
         <div class="label">
           <div class="label-header">
             <div class="info" style="display: flex; flex-direction: column">
-              <n-text class="name">任务栏歌词字体</n-text>
-              <n-text class="tip" :depth="3"> 任务栏歌词使用的字体 </n-text>
+              <n-text class="name">Taskbar lyric font</n-text>
+              <n-text class="tip" :depth="3"> Font used for taskbar lyrics </n-text>
             </div>
             <Transition name="fade" mode="out-in">
               <n-button
@@ -159,7 +159,7 @@
                 secondary
                 @click="saveTaskbarLyricFont('system-ui')"
               >
-                恢复默认
+                Restore
               </n-button>
             </Transition>
           </div>
@@ -169,7 +169,7 @@
             v-if="settingStore.fontSettingStyle === 'custom'"
             :value="taskbarFontFamily"
             :update-value-on-input="false"
-            placeholder="输入字体名称"
+            placeholder="Enter font name"
             class="set"
             @update:value="(val) => saveTaskbarLyricFont(val)"
           />
@@ -195,7 +195,7 @@
       </n-card>
     </div>
     <div class="set-list">
-      <n-h3 prefix="bar">歌词字体</n-h3>
+      <n-h3 prefix="bar">Lyric Fonts</n-h3>
       <n-card
         v-for="font in lyricFontConfigs"
         :key="font.keySetting"
@@ -216,7 +216,7 @@
                 secondary
                 @click="settingStore[font.keySetting] = font.default"
               >
-                恢复默认
+                Restore
               </n-button>
             </Transition>
           </div>
@@ -226,7 +226,7 @@
             v-if="settingStore.fontSettingStyle === 'custom' || !isElectron"
             v-model:value="settingStore[font.keySetting]"
             :update-value-on-input="false"
-            placeholder="输入字体名称"
+            placeholder="Enter font name"
             class="set"
           />
           <n-select
@@ -281,11 +281,11 @@ const isInputMode = computed(() => settingStore.fontSettingStyle !== "single" ||
 const getOptions = (key: string) => {
   const isGlobal = key === "globalFont";
   const isDesktop = key === "desktop";
-  let defaultLabel = "跟随全局";
+  let defaultLabel = "Follow global";
   let defaultValue = "follow";
 
   if (isGlobal || isDesktop) {
-    defaultLabel = "系统默认";
+    defaultLabel = "System default";
     defaultValue = isGlobal ? "default" : "system-ui";
   }
 
@@ -427,10 +427,10 @@ const saveDesktopLyricConfig = (val?: string) => {
       cloneDeep(desktopLyricConfig),
       true,
     );
-    window.$message.success("桌面歌词字体已保存");
+    window.$message.success("Desktop lyric font saved");
   } catch (error) {
     console.error("Failed to save options:", error);
-    window.$message.error("桌面歌词配置保存失败");
+    window.$message.error("Failed to save desktop lyric settings");
     getDesktopLyricConfig();
   }
 };

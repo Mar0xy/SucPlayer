@@ -40,7 +40,7 @@
         <User v-if="settingStore.useOnlineService" />
         <!-- 设置菜单 -->
         <n-dropdown :options="setOptions" trigger="click" @select="setSelect">
-          <n-button :focusable="false" title="设置" tertiary circle>
+          <n-button :focusable="false" title="Settings" tertiary circle>
             <template #icon>
               <SvgIcon name="Settings" />
             </template>
@@ -78,18 +78,18 @@
       class="client-control"
     >
       <n-divider class="divider" vertical />
-      <div class="min-button-wrapper" @click="min" title="最小化">
-        <n-button :focusable="false" title="最小化" tertiary circle @click.stop="min">
+      <div class="min-button-wrapper" @click="min" title="Minimize">
+        <n-button :focusable="false" title="Minimize" tertiary circle @click.stop="min">
           <template #icon>
             <SvgIcon name="WindowMinimize" />
           </template>
         </n-button>
         <div class="min-expanded-area"></div>
       </div>
-      <div class="max-button-wrapper" @click="maxOrRes" :title="isMax ? '还原' : '最大化'">
+      <div class="max-button-wrapper" @click="maxOrRes" :title="isMax ? 'Restore' : 'Maximize'">
         <n-button
           :focusable="false"
-          :title="isMax ? '还原' : '最大化'"
+          :title="isMax ? 'Restore' : 'Maximize'"
           tertiary
           circle
           @click.stop="maxOrRes"
@@ -100,8 +100,8 @@
         </n-button>
         <div class="max-expanded-area"></div>
       </div>
-      <div class="close-button-wrapper" @click="tryClose" title="关闭">
-        <n-button :focusable="false" title="关闭" tertiary circle @click.stop="tryClose">
+      <div class="close-button-wrapper" @click="tryClose" title="Close">
+        <n-button :focusable="false" title="Close" tertiary circle @click.stop="tryClose">
           <template #icon>
             <SvgIcon name="WindowClose" />
           </template>
@@ -113,28 +113,28 @@
     <n-modal
       v-model:show="showCloseModal"
       :auto-focus="false"
-      title="关闭软件"
+      title="Close app"
       style="width: 600px"
       preset="card"
       transform-origin="center"
       bordered
       @after-leave="rememberNotAsk = false"
     >
-      <n-text class="tip">确认关闭软件吗？</n-text>
-      <n-checkbox v-model:checked="rememberNotAsk" class="checkbox"> 记住且不再询问 </n-checkbox>
+      <n-text class="tip">Are you sure you want to close the app?</n-text>
+      <n-checkbox v-model:checked="rememberNotAsk" class="checkbox"> Remember and do not ask again </n-checkbox>
       <template #footer>
         <n-flex justify="end">
           <n-button strong secondary @click="hideOrClose('exit')">
             <template #icon>
               <SvgIcon name="ExitToApp" />
             </template>
-            关闭
+            Close
           </n-button>
           <n-button type="primary" strong secondary @click="hideOrClose('hide')">
             <template #icon>
               <SvgIcon name="WindowHide" />
             </template>
-            隐藏到托盘
+            Hide to tray
           </n-button>
         </n-flex>
       </template>
@@ -157,11 +157,11 @@ const { isDesktop, isSmallScreen } = useMobile();
 
 // 更新按钮提示
 const updateBtnTitle = computed(() => {
-  if (statusStore.updateDownloaded) return "更新已就绪，点击查看";
+  if (statusStore.updateDownloaded) return "Update ready, click to view";
   if (statusStore.updateDownloading) {
-    return `下载中 ${Math.round(statusStore.updateDownloadProgress)}%`;
+    return `Downloading ${Math.round(statusStore.updateDownloadProgress)}%`;
   }
-  return `发现新版本 ${statusStore.updateInfo?.version || ""}`;
+  return `New version found ${statusStore.updateInfo?.version || ""}`;
 });
 
 // 点击更新按钮
@@ -217,10 +217,10 @@ const setOptions = computed<DropdownOption[]>(() => [
   {
     label:
       settingStore.themeMode === "auto"
-        ? "浅色模式"
+        ? "Light mode"
         : settingStore.themeMode === "light"
-          ? "深色模式"
-          : "跟随系统",
+          ? "Dark mode"
+          : "Follow system",
     key: "themeMode",
     disabled: !!statusStore.backgroundImageUrl,
     icon: renderIcon(
@@ -232,13 +232,13 @@ const setOptions = computed<DropdownOption[]>(() => [
     ),
   },
   {
-    label: "主题配置",
+    label: "Theme settings",
     key: "themeConfig",
     icon: renderIcon("Palette"),
   },
   {
     key: "zoom",
-    label: "界面缩放",
+    label: "UI scaling",
     icon: renderIcon("ZoomIn"),
     show: isElectron,
   },
@@ -249,20 +249,20 @@ const setOptions = computed<DropdownOption[]>(() => [
   {
     // 重启
     key: "restart",
-    label: "软件热重载",
+    label: "Hot reload app",
     show: isElectron,
     props: { onClick: () => window.electron.ipcRenderer.send("win-reload") },
     icon: renderIcon("Restart"),
   },
   {
     key: "dev-tools",
-    label: "开启控制台",
+    label: "Open devtools",
     show: isDev,
     icon: renderIcon("Code"),
   },
   {
     key: "setting",
-    label: "全局设置",
+    label: "Global settings",
     icon: renderIcon("Settings"),
   },
 ]);

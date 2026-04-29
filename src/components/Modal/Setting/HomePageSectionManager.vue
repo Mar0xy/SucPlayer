@@ -9,7 +9,7 @@
       }"
       class="greeting-item"
     >
-      <n-text class="name">显示主页问好</n-text>
+      <n-text class="name">Show Home Greeting</n-text>
       <n-switch v-model:value="settingStore.showHomeGreeting" :round="false" />
     </n-card>
     <div ref="sortableRef" class="sortable-list">

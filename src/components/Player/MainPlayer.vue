@@ -98,7 +98,7 @@
               <div v-else class="artists">
                 <TextContainer :speed="0.5" class="artists-container">
                   <n-text v-if="musicStore.playSong.type === 'radio'" class="ar-item" @click="showCreatorTip">
-                    {{ musicStore.playSong.dj?.creator || "未知艺术家" }}
+                    {{ musicStore.playSong.dj?.creator || "Unknown artist" }}
                   </n-text>
                   <template v-else-if="Array.isArray(musicStore.playSong.artists)">
                     <n-text
@@ -120,7 +120,7 @@
                     {{
                       settingStore.hideBracketedContent
                         ? removeBrackets(musicStore.playSong.artists)
-                        : musicStore.playSong.artists || "未知艺术家"
+                        : musicStore.playSong.artists || "Unknown artist"
                     }}
                   </n-text>
                 </TextContainer>
@@ -296,12 +296,12 @@ const songMoreOptions = computed<DropdownOption[]>(() => {
   return [
     {
       key: "more",
-      label: "更多操作",
+      label: "More actions",
       icon: renderIcon("Menu", { size: 18 }),
       children: [
         {
           key: "code-name",
-          label: `复制${song.type === "song" ? "歌曲" : "节目"}名称`,
+          label: `Copy ${song.type === "song" ? "song" : "program"} name`,
           props: {
             onClick: () => copyData(song.name),
           },
@@ -309,7 +309,7 @@ const songMoreOptions = computed<DropdownOption[]>(() => {
         },
         {
           key: "code-id",
-          label: `复制${song.type === "song" ? "歌曲" : "节目"} ID`,
+          label: `Copy ${song.type === "song" ? "song" : "program"} ID`,
           show: !isLocal,
           props: {
             onClick: () => copyData(song.id),
@@ -318,7 +318,7 @@ const songMoreOptions = computed<DropdownOption[]>(() => {
         },
         {
           key: "copy-song-info",
-          label: "复制更多信息",
+          label: "Copy more info",
           show: !isLocal && isSong,
           props: {
             onClick: () => openCopySongInfo(song.id),
@@ -327,10 +327,10 @@ const songMoreOptions = computed<DropdownOption[]>(() => {
         },
         {
           key: "share",
-          label: `分享${song.type === "song" ? "歌曲" : "节目"}链接`,
+          label: `Share ${song.type === "song" ? "song" : "program"} link`,
           show: !isLocal,
           props: {
-            onClick: () => copyData(getShareUrl(song.type, song.id), "已复制分享链接到剪切板"),
+            onClick: () => copyData(getShareUrl(song.type, song.id), "Share link copied to clipboard"),
           },
           icon: renderIcon("Share", { size: 18 }),
         },
@@ -338,7 +338,7 @@ const songMoreOptions = computed<DropdownOption[]>(() => {
     },
     {
       key: "search",
-      label: "同名搜索",
+      label: "Search same title",
       show: settingStore.useOnlineService,
       props: {
         onClick: () => router.push({ name: "search", query: { keyword: song.name } }),
@@ -351,7 +351,7 @@ const songMoreOptions = computed<DropdownOption[]>(() => {
     },
     {
       key: "playlist-add",
-      label: "添加到歌单",
+      label: "Add to playlist",
       props: {
         onClick: () => openPlaylistAdd([song], isLocal),
       },
@@ -359,7 +359,7 @@ const songMoreOptions = computed<DropdownOption[]>(() => {
     },
     {
       key: "mv",
-      label: "观看 MV",
+      label: "Watch MV",
       show: isSong && isHasMv,
       props: {
         onClick: () =>
@@ -369,14 +369,14 @@ const songMoreOptions = computed<DropdownOption[]>(() => {
     },
     {
       key: "download",
-      label: "下载歌曲",
+      label: "Download song",
       show: statusStore.isDeveloperMode && !isLocal && isSong,
       props: { onClick: () => openDownloadSong(musicStore.playSong) },
       icon: renderIcon("Download"),
     },
     {
       key: "wiki",
-      label: "音乐百科",
+      label: "Music wiki",
       show: !isLocal && isSong,
       props: {
         onClick: () => router.push({ name: "song-wiki", query: { id: musicStore.playSong.id } }),
@@ -385,7 +385,7 @@ const songMoreOptions = computed<DropdownOption[]>(() => {
     },
     {
       key: "comment",
-      label: "查看评论",
+      label: "View comments",
       show: !isLocal,
       props: {
         onClick: () => {
@@ -425,7 +425,7 @@ const instantLyrics = computed(() => {
 });
 
 // 暂不支持查看主播主页
-const showCreatorTip = () => window.$message.info("暂不支持查看主播主页");
+const showCreatorTip = () => window.$message.info("Opening creator profile is not supported yet");
 </script>
 
 <style lang="scss" scoped>

@@ -23,7 +23,7 @@
           : '',
       }"
     >
-      <div v-if="statusStore.lyricLoading" class="lyric-loading">歌词正在加载中...</div>
+      <div v-if="statusStore.lyricLoading" class="lyric-loading">Loading lyrics...</div>
       <LyricPlayer
         v-else
         ref="lyricPlayerRef"
@@ -152,7 +152,7 @@ const processLyricLanguage = (player = lyricPlayerRef.value) => {
     if (lyricMainLineElement instanceof HTMLElement) {
       lyricMainLineElement.setAttribute("lang", lang);
     } else {
-      console.warn("无法获取歌词行元素的主歌词部分，无法设置 lang 属性", e.element);
+      console.warn("Cannot find main lyric line element; unable to set lang attribute", e.element);
     }
   }
 };

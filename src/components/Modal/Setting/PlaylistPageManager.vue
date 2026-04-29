@@ -33,10 +33,10 @@ type PlaylistPageElementKey = keyof SettingState["playlistPageElements"];
 type Item = { label: string; key: PlaylistPageElementKey };
 
 const items: Item[] = [
-  { label: "显示标签", key: "tags" },
-  { label: "显示创建者/艺术家", key: "creator" },
-  { label: "显示创建/更新时间", key: "time" },
-  { label: "显示描述", key: "description" },
+  { label: "Show Tags", key: "tags" },
+  { label: "Show Creator/Artist", key: "creator" },
+  { label: "Show Created/Updated Time", key: "time" },
+  { label: "Show Description", key: "description" },
 ];
 
 const updateSetting = (key: PlaylistPageElementKey, val: boolean) => {

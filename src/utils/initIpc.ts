@@ -68,7 +68,7 @@ const initIpc = () => {
         );
         const newState = !currentMacLyricEnabled;
         window.electron.ipcRenderer.send("macos-lyric:toggle", newState);
-        const message = `${newState ? "已开启" : "已关闭"}状态栏歌词`;
+        const message = `${newState ? "Enabled" : "Disabled"} status bar lyrics`;
         window.$message.success(message);
       } else {
         player.toggleTaskbarLyric();
@@ -162,7 +162,7 @@ window.electron.ipcRenderer.on(TASKBAR_IPC_CHANNELS.REQUEST_DATA, async () => {
       closeUpdateStatus();
       statusStore.updateAvailable = false;
       statusStore.updateInfo = null;
-      window.$message.success("当前已是最新版本");
+      window.$message.success("You are already on the latest version");
     });
     // 有更新
     window.electron.ipcRenderer.on("update-available", (_, info) => {
@@ -191,7 +191,7 @@ window.electron.ipcRenderer.on(TASKBAR_IPC_CHANNELS.REQUEST_DATA, async () => {
       console.error("Error updating:", error);
       closeUpdateStatus();
       statusStore.updateDownloading = false;
-      window.$message.error("更新过程出现错误");
+      window.$message.error("An error occurred during update");
     });
     // 协议数据
     window.electron.ipcRenderer.on("protocol-url", (_, url) => {

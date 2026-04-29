@@ -3,10 +3,10 @@
     <img src="/icons/favicon.png?asset" alt="logo" class="logo" />
     <!-- 登录方式 -->
     <n-tabs class="login-tabs" default-value="login-qr" type="segment" animated>
-      <n-tab-pane name="login-qr" tab="扫码登录">
+      <n-tab-pane name="login-qr" tab="QR Login">
         <LoginQRCode :pause="qrPause" @saveLogin="saveLogin" />
       </n-tab-pane>
-      <n-tab-pane name="login-phone" tab="验证码登录">
+      <n-tab-pane name="login-phone" tab="Captcha Login">
         <LoginPhone @saveLogin="saveLogin" />
       </n-tab-pane>
     </n-tabs>
@@ -20,11 +20,11 @@
         round
         @click="specialLogin('uid')"
       >
-        UID 登录
+        UID Login
       </n-button>
       <n-divider v-if="!disableUid" vertical />
       <n-button :focusable="false" size="small" quaternary round @click="specialLogin('cookie')">
-        Cookie 登录
+        Cookie Login
       </n-button>
     </n-flex>
     <!-- 关闭登录 -->
@@ -32,7 +32,7 @@
       <template #icon>
         <SvgIcon name="WindowClose" />
       </template>
-      取消
+      Cancel
     </n-button>
   </div>
 </template>
@@ -71,7 +71,7 @@ const saveLogin = async (loginData: any, type: LoginType = "qr") => {
     emit("close");
     dataStore.userLoginStatus = true;
     dataStore.loginType = type;
-    window.$message.success("登录成功");
+    window.$message.success("Login successful");
     // 保存 cookie
     if (type !== "uid") setCookies(loginData.cookie);
     // 保存登录时间
@@ -84,7 +84,7 @@ const saveLogin = async (loginData: any, type: LoginType = "qr") => {
     }
     emit("success");
   } else {
-    window.$message.error(loginData.msg ?? loginData.message ?? "账号或密码错误，请重试");
+    window.$message.error(loginData.msg ?? loginData.message ?? "Invalid credentials, please try again");
   }
 };
 
@@ -92,7 +92,7 @@ const saveLogin = async (loginData: any, type: LoginType = "qr") => {
 const specialLogin = (type: "uid" | "cookie" = "uid") => {
   qrPause.value = true;
   const loginModal = window.$modal.create({
-    title: type === "uid" ? "UID 登录" : "Cookie 登录",
+    title: type === "uid" ? "UID Login" : "Cookie Login",
     preset: "card",
     transformOrigin: "center",
     style: { width: "400px" },
@@ -111,7 +111,7 @@ const specialLogin = (type: "uid" | "cookie" = "uid") => {
 
 onBeforeMount(() => {
   if (dataStore.userLoginStatus && !props.force) {
-    window.$message.warning("已登录，请勿再次操作");
+    window.$message.warning("Already logged in, please do not repeat this action");
     emit("close");
   }
 });

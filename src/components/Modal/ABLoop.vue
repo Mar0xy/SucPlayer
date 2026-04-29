@@ -5,7 +5,7 @@
       <n-flex align="center" justify="space-between">
         <n-flex size="small" align="center">
           <SvgIcon name="Repeat" size="22" />
-          <n-text>AB 循环模式</n-text>
+          <n-text>AB Loop Mode</n-text>
         </n-flex>
         <n-switch v-model:value="statusStore.abLoop.enable" :disabled="!canEnable" :round="false" />
       </n-flex>
@@ -15,11 +15,11 @@
     <n-card class="point-card">
       <n-flex align="center" justify="space-between">
         <n-flex vertical size="small">
-          <n-text strong>起点 A</n-text>
+          <n-text strong>Start Point A</n-text>
           <n-text depth="3">{{ formatTime(statusStore.abLoop.pointA) }}</n-text>
         </n-flex>
         <n-flex>
-          <n-button size="small" secondary type="primary" @click="setPoint('A')">设为当前</n-button>
+          <n-button size="small" secondary type="primary" @click="setPoint('A')">Set to current</n-button>
           <n-button
             size="small"
             secondary
@@ -27,7 +27,7 @@
             @click="clearPoint('A')"
             v-if="statusStore.abLoop.pointA !== null"
           >
-            清除
+            Clear
           </n-button>
         </n-flex>
       </n-flex>
@@ -38,9 +38,9 @@
         :step="0.1"
         size="small"
         style="margin-top: 10px"
-        placeholder="微调时间 (秒)"
+        placeholder="Fine-tune time (s)"
       >
-        <template #suffix>秒</template>
+        <template #suffix>s</template>
       </n-input-number>
     </n-card>
 
@@ -48,11 +48,11 @@
     <n-card class="point-card">
       <n-flex align="center" justify="space-between">
         <n-flex vertical size="small">
-          <n-text strong>终点 B</n-text>
+          <n-text strong>End Point B</n-text>
           <n-text depth="3">{{ formatTime(statusStore.abLoop.pointB) }}</n-text>
         </n-flex>
         <n-flex>
-          <n-button size="small" secondary type="primary" @click="setPoint('B')">设为当前</n-button>
+          <n-button size="small" secondary type="primary" @click="setPoint('B')">Set to current</n-button>
           <n-button
             size="small"
             secondary
@@ -60,7 +60,7 @@
             @click="clearPoint('B')"
             v-if="statusStore.abLoop.pointB !== null"
           >
-            清除
+            Clear
           </n-button>
         </n-flex>
       </n-flex>
@@ -71,14 +71,14 @@
         :step="0.1"
         size="small"
         style="margin-top: 10px"
-        placeholder="微调时间 (秒)"
+        placeholder="Fine-tune time (s)"
       >
-        <template #suffix>秒</template>
+        <template #suffix>s</template>
       </n-input-number>
     </n-card>
 
     <n-text depth="3" style="font-size: 12px">
-      提示：若 B 点小于或等于 A 点，循环将不会生效。
+      Note: if point B is less than or equal to point A, loop will not take effect.
     </n-text>
   </n-flex>
 </template>
@@ -100,7 +100,7 @@ const canEnable = computed(() => {
 });
 
 const formatTime = (time: number | null) => {
-  if (time === null) return "未设置";
+  if (time === null) return "Not set";
   return convertSecondsToTime(time);
 };
 

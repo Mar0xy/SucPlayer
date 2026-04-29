@@ -1,7 +1,7 @@
 <template>
   <div class="song-unlock-manager">
-    <n-alert title="免责声明" type="info">
-      本功能仅作为测试使用，资源来自网络，若侵犯到您的权益，请及时联系我们删除
+    <n-alert title="Disclaimer" type="info">
+      This feature is for testing only. Resources come from the internet. If your rights are infringed, please contact us for removal.
     </n-alert>
     <div ref="sortableRef" class="sortable-list">
       <n-card

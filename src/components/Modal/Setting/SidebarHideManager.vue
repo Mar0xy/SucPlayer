@@ -41,17 +41,17 @@ const when = (condition: boolean, ...item: SidebarHideItem[]): SidebarHideItem[]
 };
 
 const sidebarItems: SidebarHideItem[] = [
-  { label: "发现音乐", key: "hideDiscover" },
-  { label: "私人漫游", key: "hidePersonalFM" },
-  { label: "播客电台", key: "hideRadioHot" },
-  { label: "我的收藏", key: "hideLike" },
-  { label: "我的云盘", key: "hideCloud" },
-  ...when(isElectron && statusStore.isDeveloperMode, { label: "下载管理", key: "hideDownload" }),
-  ...when(isElectron, { label: "本地歌曲", key: "hideLocal" }),
-  { label: "最近播放", key: "hideHistory" },
-  { label: "创建的歌单", key: "hideUserPlaylists" },
-  { label: "收藏的歌单", key: "hideLikedPlaylists" },
-  { label: "心动模式", key: "hideHeartbeatMode" },
+  { label: "Discover", key: "hideDiscover" },
+  { label: "Personal FM", key: "hidePersonalFM" },
+  { label: "Podcasts", key: "hideRadioHot" },
+  { label: "Favorites", key: "hideLike" },
+  { label: "Cloud", key: "hideCloud" },
+  ...when(isElectron && statusStore.isDeveloperMode, { label: "Downloads", key: "hideDownload" }),
+  ...when(isElectron, { label: "Local Music", key: "hideLocal" }),
+  { label: "Recently Played", key: "hideHistory" },
+  { label: "Created Playlists", key: "hideUserPlaylists" },
+  { label: "Liked Playlists", key: "hideLikedPlaylists" },
+  { label: "Heartbeat Mode", key: "hideHeartbeatMode" },
 ];
 
 const updateSetting = (key: SidebarHideKey, val: boolean) => {

@@ -3,13 +3,13 @@
     <!-- 在线歌单表单 -->
     <template v-if="!isLocal">
       <n-form ref="onlineFormRef" :model="onlineFormData" :rules="onlineFormRules">
-        <n-form-item label="歌单名称" path="name">
-          <n-input v-model:value="onlineFormData.name" placeholder="请输入歌单名称" />
+        <n-form-item label="Playlist Name" path="name">
+          <n-input v-model:value="onlineFormData.name" placeholder="Enter playlist name" />
         </n-form-item>
-        <n-form-item label="歌单类型" path="type">
+        <n-form-item label="Playlist Type" path="type">
           <n-select v-model:value="onlineFormData.type" :options="onlinePlaylistType" />
         </n-form-item>
-        <n-form-item label="设为隐私歌单" path="privacy" label-placement="left">
+        <n-form-item label="Set as private playlist" path="privacy" label-placement="left">
           <n-switch v-model:value="onlineFormData.privacy" />
         </n-form-item>
       </n-form>
@@ -17,20 +17,20 @@
     <!-- 本地歌单表单 -->
     <template v-else>
       <n-form ref="localFormRef" :model="localFormData" :rules="localFormRules">
-        <n-form-item label="歌单名称" path="name">
-          <n-input v-model:value="localFormData.name" placeholder="请输入歌单名称" />
+        <n-form-item label="Playlist Name" path="name">
+          <n-input v-model:value="localFormData.name" placeholder="Enter playlist name" />
         </n-form-item>
-        <n-form-item label="歌单描述" path="description">
+        <n-form-item label="Playlist Description" path="description">
           <n-input
             v-model:value="localFormData.description"
             type="textarea"
-            placeholder="请输入歌单描述（选填）"
+            placeholder="Enter playlist description (optional)"
             :autosize="{ minRows: 2, maxRows: 4 }"
           />
         </n-form-item>
       </n-form>
     </template>
-    <n-button class="create" type="primary" @click="toCreatePlaylist"> 新建 </n-button>
+    <n-button class="create" type="primary" @click="toCreatePlaylist"> Create </n-button>
   </div>
 </template>
 
@@ -80,16 +80,16 @@ const localFormRules: FormRules = { name: textRule };
 // 在线歌单类型
 const onlinePlaylistType: SelectOption[] = [
   {
-    label: "普通歌单",
+    label: "Normal Playlist",
     value: "NORMAL",
   },
   {
-    label: "视频歌单",
+    label: "Video Playlist",
     disabled: true,
     value: "VIDEO",
   },
   {
-    label: "共享歌单",
+    label: "Shared Playlist",
     disabled: true,
     value: "SHARED",
   },
@@ -109,13 +109,13 @@ const toCreatePlaylist = debounce(
       );
       if (result.code === 200) {
         emit("close");
-        window.$message.success("新建歌单成功");
+        window.$message.success("Playlist created successfully");
         if (dataStore.userData.createdPlaylistCount) {
           dataStore.userData.createdPlaylistCount++;
         }
         await updateUserLikePlaylist();
       } else {
-        window.$message.error(result.message || "新建歌单失败，请重试");
+        window.$message.error(result.message || "Failed to create playlist, please try again");
       }
     } else {
       // 本地歌单
@@ -126,13 +126,13 @@ const toCreatePlaylist = debounce(
           localFormData.value.description,
         );
         emit("close");
-        window.$message.success("新建本地歌单成功");
+        window.$message.success("Local playlist created successfully");
       } catch (error) {
         if (error) {
           // 验证失败，不做处理
           return;
         }
-        window.$message.error("新建本地歌单失败，请重试");
+        window.$message.error("Failed to create local playlist, please try again");
       }
     }
   },

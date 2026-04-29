@@ -133,7 +133,7 @@
                 <span v-if="!showAutomixLabel" key="time" @click="toggleTimeFormat">{{
                   timeDisplay[1]
                 }}</span>
-                <span v-else key="automix" class="automix-label">混音</span>
+                <span v-else key="automix" class="automix-label">Automix</span>
               </Transition>
             </div>
           </div>

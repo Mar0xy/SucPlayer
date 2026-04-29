@@ -1,12 +1,12 @@
 <template>
   <div class="local-music-directory">
     <n-text class="local-list-tip">
-      请选择本地音乐文件夹，将自动扫描您添加的目录，歌曲增删实时同步
+      Select local music folders. Added directories are scanned automatically and updates are synced in real time.
     </n-text>
     <n-scrollbar style="max-height: 50vh">
       <n-list class="local-list" hoverable clickable bordered>
         <div v-if="!settingStore.localFilesPath.length" class="empty">
-          <n-empty description="暂无目录" />
+          <n-empty description="No folders yet" />
         </div>
         <n-list-item v-for="(path, index) in settingStore.localFilesPath" :key="index">
           <template #prefix>
@@ -28,7 +28,7 @@
         <template #icon>
           <SvgIcon name="FolderPlus" />
         </template>
-        添加文件夹
+        Add folder
       </n-button>
     </n-flex>
   </div>

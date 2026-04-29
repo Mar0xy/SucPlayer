@@ -150,7 +150,7 @@ const keyDownEvent = debounce((event: KeyboardEvent) => {
     );
     if (mainKey !== key) match = false;
     if (match && shortcutKey) {
-      console.log(shortcutKey, `快捷键触发: ${shortcut.name}`);
+      console.log(shortcutKey, `Shortcut triggered: ${shortcut.name}`);
       switch (shortcutKey) {
         case "playOrPause":
           player.playOrPause();

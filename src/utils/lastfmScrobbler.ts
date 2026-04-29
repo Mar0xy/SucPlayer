@@ -51,7 +51,7 @@ class LastfmScrobbler {
     this.playStartTime = Date.now();
     this.hasScrobbled = false;
 
-    console.log("Last.fm: 开始播放", this.currentTrack);
+    console.log("Last.fm: started playback", this.currentTrack);
 
     // 更新正在播放状态
     if (settingStore.lastfm.nowPlayingEnabled) {
@@ -131,9 +131,9 @@ class LastfmScrobbler {
         this.currentTrack.album,
         this.currentTrack.duration,
       );
-      console.log("Last.fm: 正在播放状态已更新");
+      console.log("Last.fm: now playing status updated");
     } catch (error) {
-      console.error("Last.fm: 更新正在播放状态失败", error);
+      console.error("Last.fm: failed to update now playing status", error);
     }
   }
 
@@ -155,7 +155,7 @@ class LastfmScrobbler {
     const playedTime = (Date.now() - this.playStartTime) / 1000;
     const remainingTime = Math.max(0, scrobbleTime - playedTime);
 
-    console.log(`Last.fm: 将在 ${remainingTime.toFixed(1)} 秒后 scrobble`);
+    console.log(`Last.fm: will scrobble in ${remainingTime.toFixed(1)} seconds`);
 
     this.scrobbleTimer = setTimeout(() => {
       this.scrobble();
@@ -180,9 +180,9 @@ class LastfmScrobbler {
         this.currentTrack.duration,
       );
       this.hasScrobbled = true;
-      console.log("Last.fm: Scrobble 成功", this.currentTrack);
+      console.log("Last.fm: scrobble succeeded", this.currentTrack);
     } catch (error) {
-      console.error("Last.fm: Scrobble 失败", error);
+      console.error("Last.fm: scrobble failed", error);
     }
   }
 

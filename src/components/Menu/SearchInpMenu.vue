@@ -43,7 +43,7 @@ const openDropdown = async (e: MouseEvent) => {
       dropdownOptions.value = [
         {
           key: "copy",
-          label: "复制搜索框内容",
+          label: "Copy search input",
           show: !!statusStore.searchInputValue,
           props: {
             onClick: () => copyData(statusStore.searchInputValue),
@@ -52,7 +52,7 @@ const openDropdown = async (e: MouseEvent) => {
         },
         {
           key: "paste",
-          label: "粘贴至搜索框",
+          label: "Paste into search input",
           show: !!ClipboardData,
           props: {
             onClick: () => (statusStore.searchInputValue += ClipboardData),
@@ -61,7 +61,7 @@ const openDropdown = async (e: MouseEvent) => {
         },
         {
           key: "paste-search",
-          label: "粘贴并搜索",
+          label: "Paste and search",
           show: !!ClipboardData,
           props: {
             onClick: () => {
@@ -78,8 +78,8 @@ const openDropdown = async (e: MouseEvent) => {
       dropdownShow.value = true;
     });
   } catch (error) {
-    console.error("右键菜单出现异常：", error);
-    window.$message.error("右键菜单出现异常");
+    console.error("Context menu error:", error);
+    window.$message.error("Context menu error");
   }
 };
 

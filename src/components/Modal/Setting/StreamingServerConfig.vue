@@ -8,35 +8,35 @@
       label-width="auto"
       require-mark-placement="right-hanging"
     >
-      <n-form-item label="服务类型" path="type">
+      <n-form-item label="Service type" path="type">
         <n-select
           v-model:value="serverForm.type"
           :options="serverTypeOptions"
-          placeholder="选择服务类型"
+          placeholder="Select service type"
         />
       </n-form-item>
-      <n-form-item label="服务器名称" path="name">
-        <n-input v-model:value="serverForm.name" placeholder="为服务器取个名字（如：我的音乐库）" />
+      <n-form-item label="Server name" path="name">
+        <n-input v-model:value="serverForm.name" placeholder="Name this server (for example: My Music Library)" />
       </n-form-item>
-      <n-form-item label="服务器地址" path="url">
+      <n-form-item label="Server URL" path="url">
         <n-input v-model:value="serverForm.url" placeholder="http://127.0.0.1:4533" />
       </n-form-item>
-      <n-form-item label="用户名" path="username">
-        <n-input v-model:value="serverForm.username" placeholder="输入用户名" />
+      <n-form-item label="Username" path="username">
+        <n-input v-model:value="serverForm.username" placeholder="Enter username" />
       </n-form-item>
-      <n-form-item label="密码" path="password">
+      <n-form-item label="Password" path="password">
         <n-input
           v-model:value="serverForm.password"
           type="password"
           show-password-on="click"
-          placeholder="输入密码"
+          placeholder="Enter password"
         />
       </n-form-item>
     </n-form>
     <n-flex justify="end" style="margin-top: 12px">
-      <n-button @click="handleCancel">取消</n-button>
+      <n-button @click="handleCancel">Cancel</n-button>
       <n-button type="primary" :loading="loading" @click="handleSave">
-        {{ isEditing ? "保存" : "添加" }}
+        {{ isEditing ? "Save" : "Add" }}
       </n-button>
     </n-flex>
   </div>
@@ -82,11 +82,11 @@ const serverTypeOptions = [
 
 // 表单验证规则
 const formRules: FormRules = {
-  type: { required: true, message: "请选择服务类型", trigger: "change" },
-  name: { required: true, message: "请输入服务器名称", trigger: "blur" },
-  url: { required: true, message: "请输入服务器地址", trigger: "blur" },
-  username: { required: true, message: "请输入用户名", trigger: "blur" },
-  password: { required: true, message: "请输入密码", trigger: "blur" },
+  type: { required: true, message: "Please select a service type", trigger: "change" },
+  name: { required: true, message: "Please enter a server name", trigger: "blur" },
+  url: { required: true, message: "Please enter a server URL", trigger: "blur" },
+  username: { required: true, message: "Please enter a username", trigger: "blur" },
+  password: { required: true, message: "Please enter a password", trigger: "blur" },
 };
 
 // 用服务器数据填充表单

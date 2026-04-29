@@ -13,34 +13,34 @@ export interface LyricLangFontConfig extends LyricFontConfig {
 
 export const lyricLangFontConfigs: LyricLangFontConfig[] = [
   {
-    name: "英语歌词字体",
+    name: "English lyric font",
     keySetting: "englishLyricFont",
     keyCss: "--en-font-family",
     default: "follow",
-    tip: "当歌词包含英语时使用的特定字体",
+    tip: "Font used when lyrics contain English",
   },
   {
-    name: "日语歌词字体",
+    name: "Japanese lyric font",
     keySetting: "japaneseLyricFont",
     keyCss: "--ja-font-family",
     default: "follow",
-    tip: "当歌词包含日语时使用的特定字体",
+    tip: "Font used when lyrics contain Japanese",
   },
   {
-    name: "韩语歌词字体",
+    name: "Korean lyric font",
     keySetting: "koreanLyricFont",
     keyCss: "--ko-font-family",
     default: "follow",
-    tip: "当歌词包含韩语时使用的特定字体",
+    tip: "Font used when lyrics contain Korean",
   },
 ];
 
 export const lyricFontConfigs: LyricFontConfig[] = [
   {
-    name: "歌词区域字体",
+    name: "Lyric area font",
     keySetting: "LyricFont",
     default: "follow",
-    tip: "主歌词区域的基础字体",
+    tip: "Base font for the main lyric area",
   },
   ...lyricLangFontConfigs,
 ];

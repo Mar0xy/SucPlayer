@@ -29,11 +29,11 @@ export const useQualityControl = () => {
   // 获取音质名称
   const getQualityName = (quality: QualityType | undefined) => {
     const song = musicStore.playSong;
-    if (song.path) return "本地";
-    if (song.pc) return "云盘";
-    if (song.type === "radio") return "电台";
-    if (statusStore.isUnlocked) return "解锁";
-    if (!quality) return "未知";
+    if (song.path) return "Local";
+    if (song.pc) return "Cloud";
+    if (song.type === "radio") return "Radio";
+    if (statusStore.isUnlocked) return "Unlocked";
+    if (!quality) return "Unknown";
     return qualityNameMap[quality] || quality;
   };
 
@@ -75,7 +75,7 @@ export const useQualityControl = () => {
                 "span",
                 { style: { opacity: 0.6, fontSize: "12px", marginLeft: "6px" } },
                 isDefaultQuality && !isPlayingQuality
-                  ? "当前配置"
+                  ? "Current setting"
                   : item.size
                     ? formatFileSize(item.size)
                     : "",
@@ -115,13 +115,13 @@ export const useQualityControl = () => {
           });
         }
       } else if (!isPreload) {
-        window.$message.warning("获取音质信息失败");
+        window.$message.warning("Failed to get quality information");
       }
     } catch (error) {
-      console.error(`获取音质详情失败${isPreload ? " (预加载)" : ""}:`, error);
+      console.error(`Failed to get quality details${isPreload ? " (preload)" : ""}:`, error);
       statusStore.availableQualities = [];
       if (!isPreload) {
-        window.$message.error("获取音质信息失败");
+        window.$message.error("Failed to get quality information");
       }
     }
   };
@@ -143,7 +143,7 @@ export const useQualityControl = () => {
     const actualItem = availableQualities.value.find(
       (q) => handleSongQuality(q) === statusStore.songQuality,
     );
-    window.$message.success(`已切换至 ${actualItem?.name || item.name}`);
+    window.$message.success(`Switched to ${actualItem?.name || item.name}`);
   };
 
   return {

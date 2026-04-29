@@ -47,7 +47,7 @@ const openDropdown = async (
       dropdownOptions.value = [
         {
           key: "open",
-          label: "查看详情",
+          label: "View details",
           props: {
             onClick: () =>
               router.push({
@@ -59,7 +59,7 @@ const openDropdown = async (
         },
         {
           key: "play",
-          label: "播放",
+          label: "Play",
           show: musicStore.playPlaylistId !== item.id || !statusStore.playStatus,
           props: {
             onClick: () => emit("toPlay", item),
@@ -68,7 +68,7 @@ const openDropdown = async (
         },
         {
           key: "pause",
-          label: "暂停",
+          label: "Pause",
           show: musicStore.playPlaylistId === item.id && statusStore.playStatus,
           props: {
             onClick: () => emit("toPlay", item),
@@ -81,7 +81,7 @@ const openDropdown = async (
         },
         {
           key: "code-name",
-          label: `复制${type === "playlist" ? "歌单" : type === "album" ? "专辑" : type === "video" ? "视频" : "电台"}名称`,
+          label: `Copy ${type === "playlist" ? "playlist" : type === "album" ? "album" : type === "video" ? "video" : "radio"} name`,
           props: {
             onClick: () => copyData(item.name),
           },
@@ -89,7 +89,7 @@ const openDropdown = async (
         },
         {
           key: "code-id",
-          label: `复制${type === "playlist" ? "歌单" : type === "album" ? "专辑" : type === "video" ? "视频" : "电台"} ID`,
+          label: `Copy ${type === "playlist" ? "playlist" : type === "album" ? "album" : type === "video" ? "video" : "radio"} ID`,
           props: {
             onClick: () => copyData(item.id),
           },
@@ -97,10 +97,10 @@ const openDropdown = async (
         },
         {
           key: "share",
-          label: `分享${type === "playlist" ? "歌单" : type === "album" ? "专辑" : type === "video" ? "视频" : "电台"}链接`,
+          label: `Share ${type === "playlist" ? "playlist" : type === "album" ? "album" : type === "video" ? "video" : "radio"} link`,
           show: item.id !== 0 && item.id?.toString().length < 16,
           props: {
-            onClick: () => copyData(getShareUrl(type, item.id), "已复制分享链接到剪贴板"),
+            onClick: () => copyData(getShareUrl(type, item.id), "Share link copied to clipboard"),
           },
           icon: renderIcon("Share", { size: 18 }),
         },
@@ -111,8 +111,8 @@ const openDropdown = async (
       dropdownShow.value = true;
     });
   } catch (error) {
-    console.error("右键菜单出现异常：", error);
-    window.$message.error("右键菜单出现异常");
+    console.error("Context menu error:", error);
+    window.$message.error("Context menu error");
   }
 };
 

@@ -26,20 +26,20 @@ export const useNetworkSettings = (): SettingConfig => {
       !settingStore.proxyPort
     ) {
       window.electron.ipcRenderer.send("remove-proxy");
-      window.$message.success("成功关闭网络代理");
+      window.$message.success("Network proxy disabled successfully");
       return;
     }
     window.electron.ipcRenderer.send("set-proxy", proxyConfig.value);
-    window.$message.success("网络代理配置完成，请重启软件");
+    window.$message.success("Network proxy configured, please restart the app");
   }, 300);
 
   const testProxy = async () => {
     testProxyLoading.value = true;
     const result = await window.electron.ipcRenderer.invoke("test-proxy", proxyConfig.value);
     if (result) {
-      window.$message.success("该代理可正常使用");
+      window.$message.success("Proxy is available");
     } else {
-      window.$message.error("代理测试失败，请重试");
+      window.$message.error("Proxy test failed, please try again");
     }
     testProxyLoading.value = false;
   };
@@ -93,16 +93,16 @@ export const useNetworkSettings = (): SettingConfig => {
     }
     if (value) {
       if (socketPort.value !== socketPortSaved.value) {
-        window.$message.warning("请先测试并保存端口配置后再启用 WebSocket");
+        window.$message.warning("Please test and save the port configuration before enabling WebSocket");
         return;
       }
       const result = await window.electron.ipcRenderer.invoke("socket-start");
       if (result?.success) {
         socketEnabled.value = true;
         await saveSocketConfig();
-        window.$message.success("WebSocket 服务已启动");
+        window.$message.success("WebSocket service started");
       } else {
-        window.$message.error(result?.message ?? "WebSocket 启动失败");
+        window.$message.error(result?.message ?? "Failed to start WebSocket");
         socketEnabled.value = false;
       }
     } else {
@@ -110,9 +110,9 @@ export const useNetworkSettings = (): SettingConfig => {
       if (result?.success) {
         socketEnabled.value = false;
         await saveSocketConfig();
-        window.$message.success("WebSocket 服务已关闭");
+        window.$message.success("WebSocket service stopped");
       } else {
-        window.$message.error(result?.message ?? "WebSocket 关闭失败");
+        window.$message.error(result?.message ?? "Failed to stop WebSocket");
         socketEnabled.value = true;
       }
     }
@@ -121,7 +121,7 @@ export const useNetworkSettings = (): SettingConfig => {
   const testSocketPort = async () => {
     if (!isElectron) return;
     if (!socketPort.value) {
-      window.$message.error("请输入端口号");
+      window.$message.error("Please enter a port number");
       return;
     }
     try {
@@ -129,9 +129,9 @@ export const useNetworkSettings = (): SettingConfig => {
       if (result?.success) {
         await saveSocketConfig();
         socketPortSaved.value = socketPort.value;
-        window.$message.success("已保存 WebSocket 配置");
+        window.$message.success("WebSocket configuration saved");
       } else {
-        window.$message.error(result?.message ?? "该端口不可用，请更换端口");
+        window.$message.error(result?.message ?? "This port is unavailable, please choose another");
       }
     } catch (e) {
       console.error(e);
@@ -145,7 +145,7 @@ export const useNetworkSettings = (): SettingConfig => {
     try {
       lastfmAuthLoading.value = true;
       const tokenResponse = await getAuthToken();
-      if (!tokenResponse.token) throw new Error("无法获取认证令牌");
+      if (!tokenResponse.token) throw new Error("Unable to get auth token");
       const token = tokenResponse.token;
       const authUrl = getAuthUrl(token);
 
@@ -156,7 +156,7 @@ export const useNetworkSettings = (): SettingConfig => {
             clearInterval(checkAuth);
             if (lastfmAuthLoading.value) {
               lastfmAuthLoading.value = false;
-              window.$message.warning("授权已取消");
+              window.$message.warning("Authorization canceled");
             }
             return;
           }
@@ -167,7 +167,7 @@ export const useNetworkSettings = (): SettingConfig => {
               authWindow?.close();
               settingStore.lastfm.sessionKey = sessionResponse.session.key;
               settingStore.lastfm.username = sessionResponse.session.name;
-              window.$message.success(`已成功连接到 Last.fm 账号: ${sessionResponse.session.name}`);
+              window.$message.success(`Connected to Last.fm account: ${sessionResponse.session.name}`);
               lastfmAuthLoading.value = false;
             }
           } catch {
@@ -179,27 +179,27 @@ export const useNetworkSettings = (): SettingConfig => {
           clearInterval(checkAuth);
           if (lastfmAuthLoading.value) {
             lastfmAuthLoading.value = false;
-            window.$message.warning("授权超时，请重试");
+            window.$message.warning("Authorization timed out, please try again");
           }
         }, 30000);
       }
     } catch (error: any) {
-      console.error("Last.fm 连接失败:", error);
-      window.$message.error(`连接失败: ${error.message || "未知错误"}`);
+      console.error("Last.fm connection failed:", error);
+      window.$message.error(`Connection failed: ${error.message || "Unknown error"}`);
       lastfmAuthLoading.value = false;
     }
   };
 
   const disconnectLastfm = () => {
     window.$dialog.warning({
-      title: "断开连接",
-      content: "确定要断开与 Last.fm 的连接吗？",
-      positiveText: "确定",
-      negativeText: "取消",
+      title: "Disconnect",
+      content: "Are you sure you want to disconnect from Last.fm?",
+      positiveText: "Confirm",
+      negativeText: "Cancel",
       onPositiveClick: () => {
         settingStore.lastfm.sessionKey = "";
         settingStore.lastfm.username = "";
-        window.$message.success("已断开与 Last.fm 的连接");
+        window.$message.success("Disconnected from Last.fm");
       },
     });
   };
@@ -212,13 +212,13 @@ export const useNetworkSettings = (): SettingConfig => {
     onActivate,
     groups: [
       {
-        title: "流媒体服务",
+        title: "Streaming services",
         items: [
           {
             key: "streamingEnabled",
-            label: "启用流媒体",
+            label: "Enable streaming",
             type: "switch",
-            description: "开启后可使用并管理 Navidrome、Jellyfin 等流媒体服务",
+            description: "Enable and manage streaming services such as Navidrome and Jellyfin",
             value: computed({
               get: () => settingStore.streamingEnabled,
               set: (v) => (settingStore.streamingEnabled = v),
@@ -226,34 +226,34 @@ export const useNetworkSettings = (): SettingConfig => {
           },
           {
             key: "serverList",
-            label: "服务器管理",
+            label: "Server management",
             type: "custom",
-            description: "在此添加和管理您的流媒体服务器",
+            description: "Add and manage your streaming servers here",
             noWrapper: true,
             component: markRaw(StreamingServerList),
           },
         ],
       },
       {
-        title: "网络代理",
+        title: "Network proxy",
         items: [
           {
             key: "proxyProtocol",
-            label: "网络代理",
+            label: "Proxy protocol",
             show: isElectron,
             type: "select",
-            description: "修改后请点击保存或重启软件以应用",
+            description: "Click save or restart app to apply changes",
             options: [
-              { label: "关闭代理", value: "off" },
-              { label: "HTTP 代理", value: "HTTP" },
-              { label: "HTTPS 代理", value: "HTTPS" },
+              { label: "Disable proxy", value: "off" },
+              { label: "HTTP proxy", value: "HTTP" },
+              { label: "HTTPS proxy", value: "HTTPS" },
             ],
             value: computed({
               get: () => settingStore.proxyProtocol,
               set: (v) => (settingStore.proxyProtocol = v),
             }),
             extraButton: {
-              label: "保存并应用",
+              label: "Save and apply",
               action: setProxy,
               type: "primary",
               secondary: true,
@@ -262,16 +262,16 @@ export const useNetworkSettings = (): SettingConfig => {
           },
           {
             key: "proxyServe",
-            label: "代理服务器地址",
+            label: "Proxy server address",
             show: isElectron,
             type: "text-input",
-            description: "请填写代理服务器地址，如 127.0.0.1",
+            description: "Enter proxy server address, e.g. 127.0.0.1",
             disabled: computed(() => settingStore.proxyProtocol === "off"),
             prefix: computed(() =>
               settingStore.proxyProtocol === "off" ? "-" : settingStore.proxyProtocol,
             ),
             componentProps: {
-              placeholder: "请填写代理服务器地址",
+              placeholder: "Enter proxy server address",
             },
             value: computed({
               get: () => settingStore.proxyServe,
@@ -280,16 +280,16 @@ export const useNetworkSettings = (): SettingConfig => {
           },
           {
             key: "proxyPort",
-            label: "代理服务器端口",
+            label: "Proxy server port",
             show: isElectron,
             type: "input-number",
-            description: "请填写代理服务器端口，如 80",
+            description: "Enter proxy server port, e.g. 80",
             disabled: computed(() => settingStore.proxyProtocol === "off"),
             componentProps: {
               min: 1,
               max: 65535,
               showButton: false,
-              placeholder: "请填写代理服务器端口",
+              placeholder: "Enter proxy server port",
             },
             value: computed({
               get: () => settingStore.proxyPort,
@@ -298,11 +298,11 @@ export const useNetworkSettings = (): SettingConfig => {
           },
           {
             key: "proxyTest",
-            label: "测试代理",
+            label: "Test proxy",
             show: isElectron,
             type: "button",
-            description: "测试代理配置是否可正常连通",
-            buttonLabel: "测试代理",
+            description: "Test whether proxy configuration is reachable",
+            buttonLabel: "Test proxy",
             action: testProxy,
             condition: () => settingStore.proxyProtocol !== "off",
             componentProps: computed(() => ({
@@ -312,9 +312,9 @@ export const useNetworkSettings = (): SettingConfig => {
           },
           {
             key: "useRealIP",
-            label: "使用真实 IP 地址",
+            label: "Use real IP address",
             type: "switch",
-            description: "在海外或部分地区可能会受到限制，可开启此处尝试解决",
+            description: "May help in regions with restrictions",
             value: computed({
               get: () => settingStore.useRealIP,
               set: (v) => (settingStore.useRealIP = v),
@@ -322,9 +322,9 @@ export const useNetworkSettings = (): SettingConfig => {
           },
           {
             key: "realIP",
-            label: "真实 IP 地址",
+            label: "Real IP address",
             type: "text-input",
-            description: "可在此处输入国内 IP，不填写则为随机",
+            description: "Enter a domestic IP here, leave empty for random",
             disabled: computed(() => !settingStore.useRealIP),
             prefix: "IP",
             componentProps: { placeholder: "127.0.0.1" },
@@ -336,15 +336,15 @@ export const useNetworkSettings = (): SettingConfig => {
         ],
       },
       {
-        title: "第三方集成",
+        title: "Third-party integrations",
         items: [
           {
             key: "smtcOpen",
-            label: isElectron ? "开启系统音频集成" : "开启浏览器媒体会话",
+            label: isElectron ? "Enable system media integration" : "Enable browser media session",
             type: "switch",
             description: isElectron
-              ? "与系统集成以显示媒体元数据，支持高清封面显示"
-              : "向浏览器发送 Media Session 媒体元数据",
+              ? "Integrate with system media controls and show media metadata with HD cover"
+              : "Send media metadata to browser Media Session",
             value: computed({
               get: () => settingStore.smtcOpen,
               set: (v) => (settingStore.smtcOpen = v),
@@ -352,9 +352,9 @@ export const useNetworkSettings = (): SettingConfig => {
           },
           {
             key: "lastfm_enabled",
-            label: "启用 Last.fm",
+            label: "Enable Last.fm",
             type: "switch",
-            description: "开启后可记录播放历史到 Last.fm",
+            description: "Record playback history to Last.fm when enabled",
             value: computed({
               get: () => settingStore.lastfm.enabled,
               set: (v) => (settingStore.lastfm.enabled = v),
@@ -367,28 +367,28 @@ export const useNetworkSettings = (): SettingConfig => {
                 description: () =>
                   h("div", null, [
                     h("div", null, [
-                      "在 ",
+                      "Get it from ",
                       h(
                         NA,
                         {
                           href: "https://www.last.fm/zh/api/account/create",
                           target: "_blank",
                         },
-                        { default: () => "Last.fm 创建应用" },
+                        { default: () => "Create Last.fm API account" },
                       ),
-                      " 获取，只有「程序名称」是必要的",
+                      ", only the app name is required",
                     ]),
                     h("div", null, [
-                      "如果已经创建过，则可以在 ",
+                      "If you already created one, check it at ",
                       h(
                         NA,
                         {
                           href: "https://www.last.fm/zh/api/accounts",
                           target: "_blank",
                         },
-                        { default: () => "Last.fm API 应用程序" },
+                        { default: () => "Last.fm API Applications" },
                       ),
-                      " 处查看",
+                      "",
                     ]),
                   ]),
                 value: computed({
@@ -400,7 +400,7 @@ export const useNetworkSettings = (): SettingConfig => {
                 key: "lastfm_secret",
                 label: "API Secret",
                 type: "text-input",
-                description: "Shared Secret，用于签名验证",
+                description: "Shared Secret used for signature verification",
                 componentProps: { type: "password", showPasswordOn: "click" },
                 value: computed({
                   get: () => settingStore.lastfm.apiSecret,
@@ -410,16 +410,14 @@ export const useNetworkSettings = (): SettingConfig => {
               {
                 key: "lastfm_connect",
                 label: computed(() =>
-                  !settingStore.lastfm.sessionKey ? "连接 Last.fm 账号" : "已连接账号",
+                  !settingStore.lastfm.sessionKey ? "Connect Last.fm account" : "Connected account",
                 ),
                 type: "button",
                 description: computed(() =>
-                  !settingStore.lastfm.sessionKey
-                    ? "首次使用需要授权连接"
-                    : settingStore.lastfm.username,
+                  !settingStore.lastfm.sessionKey ? "Authorization required for first use" : settingStore.lastfm.username,
                 ),
                 buttonLabel: computed(() =>
-                  !settingStore.lastfm.sessionKey ? "连接账号" : "断开连接",
+                  !settingStore.lastfm.sessionKey ? "Connect account" : "Disconnect",
                 ),
                 action: () =>
                   !settingStore.lastfm.sessionKey ? connectLastfm() : disconnectLastfm(),
@@ -435,9 +433,9 @@ export const useNetworkSettings = (): SettingConfig => {
               },
               {
                 key: "lastfm_scrobble",
-                label: "Scrobble（播放记录）",
+                label: "Scrobble (play history)",
                 type: "switch",
-                description: "自动记录播放历史到 Last.fm",
+                description: "Automatically record play history to Last.fm",
                 condition: () => !!settingStore.lastfm.sessionKey,
                 value: computed({
                   get: () => settingStore.lastfm.scrobbleEnabled,
@@ -446,9 +444,9 @@ export const useNetworkSettings = (): SettingConfig => {
               },
               {
                 key: "lastfm_nowplaying",
-                label: "正在播放状态",
+                label: "Now playing status",
                 type: "switch",
-                description: "向 Last.fm 同步正在播放的歌曲",
+                description: "Sync currently playing song to Last.fm",
                 condition: () => !!settingStore.lastfm.sessionKey,
                 value: computed({
                   get: () => settingStore.lastfm.nowPlayingEnabled,
@@ -465,9 +463,9 @@ export const useNetworkSettings = (): SettingConfig => {
         items: [
           {
             key: "discord_enabled",
-            label: "启用 Discord RPC",
+            label: "Enable Discord RPC",
             type: "switch",
-            description: "在 Discord 状态中显示正在播放的歌曲",
+            description: "Show currently playing song in Discord status",
             value: computed({
               get: () => settingStore.discordRpc.enabled,
               set: (v) => handleDiscordEnabledUpdate(v),
@@ -475,9 +473,9 @@ export const useNetworkSettings = (): SettingConfig => {
             children: [
               {
                 key: "discord_paused",
-                label: "暂停时显示",
+                label: "Show when paused",
                 type: "switch",
-                description: "暂停播放时是否保留 Discord 状态",
+                description: "Whether to keep Discord status when paused",
                 value: computed({
                   get: () => settingStore.discordRpc.showWhenPaused,
                   set: (v) => {
@@ -488,13 +486,13 @@ export const useNetworkSettings = (): SettingConfig => {
               },
               {
                 key: "discord_mode",
-                label: "简略状态显示",
+                label: "Compact status text",
                 type: "select",
-                description: "不打开详细信息面板时，在用户名下方显示的小字",
+                description: "Small text shown under username when details panel is collapsed",
                 options: [
-                  { label: "应用名", value: "Name" },
-                  { label: "歌曲名", value: "Details" },
-                  { label: "歌手名", value: "State" },
+                  { label: "App name", value: "Name" },
+                  { label: "Song name", value: "Details" },
+                  { label: "Artist name", value: "State" },
                 ],
                 value: computed({
                   get: () => settingStore.discordRpc.displayMode,
@@ -509,14 +507,14 @@ export const useNetworkSettings = (): SettingConfig => {
         ],
       },
       {
-        title: "WebSocket 配置",
+        title: "WebSocket configuration",
         show: isElectron,
         items: [
           {
             key: "socket_enabled",
-            label: "启用 WebSocket",
+            label: "Enable WebSocket",
             type: "switch",
-            description: "开启后可通过 WebSocket 获取状态或控制播放器",
+            description: "Enable status query and player control through WebSocket",
             value: computed({
               get: () => socketEnabled.value,
               set: (v) => handleSocketEnabledUpdate(v),
@@ -524,10 +522,10 @@ export const useNetworkSettings = (): SettingConfig => {
           },
           {
             key: "socket_port",
-            label: "WebSocket 端口",
+            label: "WebSocket port",
             type: "input-number",
-            description: "更改后需要测试并保存才能生效",
-            componentProps: { min: 1, max: 65535, showButton: false, placeholder: "请输入端口号" },
+            description: "Changes take effect only after testing and saving",
+            componentProps: { min: 1, max: 65535, showButton: false, placeholder: "Enter port number" },
             disabled: computed(() => socketEnabled.value),
             value: computed({
               get: () => socketPort.value,
@@ -536,9 +534,9 @@ export const useNetworkSettings = (): SettingConfig => {
           },
           {
             key: "socket_test",
-            label: "测试端口配置",
+            label: "Test port configuration",
             type: "button",
-            buttonLabel: "测试并保存",
+            buttonLabel: "Test and save",
             show: computed(() => socketPort.value !== socketPortSaved.value),
             action: testSocketPort,
             componentProps: { type: "primary" },

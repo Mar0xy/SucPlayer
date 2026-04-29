@@ -2,31 +2,31 @@
   "radarPlaylist": [
     {
       "id": 3136952023,
-      "name": "私人雷达"
+      "name": "Personal Radar"
     },
     {
       "id": 8402996200,
-      "name": "会员雷达"
+      "name": "VIP Radar"
     },
     {
       "id": 5320167908,
-      "name": "时光雷达"
+      "name": "Time Radar"
     },
     {
       "id": 5327906368,
-      "name": "乐迷雷达"
+      "name": "Fan Radar"
     },
     {
       "id": 5362359247,
-      "name": "宝藏雷达"
+      "name": "Treasure Radar"
     },
     {
       "id": 5300458264,
-      "name": "新歌雷达"
+      "name": "New Song Radar"
     },
     {
       "id": 5341776086,
-      "name": "神秘雷达"
+      "name": "Mystery Radar"
     }
   ]
 }

@@ -24,7 +24,7 @@
     </n-scrollbar>
     <div class="footer">
       <n-button @click="toggleAll">
-        {{ isAllHidden ? "显示全部" : "隐藏全部" }}
+        {{ isAllHidden ? "Show all" : "Hide all" }}
       </n-button>
     </div>
   </div>
@@ -44,20 +44,20 @@ type CoverItem = {
 };
 
 const coverItems: CoverItem[] = [
-  { key: "home", name: "为我推荐" },
-  { key: "playlist", name: "歌单广场" },
-  { key: "toplist", name: "排行榜" },
-  { key: "artist", name: "歌手" },
-  { key: "new", name: "最新音乐" },
-  { key: "personalFM", name: "私人FM" },
-  { key: "player", name: "播放器" },
-  { key: "list", name: "歌单详情/歌曲列表" },
-  { key: "artistDetail", name: "歌手详情" },
-  { key: "radio", name: "播客电台" },
-  { key: "album", name: "专辑" },
-  { key: "like", name: "我的收藏" },
-  { key: "video", name: "视频" },
-  { key: "videoDetail", name: "视频详情页" },
+  { key: "home", name: "For You" },
+  { key: "playlist", name: "Playlist Plaza" },
+  { key: "toplist", name: "Top Charts" },
+  { key: "artist", name: "Artists" },
+  { key: "new", name: "New Music" },
+  { key: "personalFM", name: "Personal FM" },
+  { key: "player", name: "Player" },
+  { key: "list", name: "Playlist Detail / Song List" },
+  { key: "artistDetail", name: "Artist Detail" },
+  { key: "radio", name: "Podcasts" },
+  { key: "album", name: "Album" },
+  { key: "like", name: "Favorites" },
+  { key: "video", name: "Video" },
+  { key: "videoDetail", name: "Video Detail" },
 ];
 
 const isAllHidden = computed(() => {

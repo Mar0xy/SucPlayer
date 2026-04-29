@@ -6,23 +6,23 @@ import { reduce } from "lodash-es";
 export const songLevelData = {
   l: {
     level: "standard",
-    name: "标准音质",
-    shortName: "标准",
+    name: "Standard Quality",
+    shortName: "STD",
   },
   m: {
     level: "higher",
-    name: "较高音质",
-    shortName: "高清",
+    name: "High Quality",
+    shortName: "HQ",
   },
   h: {
     level: "exhigh",
-    name: "极高音质",
-    shortName: "极高",
+    name: "Very High Quality",
+    shortName: "VHQ",
   },
   sq: {
     level: "lossless",
-    name: "无损音质",
-    shortName: "无损",
+    name: "Lossless Quality",
+    shortName: "Lossless",
   },
   hr: {
     level: "hires",
@@ -31,23 +31,23 @@ export const songLevelData = {
   },
   je: {
     level: "jyeffect",
-    name: "高清臻音",
-    shortName: "臻音",
+    name: "High-Fidelity Effect",
+    shortName: "HF",
   },
   sk: {
     level: "sky",
-    name: "沉浸环绕",
-    shortName: "沉浸",
+    name: "Immersive Surround",
+    shortName: "Immersive",
   },
   db: {
     level: "dolby",
-    name: "杜比全景",
+    name: "Dolby Atmos",
     shortName: "Dolby",
   },
   jm: {
     level: "jymaster",
-    name: "超清母带",
-    shortName: "母带",
+    name: "Master Quality",
+    shortName: "Master",
   },
 };
 
@@ -114,25 +114,25 @@ export const getSongLevelsData = (
  * 排序字段选项
  */
 export const sortFieldOptions = {
-  default: { name: "默认" },
-  title: { name: "标题" },
-  artist: { name: "歌手" },
-  album: { name: "专辑" },
-  trackNumber: { name: "曲目序号" },
-  filename: { name: "文件名" },
-  duration: { name: "时长" },
-  size: { name: "大小" },
-  createTime: { name: "添加时间" },
-  updateTime: { name: "更改时间" },
+  default: { name: "Default" },
+  title: { name: "Title" },
+  artist: { name: "Artist" },
+  album: { name: "Album" },
+  trackNumber: { name: "Track Number" },
+  filename: { name: "Filename" },
+  duration: { name: "Duration" },
+  size: { name: "Size" },
+  createTime: { name: "Added Time" },
+  updateTime: { name: "Modified Time" },
 } as const;
 
 /**
  * 排序方式选项
  */
 export const sortOrderOptions = {
-  default: { name: "默认" },
-  asc: { name: "升序" },
-  desc: { name: "降序" },
+  default: { name: "Default" },
+  asc: { name: "Ascending" },
+  desc: { name: "Descending" },
 } as const;
 
 /**
@@ -160,29 +160,29 @@ export const renderToolbar = ({ nodes }: ImageRenderToolbarProps) => {
  */
 export const amllDbServers = [
   {
-    label: "【推荐】GitHub 官方仓库",
-    description: "官方源，更新及时，但访问速度可能较慢",
+    label: "[Recommended] GitHub Official Repository",
+    description: "Official source with timely updates, but access may be slower",
     value:
       "https://raw.githubusercontent.com/Steve-xmh/amll-ttml-db/refs/heads/main/ncm-lyrics/%s.ttml",
   },
   {
     label: "AMLL TTML DB Service (SteveXMH)",
-    description: "作者提供的官方镜像源，但免费额度快没了 😂",
+    description: "Official mirror provided by the author (free quota may be limited) 😂",
     value: "https://amll-ttml-db.stevexmh.net/ncm/%s",
   },
   {
-    label: "【默认】AMLL TTML DB 镜像站 (HelloZGY)",
-    description: "社区提供的镜像源，感谢 HelloZGY",
+    label: "[Default] AMLL TTML DB Mirror (HelloZGY)",
+    description: "Community mirror provided by HelloZGY",
     value: "https://amlldb.bikonoo.com/ncm-lyrics/%s.ttml",
   },
   {
-    label: "Dimeta 镜像站 v1 (Luorix)",
-    description: "社区提供的镜像源，感谢 Luorix",
+    label: "Dimeta Mirror v1 (Luorix)",
+    description: "Community mirror provided by Luorix",
     value: "https://amll.mirror.dimeta.top/api/db/ncm-lyrics/%s.ttml",
   },
   {
-    label: "JSDMirror GitHub 镜像站",
-    description: "一个提供免费前端静态资源 CDN 镜像服务的平台",
+    label: "JSDMirror GitHub Mirror",
+    description: "A platform offering free CDN mirror services for frontend static assets",
     value: "https://cdn.jsdmirror.cn/gh/Steve-xmh/amll-ttml-db@main/ncm-lyrics/%s.ttml",
   },
 ] as const;

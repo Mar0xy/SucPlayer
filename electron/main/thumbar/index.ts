@@ -34,22 +34,22 @@ const thumbarIcon = (filename: string) => {
 const createThumbarButtons = (win: BrowserWindow): ThumbarMap => {
   return new Map<ThumbarKeys, ThumbarButton>()
     .set(ThumbarKeys.Prev, {
-      tooltip: "上一曲",
+      tooltip: "Previous",
       icon: thumbarIcon("prev"),
       click: () => win.webContents.send("playPrev"),
     })
     .set(ThumbarKeys.Next, {
-      tooltip: "下一曲",
+      tooltip: "Next",
       icon: thumbarIcon("next"),
       click: () => win.webContents.send("playNext"),
     })
     .set(ThumbarKeys.Play, {
-      tooltip: "播放",
+      tooltip: "Play",
       icon: thumbarIcon("play"),
       click: () => win.webContents.send("play"),
     })
     .set(ThumbarKeys.Pause, {
-      tooltip: "暂停",
+      tooltip: "Pause",
       icon: thumbarIcon("pause"),
       click: () => win.webContents.send("pause"),
     });

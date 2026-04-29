@@ -23,7 +23,7 @@
             >
               <template #trigger>
                 <div class="title has-sort">
-                  <n-text>标题</n-text>
+                  <n-text>Title</n-text>
                   <n-text v-if="statusStore.listSortField !== 'default'" class="sort" depth="3">
                     {{ sortFieldOptions[statusStore.listSortField].name }}
                   </n-text>
@@ -31,7 +31,7 @@
               </template>
               <div class="sort-menu">
                 <div class="group">
-                  <div class="label">排序字段</div>
+                  <div class="label">Sort field</div>
                   <n-radio-group
                     v-model:value="statusStore.listSortField"
                     name="sortField"
@@ -46,7 +46,7 @@
                 </div>
                 <n-divider vertical style="height: auto; margin: 0 12px" />
                 <div class="group">
-                  <div class="label">排序方式</div>
+                  <div class="label">Sort order</div>
                   <n-radio-group
                     v-model:value="statusStore.listSortOrder"
                     name="sortOrder"
@@ -61,25 +61,25 @@
                 </div>
               </div>
             </n-popover>
-            <n-text v-else class="title">标题</n-text>
+            <n-text v-else class="title">Title</n-text>
             <n-text
               v-if="
                 type !== 'radio' && !hiddenAlbum && !isSmallScreen && settingStore.showSongAlbum
               "
               class="album"
             >
-              专辑
+              Album
             </n-text>
             <n-text v-if="type !== 'radio' && settingStore.showSongOperations" class="actions">
-              操作
+              Actions
             </n-text>
-            <n-text v-if="type === 'radio' && !isSmallScreen" class="meta date">更新日期</n-text>
-            <n-text v-if="type === 'radio' && !isSmallScreen" class="meta">播放量</n-text>
+            <n-text v-if="type === 'radio' && !isSmallScreen" class="meta date">Updated</n-text>
+            <n-text v-if="type === 'radio' && !isSmallScreen" class="meta">Plays</n-text>
             <n-text v-if="!isSmallScreen && settingStore.showSongDuration" class="meta">
-              时长
+              Duration
             </n-text>
             <n-text v-if="data?.[0].size && !hiddenSize && !isSmallScreen" class="meta size">
-              大小
+              Size
             </n-text>
           </div>
           <!-- 虚拟列表 -->
@@ -111,8 +111,8 @@
                   :hiddenCover="hiddenCover || settingStore.hiddenCovers.list"
                   :hiddenAlbum="hiddenAlbum"
                   :hiddenSize="hiddenSize"
-                  @mousedown="draggable ? handlePointerDown($event, index, item.data.name || '未知曲目') : undefined"
-                  @touchstart="draggable ? handlePointerDown($event, index, item.data.name || '未知曲目') : undefined"
+                  @mousedown="draggable ? handlePointerDown($event, index, item.data.name || 'Unknown track') : undefined"
+                  @touchstart="draggable ? handlePointerDown($event, index, item.data.name || 'Unknown track') : undefined"
                   @click.stop="handleSongClick(item.data)"
                   @dblclick.stop="handleSongPlay(item.data)"
                   @contextmenu.stop="handleShowMenu($event, item.data, index)"
@@ -123,9 +123,9 @@
               <div v-else-if="item.type === 'footer'" class="load-more">
                 <n-flex v-if="loadMore && loading">
                   <n-spin size="small" />
-                  <n-text>{{ loadingText || "努力加载中" }}</n-text>
+                  <n-text>{{ loadingText || "Loading" }}</n-text>
                 </n-flex>
-                <n-divider v-else dashed> 没有更多啦 ~ </n-divider>
+                <n-divider v-else dashed> No more items </n-divider>
               </div>
             </template>
           </VirtualScroll>
@@ -174,7 +174,7 @@
       <n-skeleton :repeat="10" text />
     </div>
     <!-- 空列表 -->
-    <n-empty v-else description="列表光秃秃的，啥都没有哦" size="large" class="song-list empty" />
+    <n-empty v-else description="The list is empty" size="large" class="song-list empty" />
   </Transition>
 </template>
 
@@ -229,7 +229,7 @@ const props = withDefaults(
   }>(),
   {
     type: "song",
-    loadingText: "努力加载中...",
+    loadingText: "Loading...",
     playListId: 0,
     isDailyRecommend: false,
     listVersion: 0,

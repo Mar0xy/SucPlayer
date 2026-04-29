@@ -39,18 +39,18 @@ export const useSongMenu = () => {
     if (emit === undefined) return;
     if (!song.path) return;
     window.$dialog.warning({
-      title: "确认删除",
+      title: "Confirm deletion",
       content: () =>
         h("div", { style: { marginTop: "20px" } }, [
           h("div", { style: { marginBottom: "10px", opacity: 0.8, fontSize: "12px" } }, song.path),
           h("div", null, [
-            `确认从本地磁盘中删除 `,
+            `Confirm deleting from local disk `,
             h("strong", null, song.name),
-            `？该操作无法撤销！`,
+            `? This action cannot be undone!`,
           ]),
         ]),
-      positiveText: "删除",
-      negativeText: "取消",
+      positiveText: "Delete",
+      negativeText: "Cancel",
       onPositiveClick: async () => {
         const result = await window.electron.ipcRenderer.invoke("delete-file", song.path);
         if (result) {
@@ -62,9 +62,9 @@ export const useSongMenu = () => {
           if (songToRemoveIndex !== -1) {
             player.removeSongIndex(songToRemoveIndex);
           }
-          window.$message.success(`${song.name} 删除成功`);
+          window.$message.success(`${song.name} deleted successfully`);
         } else {
-          window.$message.error(`${song.name} 删除失败，请重试`);
+          window.$message.error(`Failed to delete ${song.name}, please try again`);
         }
       },
     });
@@ -73,10 +73,10 @@ export const useSongMenu = () => {
   // 删除云盘歌曲
   const deleteCloudSongData = (song: SongType, index: number) => {
     window.$dialog.warning({
-      title: "确认删除",
-      content: `确认从云盘中删除 ${song.name}？该操作无法撤销！`,
-      positiveText: "删除",
-      negativeText: "取消",
+      title: "Confirm deletion",
+      content: `Confirm deleting ${song.name} from cloud? This action cannot be undone!`,
+      positiveText: "Delete",
+      negativeText: "Cancel",
       onPositiveClick: async () => {
         const result = await deleteCloudSong(song.id);
         if (result.code == 200) {
@@ -89,9 +89,9 @@ export const useSongMenu = () => {
           if (songToRemoveIndex !== -1) {
             player.removeSongIndex(songToRemoveIndex);
           }
-          window.$message.success("删除成功");
+          window.$message.success("Deleted successfully");
         } else {
-          window.$message.error("删除失败，请重试");
+          window.$message.error("Delete failed, please try again");
         }
       },
     });
@@ -103,7 +103,7 @@ export const useSongMenu = () => {
     const songData = await songUrl(song.id);
     const songDetail = songData?.data?.[0];
     if (!songDetail) {
-      window.$message.error("获取歌曲信息失败");
+      window.$message.error("Failed to get song information");
       return;
     }
     const { id, type, size, br, md5 } = songDetail;
@@ -111,19 +111,19 @@ export const useSongMenu = () => {
     if (result.code === 200) {
       const failed = result?.data?.failed?.[0];
       if (failed?.code !== -200) {
-        window.$message.success("导入成功");
+        window.$message.success("Imported successfully");
       } else {
-        window.$message.error(failed?.msg || "导入失败，请重试");
+        window.$message.error(failed?.msg || "Import failed, please try again");
       }
     } else {
-      window.$message.error("导入失败，请重试");
+      window.$message.error("Import failed, please try again");
     }
   };
 
   // 每日推荐 - 不感兴趣
   const dislikeSong = async (song: SongType, index: number) => {
     if (!song?.id) return;
-    const loadingMessage = window.$message.loading("正在不感兴趣...", { duration: 0 });
+    const loadingMessage = window.$message.loading("Marking as not interested...", { duration: 0 });
     try {
       const result = await dailyRecommendDislike(song.id);
       loadingMessage.destroy();
@@ -138,14 +138,14 @@ export const useSongMenu = () => {
           list: currentList,
           timestamp: Date.now(),
         };
-        window.$message.success("已标记为不感兴趣");
+        window.$message.success("Marked as not interested");
       } else {
-        window.$message.error("操作失败，请重试");
+        window.$message.error("Operation failed, please try again");
       }
     } catch (error) {
       loadingMessage.destroy();
-      window.$message.error("操作失败，请重试");
-      console.error("不感兴趣操作失败：", error);
+      window.$message.error("Operation failed, please try again");
+      console.error("Not interested operation failed:", error);
     }
   };
 
@@ -185,7 +185,7 @@ export const useSongMenu = () => {
     return [
       {
         key: "play",
-        label: "立即播放",
+        label: "Play now",
         show: settingStore.contextMenuOptions.play,
         props: {
           onClick: () => player.addNextSong(song, true),
@@ -194,7 +194,7 @@ export const useSongMenu = () => {
       },
       {
         key: "play-next",
-        label: "下一首播放",
+        label: "Play next",
         show: settingStore.contextMenuOptions.playNext && !isCurrent && !statusStore.personalFmMode,
         props: {
           onClick: () => player.addNextSong(song, false),
@@ -203,7 +203,7 @@ export const useSongMenu = () => {
       },
       {
         key: "playlist-add",
-        label: "添加到歌单",
+        label: "Add to playlist",
         show: settingStore.contextMenuOptions.addToPlaylist && type !== "streaming",
         props: {
           onClick: () => openPlaylistAdd([song], isLocal),
@@ -212,7 +212,7 @@ export const useSongMenu = () => {
       },
       {
         key: "mv",
-        label: "观看 MV",
+        label: "Watch MV",
         show: settingStore.contextMenuOptions.mv && type === "song" && isHasMv,
         props: {
           onClick: () => router.push({ name: "video", query: { id: song.mv, type: "mv" } }),
@@ -221,7 +221,7 @@ export const useSongMenu = () => {
       },
       {
         key: "comment",
-        label: "查看评论",
+        label: "View comments",
         show: !isLocal && type !== "streaming",
         props: {
           onClick: () => {
@@ -242,7 +242,7 @@ export const useSongMenu = () => {
       },
       {
         key: "dislike",
-        label: "不感兴趣",
+        label: "Not interested",
         show: settingStore.contextMenuOptions.dislike && isDailyRecommend && isLoginNormal,
         props: {
           onClick: () => dislikeSong(song, index),
@@ -251,13 +251,13 @@ export const useSongMenu = () => {
       },
       {
         key: "more",
-        label: "更多操作",
+        label: "More actions",
         show: settingStore.contextMenuOptions.more,
         icon: renderIcon("Menu", { size: 18 }),
         children: [
           {
             key: "code-name",
-            label: `复制${type === "song" ? "歌曲" : type === "streaming" ? "流媒体" : "节目"}名称`,
+            label: `Copy ${type === "song" ? "song" : type === "streaming" ? "streaming" : "program"} name`,
             show: settingStore.contextMenuOptions.copyName,
             props: {
               onClick: () => copyData(song.name),
@@ -266,7 +266,7 @@ export const useSongMenu = () => {
           },
           {
             key: "code-id",
-            label: `复制${type === "song" ? "歌曲" : type === "streaming" ? "流媒体" : "节目"} ID`,
+            label: `Copy ${type === "song" ? "song" : type === "streaming" ? "streaming" : "program"} ID`,
             show: !isLocal,
             props: {
               onClick: () => copyData(song.id),
@@ -275,7 +275,7 @@ export const useSongMenu = () => {
           },
           {
             key: "copy-song-info",
-            label: "复制更多信息",
+            label: "Copy more info",
             show: !isLocal && type === "song",
             props: {
               onClick: () => openCopySongInfo(song.id),
@@ -284,10 +284,10 @@ export const useSongMenu = () => {
           },
           {
             key: "share",
-            label: `分享${type === "song" ? "歌曲" : "节目"}链接`,
+            label: `Share ${type === "song" ? "song" : "program"} link`,
             show: !isLocal && type !== "streaming",
             props: {
-              onClick: () => copyData(getShareUrl(type, song.id), "已复制分享链接到剪贴板"),
+              onClick: () => copyData(getShareUrl(type, song.id), "Share link copied to clipboard"),
             },
             icon: renderIcon("Share", { size: 18 }),
           },
@@ -298,7 +298,7 @@ export const useSongMenu = () => {
           },
           {
             key: "meta-edit",
-            label: "音乐标签编辑",
+            label: "Edit music tags",
             show: settingStore.contextMenuOptions.musicTagEditor && isLocal,
             props: {
               onClick: () => {
@@ -316,7 +316,7 @@ export const useSongMenu = () => {
       },
       {
         key: "cloud-import",
-        label: "导入至云盘",
+        label: "Import to cloud",
         show:
           settingStore.contextMenuOptions.cloudImport &&
           !isCloud &&
@@ -330,7 +330,7 @@ export const useSongMenu = () => {
       },
       {
         key: "delete-playlist",
-        label: "从歌单中删除",
+        label: "Remove from playlist",
         show:
           settingStore.contextMenuOptions.deleteFromPlaylist &&
           emit !== undefined &&
@@ -348,7 +348,7 @@ export const useSongMenu = () => {
       },
       {
         key: "delete-cloud",
-        label: "从云盘中删除",
+        label: "Remove from cloud",
         show: settingStore.contextMenuOptions.deleteFromCloud && isCloud,
         props: {
           onClick: () => deleteCloudSongData(song, index),
@@ -357,7 +357,7 @@ export const useSongMenu = () => {
       },
       {
         key: "delete-local",
-        label: "从本地磁盘中删除",
+        label: "Delete from local disk",
         show:
           settingStore.contextMenuOptions.deleteFromLocal &&
           emit !== undefined &&
@@ -370,7 +370,7 @@ export const useSongMenu = () => {
       },
       {
         key: "open-folder",
-        label: "打开歌曲所在目录",
+        label: "Open song folder",
         show: settingStore.contextMenuOptions.openFolder && isLocal,
         props: {
           onClick: () => window.electron.ipcRenderer.send("open-folder", song.path),
@@ -379,7 +379,7 @@ export const useSongMenu = () => {
       },
       {
         key: "cloud-match",
-        label: "云盘歌曲纠正",
+        label: "Cloud song correction",
         show: settingStore.contextMenuOptions.cloudMatch && isCloud,
         props: {
           onClick: () => openCloudMatch(song?.id, index),
@@ -388,7 +388,7 @@ export const useSongMenu = () => {
       },
       {
         key: "wiki",
-        label: "音乐百科",
+        label: "Music wiki",
         show: settingStore.contextMenuOptions.wiki && type === "song" && !isLocal,
         props: {
           onClick: () => router.push({ name: "song-wiki", query: { id: song.id } }),
@@ -397,7 +397,7 @@ export const useSongMenu = () => {
       },
       {
         key: "search",
-        label: "同名搜索",
+        label: "Search same title",
         show: settingStore.contextMenuOptions.search && settingStore.useOnlineService,
         props: {
           onClick: () => router.push({ name: "search", query: { keyword: song.name } }),
@@ -406,7 +406,7 @@ export const useSongMenu = () => {
       },
       {
         key: "download",
-        label: "下载歌曲",
+        label: "Download song",
         show:
           settingStore.contextMenuOptions.download &&
           statusStore.isDeveloperMode &&
@@ -418,7 +418,7 @@ export const useSongMenu = () => {
       },
       {
         key: "retry-download",
-        label: "重试下载",
+        label: "Retry download",
         show:
           settingStore.contextMenuOptions.download && statusStore.isDeveloperMode && isDownloading,
         props: { onClick: () => downloadManager.retryDownload(song.id) },

@@ -22,9 +22,9 @@ interface MusicState {
 // 默认音乐数据
 const defaultMusicData: SongType = {
   id: 0,
-  name: "未播放歌曲",
-  artists: "未知歌手",
-  album: "未知专辑",
+  name: "No song playing",
+  artists: "Unknown artist",
+  album: "Unknown album",
   cover: "/images/song.jpg?asset",
   duration: 0,
   free: 0,

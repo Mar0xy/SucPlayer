@@ -19,10 +19,10 @@
     class="set-item"
   >
     <n-card class="warning" v-if="settingStore.useAMLyrics">
-      <n-text> 正在使用 Apple Music-like Lyrics，实际显示效果可能与此处的预览有较大差别 </n-text>
+      <n-text> Apple Music-like Lyrics is enabled. Actual rendering may differ from this preview. </n-text>
     </n-card>
     <div v-for="item in 2" :key="item" :class="['lrc-item', { on: item === 2 }]">
-      <n-text>我是一句歌词</n-text>
+      <n-text>I am a lyric line</n-text>
       <template v-if="settingStore.swapTranRoma">
         <n-text v-if="settingStore.showRoma">wo shi yi ju ge ci</n-text>
         <n-text v-if="settingStore.showTran">I'm the lyric</n-text>

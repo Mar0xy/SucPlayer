@@ -7,8 +7,8 @@
     <Transition name="slideLeft">
       <div v-show="showLeftMenu" class="set-left">
         <n-flex class="title" :size="0" vertical>
-          <n-h1>设置</n-h1>
-          <n-text :depth="3">个性化与全局设置</n-text>
+          <n-h1>Settings</n-h1>
+          <n-text :depth="3">Personalization and global settings</n-text>
         </n-flex>
         <!-- 搜索 -->
         <div class="search-wrapper">
@@ -61,8 +61,8 @@
             <SvgIcon :depth="2" size="24" name="Menu" />
           </template>
         </n-button>
-        <n-h1>设置</n-h1>
-        <n-text :depth="3">个性化与全局设置</n-text>
+        <n-h1>Settings</n-h1>
+        <n-text :depth="3">Personalization and global settings</n-text>
       </n-flex>
       <n-scrollbar
         ref="setScrollbar"
@@ -120,7 +120,7 @@
           <!-- 关于 -->
           <AboutSetting v-else-if="activeKey === 'about'" />
           <!-- 空白 -->
-          <n-text v-else class="error">暂无该设置项</n-text>
+          <n-text v-else class="error">No matching setting item</n-text>
         </Transition>
       </n-scrollbar>
     </div>
@@ -301,44 +301,44 @@ const handleSearch = (value: string | number) => {
 const menuOptions: MenuOption[] = [
   {
     key: "general",
-    label: "常规设置",
+    label: "General",
     icon: renderIcon("SettingsLine"),
   },
   {
     key: "appearance",
-    label: "外观设置",
+    label: "Appearance",
     icon: renderIcon("Palette"),
   },
   {
     key: "play",
-    label: "播放设置",
+    label: "Playback",
     icon: renderIcon("Music"),
   },
   {
     key: "lyrics",
-    label: "歌词设置",
+    label: "Lyrics",
     icon: renderIcon("Lyrics"),
   },
   {
     key: "local",
-    label: "本地与缓存",
+    label: "Local & Cache",
     show: isElectron,
     icon: renderIcon("Storage"),
   },
   {
     key: "keyboard",
-    label: "快捷键设置",
+    label: "Shortcuts",
     show: isElectron,
     icon: renderIcon("Keyboard"),
   },
   {
     key: "network",
-    label: "网络与连接",
+    label: "Network & Connections",
     icon: renderIcon("Link"),
   },
   {
     key: "about",
-    label: "关于与鸣谢",
+    label: "About & Credits",
     icon: renderIcon("Info"),
   },
 ];

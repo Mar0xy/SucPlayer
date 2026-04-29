@@ -34,64 +34,64 @@ export const useShortcutStore = defineStore("shortcut", {
     shortcutList: {
       // 播放或暂停
       playOrPause: {
-        name: "播放 / 暂停",
+        name: "Play / Pause",
         shortcut: "CmdOrCtrl+Space",
         globalShortcut: "CmdOrCtrl+Shift+Space",
       },
       // 上一曲 / 下一曲
       playPrev: {
-        name: "上一曲",
+        name: "Previous",
         shortcut: "CmdOrCtrl+ArrowLeft",
         globalShortcut: "CmdOrCtrl+Shift+Left",
       },
       playNext: {
-        name: "下一曲",
+        name: "Next",
         shortcut: "CmdOrCtrl+ArrowRight",
         globalShortcut: "CmdOrCtrl+Shift+Right",
       },
       // 快进 / 快退
       seekForward: {
-        name: "快进 5 秒",
+        name: "Forward 5s",
         shortcut: "ArrowRight",
         globalShortcut: "CmdOrCtrl+Shift+Right",
       },
       seekBackward: {
-        name: "快退 5 秒",
+        name: "Back 5s",
         shortcut: "ArrowLeft",
         globalShortcut: "CmdOrCtrl+Shift+Left",
       },
       // 音量加减
       volumeUp: {
-        name: "音量加",
+        name: "Volume Up",
         shortcut: "CmdOrCtrl+ArrowUp",
         globalShortcut: "CmdOrCtrl+Shift+Up",
       },
       volumeDown: {
-        name: "音量减",
+        name: "Volume Down",
         shortcut: "CmdOrCtrl+ArrowDown",
         globalShortcut: "CmdOrCtrl+Shift+Down",
       },
       // 桌面歌词
       "toggle-desktop-lyric": {
-        name: "桌面歌词",
+        name: "Desktop Lyric",
         shortcut: "CmdOrCtrl+KeyD",
         globalShortcut: "CmdOrCtrl+Shift+D",
       },
       // 打开播放界面
       openPlayer: {
-        name: "打开播放界面",
+        name: "Open Player",
         shortcut: "KeyP",
         globalShortcut: "",
       },
       // 打开播放列表
       openPlayList: {
-        name: "打开播放列表",
+        name: "Open Playlist",
         shortcut: "KeyL",
         globalShortcut: "",
       },
       // 关闭播放界面
       closePlayer: {
-        name: "关闭播放界面",
+        name: "Close Player",
         shortcut: "Escape",
         globalShortcut: "",
       },

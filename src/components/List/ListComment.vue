@@ -11,7 +11,7 @@
             <div class="placeholder">
               <div class="title">
                 <SvgIcon name="Fire" />
-                <span>热门评论</span>
+                <span>Hot Comments</span>
               </div>
             </div>
             <CommentList
@@ -24,7 +24,7 @@
           <div class="placeholder">
             <div class="title">
               <SvgIcon name="Message" />
-              <span>全部评论</span>
+              <span>All Comments</span>
               <span v-if="commentTotalCount > 0" class="count">{{ commentTotalCount }}</span>
             </div>
           </div>
@@ -133,7 +133,7 @@ const getCommentData = async (clean: boolean = true) => {
   } catch (error) {
     if (currentRequestId.value !== requestId) return;
     console.error("Error getting comment data:", error);
-    window.$message.error("获取评论数据失败");
+    window.$message.error("Failed to fetch comment data");
     commentLoading.value = false;
   }
 };

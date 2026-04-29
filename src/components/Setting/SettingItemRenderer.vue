@@ -140,7 +140,7 @@
           :title="title"
           v-bind="item.componentProps"
         >
-          {{ resolve(item.buttonLabel) || "配置" }}
+          {{ resolve(item.buttonLabel) || "Configure" }}
         </n-button>
 
         <!-- Color Picker -->
@@ -328,7 +328,7 @@ const activeActions = computed(() => {
   // 恢复默认按钮
   if (showReset.value) {
     actions.push({
-      label: "恢复默认",
+      label: "Restore",
       type: "primary",
       secondary: true,
       strong: true,

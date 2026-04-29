@@ -14,8 +14,8 @@
       >
         <template #header>
           <n-flex class="quality-title" size="small" vertical>
-            <span class="title">音质切换</span>
-            <span class="tip">以账号具体权限为准</span>
+            <span class="title">Quality switch</span>
+            <span class="tip">Availability depends on your account privileges</span>
           </n-flex>
         </template>
         <div ref="qualityTagRef">
@@ -35,7 +35,7 @@
             {{ getQualityName(statusStore.songQuality) }}
           </n-tag>
         </template>
-        <span>当前歌曲不支持切换音质</span>
+        <span>The current song does not support quality switching</span>
       </n-popover>
     </template>
     <!-- 桌面歌词 -->
@@ -149,23 +149,23 @@ const audioManager = useAudioManager();
 
 const controlsOptions = computed<DropdownOption[]>(() => [
   {
-    label: "均衡器",
+    label: "Equalizer",
     key: "equalizer",
     icon: renderIcon("Eq"),
     disabled: !audioManager.capabilities.supportsEqualizer,
   },
   {
-    label: "自动关闭",
+    label: "Auto close",
     key: "autoClose",
     icon: renderIcon("TimeAuto"),
   },
   {
-    label: "AB 循环",
+    label: "AB loop",
     key: "abLoop",
     icon: renderIcon("Repeat"),
   },
   {
-    label: "播放速度",
+    label: "Playback speed",
     key: "rate",
     disabled: !audioManager.capabilities.supportsRate,
     icon: renderIcon("PlayRate"),
@@ -177,7 +177,7 @@ const handleControls = (key: string) => {
   switch (key) {
     case "equalizer":
       if (!audioManager.capabilities.supportsEqualizer) {
-        window.$message.warning("当前引擎不支持均衡器功能");
+        window.$message.warning("The current engine does not support equalizer");
         return;
       }
       openEqualizer();

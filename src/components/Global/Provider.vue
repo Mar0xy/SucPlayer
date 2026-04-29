@@ -251,8 +251,8 @@ const changeGlobalTheme = () => {
     }
   } catch (error) {
     themeOverrides.value = {};
-    console.error("切换主题色出现错误：", error);
-    window.$message.error("切换主题色出现错误，已使用默认配置");
+    console.error("Error while switching theme color:", error);
+    window.$message.error("Failed to switch theme color, fallback to default settings");
   }
 };
 

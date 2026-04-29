@@ -4,7 +4,7 @@
       ref="inputInst"
       v-model:value="inputValue"
       clearable
-      placeholder="搜索设置项..."
+      placeholder="Search settings..."
       class="search-input"
       @focus="isFocus = true"
       @blur="handleBlur"
@@ -18,7 +18,7 @@
       <n-card v-show="isFocus && inputValue" class="search-result" content-style="padding: 0">
         <n-scrollbar style="max-height: calc(75vh - 280px); border-radius: 8px">
           <div v-if="resultList.length === 0" class="empty">
-            <n-text depth="3">未找到相关设置</n-text>
+            <n-text depth="3">No related settings found</n-text>
           </div>
           <div
             v-for="item in resultList"

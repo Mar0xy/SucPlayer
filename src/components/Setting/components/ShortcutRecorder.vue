@@ -5,7 +5,7 @@
       <template #trigger>
         <n-input
           :value="shortcutItem.shortcut"
-          placeholder="未设置"
+          placeholder="Not set"
           readonly
           class="shortcut-input"
           @focus="onFocus(false)"
@@ -14,7 +14,7 @@
           @keyup="keyHandled = ''"
         />
       </template>
-      <n-text>正在设置快捷键，按 Backspace 删除快捷键</n-text>
+      <n-text>Setting shortcut, press Backspace to delete</n-text>
     </n-popover>
     <!-- 全局快捷键 -->
     <n-popover trigger="focus" v-if="allowGlobal">
@@ -23,7 +23,7 @@
           :value="shortcutItem.globalShortcut"
           :disabled="!shortcutStore.globalOpen"
           :status="shortcutItem.globalShortcut && shortcutItem.isRegistered ? 'error' : undefined"
-          placeholder="未设置"
+          placeholder="Not set"
           readonly
           class="shortcut-input"
           @focus="onFocus(true)"
@@ -32,11 +32,11 @@
           @keyup="keyHandled = ''"
         >
           <template #prefix>
-            <n-text :depth="3">全局</n-text>
+            <n-text :depth="3">Global</n-text>
           </template>
         </n-input>
       </template>
-      <n-text>正在设置快捷键，按 Backspace 删除快捷键</n-text>
+      <n-text>Setting shortcut, press Backspace to delete</n-text>
     </n-popover>
   </n-flex>
 </template>
@@ -217,7 +217,7 @@ const onKeyDown = async (e: KeyboardEvent) => {
 
   if (e.code === "Backspace") {
     changeShortcut("");
-    window.$message.success("快捷键已删除");
+    window.$message.success("Shortcut removed");
     blur();
     return;
   }
@@ -241,13 +241,13 @@ const onKeyDown = async (e: KeyboardEvent) => {
       })();
 
   if (isSameShortcut(formattedShortcut)) {
-    window.$message.info("快捷键相同");
+    window.$message.info("Shortcut is unchanged");
     blur();
     return;
   }
 
   if (isRepeat(formattedShortcut)) {
-    window.$message.warning("快捷键设置冲突");
+    window.$message.warning("Shortcut conflict detected");
     blur();
     return;
   }
@@ -256,14 +256,14 @@ const onKeyDown = async (e: KeyboardEvent) => {
     // 检查占用
     const isRegistered = await checkRegistered(formattedShortcut);
     if (isRegistered) {
-      window.$message.warning("快捷键已被占用");
+      window.$message.warning("Shortcut is already occupied");
     } else {
-      window.$message.success("快捷键设置成功");
+      window.$message.success("Shortcut set successfully");
     }
     changeShortcut(formattedShortcut);
   } else {
     changeShortcut(shortcut);
-    window.$message.success("快捷键设置成功");
+    window.$message.success("Shortcut set successfully");
   }
 
   blur();

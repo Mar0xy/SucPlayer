@@ -27,22 +27,22 @@
     </n-collapse-transition>
     <n-divider />
     <n-flex vertical size="small" class="footer">
-      <n-text depth="2" class="footer-title">要复制的内容</n-text>
+      <n-text depth="2" class="footer-title">Content to copy</n-text>
       <n-checkbox-group v-model:value="selectedFilters">
         <n-flex align="center" wrap :size="12" class="footer-options">
-          <n-checkbox value="translation" label="翻译" />
-          <n-checkbox value="romaji" label="音译" />
-          <n-checkbox value="emptyLine" label="空行" title="在每行歌词之间加入空行分隔" />
-          <n-checkbox value="songName" label="歌名" />
-          <n-checkbox value="artist" label="歌手" />
+          <n-checkbox value="translation" label="Translation" />
+          <n-checkbox value="romaji" label="Romanization" />
+          <n-checkbox value="emptyLine" label="Empty line" title="Insert empty lines between lyric lines" />
+          <n-checkbox value="songName" label="Song name" />
+          <n-checkbox value="artist" label="Artist" />
         </n-flex>
       </n-checkbox-group>
       <n-flex justify="end" align="center" class="footer-actions">
         <n-button @click="selectAll">
-          {{ isAllSelected ? "全不选" : "全选" }}
+          {{ isAllSelected ? "Clear all" : "Select all" }}
         </n-button>
         <n-button type="primary" :disabled="selectedLines.length === 0" @click="handleCopy">
-          复制 ({{ selectedLines.length }})
+          Copy ({{ selectedLines.length }})
         </n-button>
       </n-flex>
     </n-flex>
@@ -139,7 +139,7 @@ const handleCopy = async () => {
     await copyData(linesToCopy);
     props.onClose();
   } else {
-    window.$message.warning("没有可复制的内容");
+    window.$message.warning("No content to copy");
   }
 };
 </script>

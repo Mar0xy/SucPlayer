@@ -31,7 +31,7 @@
               class="annual"
               alt="annual"
               src="/images/annual.png?asset"
-              title="网易音乐人"
+              title="NetEase Musician"
             />
           </div>
           <!-- 会员 -->
@@ -40,20 +40,20 @@
             :src="item.user.vipIconUrl && item.user.vipIconUrl.replace(/^http:/, 'https:')"
             class="vip"
             alt="vip"
-            title="黑胶会员"
+            title="VIP Member"
           />
         </div>
         <!-- 内容 -->
         <div class="data">
           <!-- 评论 -->
           <div class="content">
-            <n-text class="name">{{ item.user.name || "未知用户名" }}：</n-text>
+            <n-text class="name">{{ item.user.name || "Unknown user" }}：</n-text>
             <n-text class="text">{{ getContent(item.content) }}</n-text>
           </div>
           <!-- 回复 -->
           <div class="reply" v-if="item.beReplied">
             <n-text class="name" :depth="3">
-              @ {{ item.beReplied.user.name || "未知用户名" }}：
+              @ {{ item.beReplied.user.name || "Unknown user" }}：
             </n-text>
             <n-text class="text">{{ getContent(item.beReplied.content) }}</n-text>
           </div>
@@ -85,7 +85,7 @@
       <!-- 加载更多 -->
       <n-flex v-if="loadMore" class="load-more" justify="center">
         <n-button :loading="loading" size="large" strong secondary round @click="emit('loadMore')">
-          加载更多
+          Load more
         </n-button>
       </n-flex>
     </n-flex>
@@ -93,7 +93,7 @@
       <n-skeleton :repeat="20" />
     </div>
     <!-- 空列表 -->
-    <n-empty v-else key="empty" description="空空如也，怎么什么都没有啊" size="large" />
+    <n-empty v-else key="empty" description="Nothing here yet" size="large" />
   </Transition>
 </template>
 
@@ -162,7 +162,7 @@ const likeComment = debounce(async (data: CommentType) => {
     data.liked = !isLiked;
     if (data.likedCount) data.likedCount += isLiked ? -1 : 1;
   } else {
-    window.$message.error(result.msg || "评论点赞失败");
+    window.$message.error(result.msg || "Failed to like comment");
   }
 }, 300);
 
@@ -195,20 +195,20 @@ const handleHug = debounce(async (item: CommentType) => {
           0;
 
         if (count > 0) {
-          window.$message.success(`抱一抱成功，已有 ${count} 人向TA发送了抱一抱`);
+          window.$message.success(`Hug sent successfully. ${count} users have sent hugs to them`);
         } else {
-          window.$message.success("抱一抱成功");
+          window.$message.success("Hug sent successfully");
         }
       } catch (e) {
         console.error("Error fetching hug list:", e);
-        window.$message.success("抱一抱成功");
+        window.$message.success("Hug sent successfully");
       }
     } else {
-      window.$message.error(result.msg || "抱一抱失败");
+      window.$message.error(result.msg || "Failed to send hug");
     }
   } catch (error) {
     console.error("Hug comment error:", error);
-    window.$message.error("抱一抱失败");
+    window.$message.error("Failed to send hug");
   }
 }, 300);
 </script>

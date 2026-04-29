@@ -6,7 +6,7 @@
         <div v-if="isShowSearchHistory" class="history">
           <div class="title">
             <SvgIcon name="History" />
-            <n-text class="name">搜索历史 </n-text>
+            <n-text class="name">Search History </n-text>
             <SvgIcon class="delete" name="Delete" @click.stop="deleteSearchHistory" />
           </div>
           <n-flex class="history-list">
@@ -25,7 +25,7 @@
         <div v-if="isShowHotSearch" class="hot-list">
           <div class="title">
             <SvgIcon name="Fire" />
-            <n-text class="name">热搜榜 </n-text>
+            <n-text class="name">Trending Searches </n-text>
           </div>
           <div
             v-for="(item, index) in searchHotData"
@@ -117,10 +117,10 @@ const getSearchHotData = async () => {
 // 删除搜索历史
 const deleteSearchHistory = () => {
   window.$dialog.warning({
-    title: "删除搜索历史",
-    content: "确认删除全部的搜索历史？这将无法恢复！",
-    positiveText: "确认",
-    negativeText: "取消",
+    title: "Delete Search History",
+    content: "Delete all search history? This cannot be undone.",
+    positiveText: "Confirm",
+    negativeText: "Cancel",
     onPositiveClick: () => {
       dataStore.searchHistory = [];
     },

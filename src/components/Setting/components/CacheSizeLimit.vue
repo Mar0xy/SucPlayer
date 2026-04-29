@@ -1,10 +1,10 @@
 <template>
   <n-card class="set-item">
     <div class="label">
-      <n-text class="name">{{ item?.label || "缓存大小上限" }}</n-text>
+      <n-text class="name">{{ item?.label || "Cache size limit" }}</n-text>
       <n-text class="tip" :depth="3" v-if="item?.description" v-html="item.description" />
       <n-text class="tip" :depth="3" v-else>
-        达到上限后将清理最旧的缓存，可以是小数，最低 2GB
+        When the limit is reached, the oldest cache is cleaned up. Decimals are allowed. Minimum: 2GB
       </n-text>
     </div>
     <n-input-group class="set">
@@ -22,8 +22,8 @@
       <n-select
         v-model:value="cacheLimited"
         :options="[
-          { label: '不限制', value: 0 },
-          { label: cacheLimited === 0 ? '自定义大小 (GB)' : 'GB', value: 1 },
+          { label: 'Unlimited', value: 0 },
+          { label: cacheLimited === 0 ? 'Custom size (GB)' : 'GB', value: 1 },
         ]"
         :style="{
           width: cacheLimited ? '45%' : '100%',
@@ -69,7 +69,7 @@ onMounted(async () => {
       if (limit === 0) cacheLimited.value = 0;
     }
   } catch (error) {
-    console.error("读取缓存配置失败:", error);
+    console.error("Failed to read cache configuration:", error);
   }
 });
 </script>

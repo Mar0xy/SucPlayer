@@ -294,7 +294,7 @@ const measureItemHeights = () => {
         hasChanges = true;
       }
     } catch (error) {
-      console.warn("测量项目高度时出错:", error);
+      console.warn("Error while measuring item height:", error);
     }
   });
 

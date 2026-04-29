@@ -11,16 +11,16 @@
     />
     <n-flex class="batch-footer" justify="space-between" align="center">
       <n-flex align="center">
-        <n-text :depth="3" class="count">已选择 {{ checkCount }} 首</n-text>
+        <n-text :depth="3" class="count">Selected {{ checkCount }} songs</n-text>
         <n-popover trigger="click" placement="right">
           <template #trigger>
-            <n-button tertiary> 高级筛选 </n-button>
+            <n-button tertiary> Advanced filter </n-button>
           </template>
           <n-flex :wrap="false" align="center">
             <n-input-number
               v-model:value="startRange"
               class="range-input"
-              placeholder="开始"
+              placeholder="Start"
               :min="1"
               :max="props.data.length"
               size="small"
@@ -29,12 +29,12 @@
             <n-input-number
               v-model:value="endRange"
               class="range-input"
-              placeholder="结束"
+              placeholder="End"
               :min="1"
               :max="props.data.length"
               size="small"
             />
-            <n-button size="small" secondary @click="handleRangeSelect"> 选择 </n-button>
+            <n-button size="small" secondary @click="handleRangeSelect"> Select </n-button>
           </n-flex>
         </n-popover>
       </n-flex>
@@ -51,7 +51,7 @@
           <template #icon>
             <SvgIcon name="Download" />
           </template>
-          批量下载
+          Batch Download
         </n-button>
         <!-- 批量删除 -->
         <n-button
@@ -73,7 +73,7 @@
           <template #icon>
             <SvgIcon name="Delete" />
           </template>
-          删除选中的歌曲
+          Delete selected songs
         </n-button>
         <!-- 添加到歌单 -->
         <n-button
@@ -86,7 +86,7 @@
           <template #icon>
             <SvgIcon name="AddList" />
           </template>
-          添加到歌单
+          Add to playlist
         </n-button>
         <!-- 删除本地歌曲 -->
         <n-button
@@ -100,7 +100,7 @@
           <template #icon>
             <SvgIcon name="Delete" />
           </template>
-          删除歌曲
+          Delete songs
         </n-button>
       </n-flex>
     </n-flex>
@@ -159,21 +159,21 @@ const columnsData = computed<DataTableColumns<DataType>>(() => [
     width: 80,
   },
   {
-    title: "标题",
+    title: "Title",
     key: "name",
     ellipsis: {
       tooltip: true,
     },
   },
   {
-    title: "歌手",
+    title: "Artist",
     key: "artists",
     ellipsis: {
       tooltip: true,
     },
   },
   {
-    title: "专辑",
+    title: "Album",
     key: "album",
     ellipsis: {
       tooltip: true,
@@ -186,12 +186,12 @@ const tableData = computed<DataType[]>(() =>
   props.data.map((song, index) => ({
     key: index + 1,
     id: song?.id,
-    name: song?.name || "未知曲目",
+    name: song?.name || "Unknown track",
     artists: isArray(song?.artists)
       ? // 拼接歌手
         song?.artists.map((ar: { name: string }) => ar.name).join(" / ")
-      : song?.artists || "未知歌手",
-    album: isObject(song?.album) ? song?.album.name : song?.album || "未知专辑",
+      : song?.artists || "Unknown artist",
+    album: isObject(song?.album) ? song?.album.name : song?.album || "Unknown album",
     // 原始数据
     origin: song,
   })),
@@ -210,7 +210,7 @@ const tableCheck = (keys: DataTableRowKey[]) => {
 // 范围选择处理
 const handleRangeSelect = () => {
   if (startRange.value === null || endRange.value === null) {
-    window.$message.warning("请输入起始和结束序号");
+    window.$message.warning("Please enter start and end indices");
     return;
   }
 
@@ -218,7 +218,7 @@ const handleRangeSelect = () => {
   const end = Math.max(1, Math.min(endRange.value, props.data.length));
 
   if (start > end) {
-    window.$message.warning("起始序号不能大于结束序号");
+    window.$message.warning("Start index cannot be greater than end index");
     return;
   }
 
@@ -233,36 +233,36 @@ const handleRangeSelect = () => {
 const handleDeleteLocalSongs = () => {
   const confirmText = ref("");
   window.$dialog.warning({
-    title: "删除歌曲",
+    title: "Delete Songs",
     content: () =>
       h("div", { style: { marginTop: "20px" } }, [
         h(
           "div",
           { style: { marginBottom: "12px" } },
-          "确定删除选中的歌曲吗？该操作将永久删除文件且无法撤销！",
+          "Delete selected songs? This permanently removes files and cannot be undone.",
         ),
         h(
           "div",
           { style: { marginBottom: "12px", fontSize: "12px", opacity: 0.8 } },
-          "请输入：确认删除",
+          "Type: DELETE",
         ),
         h(NInput, {
           value: confirmText.value,
-          placeholder: "确认删除",
+          placeholder: "DELETE",
           onUpdateValue: (v) => {
             confirmText.value = v;
           },
         }),
       ]),
-    positiveText: "删除",
-    negativeText: "取消",
+    positiveText: "Delete",
+    negativeText: "Cancel",
     onPositiveClick: async () => {
-      if (confirmText.value !== "确认删除") {
-        window.$message.error("输入内容不正确");
+      if (confirmText.value !== "DELETE") {
+        window.$message.error("Incorrect confirmation text");
         return false;
       }
 
-      const loading = window.$message.loading("正在删除...", { duration: 0 });
+      const loading = window.$message.loading("Deleting...", { duration: 0 });
       try {
         const deletePromises = checkSongData.value.map(async (song) => {
           if (song.path) {
@@ -285,17 +285,18 @@ const handleDeleteLocalSongs = () => {
           localStore.updateLocalSong(newLocalSongs);
 
           window.$message.success(
-            `成功删除 ${successIds.length} 首歌曲` + (failCount > 0 ? `，${failCount} 首失败` : ""),
+            `Deleted ${successIds.length} song(s) successfully` +
+              (failCount > 0 ? `, ${failCount} failed` : ""),
           );
           // 刷新列表
           const localEventBus = useEventBus("local");
           localEventBus.emit();
         } else {
-          window.$message.error("删除失败，请重试");
+          window.$message.error("Delete failed, please try again");
         }
       } catch (error) {
-        console.error("批量删除失败:", error);
-        window.$message.error("删除过程中出现错误");
+        console.error("Batch delete failed:", error);
+        window.$message.error("An error occurred during deletion");
       } finally {
         loading.destroy();
       }
@@ -307,7 +308,7 @@ const handleDeleteLocalSongs = () => {
 // 批量下载处理
 const handleBatchDownloadClick = () => {
   if (checkSongData.value.length === 0) {
-    window.$message.warning("请选择要下载的歌曲");
+    window.$message.warning("Please select songs to download");
     return;
   }
   openDownloadSongs(checkSongData.value);

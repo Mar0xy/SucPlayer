@@ -40,8 +40,8 @@
           </span>
         </template>
         <n-flex class="offset-menu" :size="4" vertical>
-          <span class="title"> 歌词偏移 </span>
-          <span class="tip"> 正值为歌词提前，单位毫秒 </span>
+          <span class="title"> Lyric Offset </span>
+          <span class="tip"> Positive values make lyrics appear earlier (ms) </span>
           <n-input-number
             v-model:value="offsetMilliseconds"
             class="offset-input"
@@ -60,7 +60,7 @@
             strong
             @click="resetOffset"
           >
-            清零
+            Reset
           </n-button>
         </n-flex>
       </n-popover>

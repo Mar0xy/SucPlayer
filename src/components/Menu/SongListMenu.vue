@@ -110,8 +110,8 @@ const openDropdown = (
       dropdownShow.value = true;
     });
   } catch (error) {
-    console.error("右键菜单出现异常：", error);
-    window.$message.error("右键菜单出现异常");
+    console.error("Context menu error:", error);
+    window.$message.error("Context menu error");
   }
 };
 

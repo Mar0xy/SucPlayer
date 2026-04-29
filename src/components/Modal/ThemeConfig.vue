@@ -10,8 +10,8 @@
     <div class="config-section">
       <n-card class="set-item">
         <div class="label">
-          <n-text class="name">全局着色</n-text>
-          <n-text class="tip" :depth="3">将主题色应用至所有元素</n-text>
+          <n-text class="name">Global tint</n-text>
+          <n-text class="tip" :depth="3">Apply theme colors to all elements</n-text>
         </div>
         <n-switch
           v-model:value="settingStore.themeGlobalColor"
@@ -23,8 +23,8 @@
       </n-card>
       <n-card class="set-item">
         <div class="label">
-          <n-text class="name">动态取色</n-text>
-          <n-text class="tip" :depth="3">主题色跟随歌曲封面</n-text>
+          <n-text class="name">Dynamic color extraction</n-text>
+          <n-text class="tip" :depth="3">Theme color follows song cover</n-text>
         </div>
         <n-switch
           v-model:value="settingStore.themeFollowCover"
@@ -35,8 +35,8 @@
       </n-card>
       <n-card class="set-item">
         <div class="label">
-          <n-text class="name">主题变体</n-text>
-          <n-text class="tip" :depth="3">调整颜色生成算法风格，请勿随意修改</n-text>
+          <n-text class="name">Theme variant</n-text>
+          <n-text class="tip" :depth="3">Adjust color generation style</n-text>
         </div>
         <n-select
           v-model:value="settingStore.themeVariant"
@@ -50,8 +50,8 @@
       <!-- 自定义背景 -->
       <n-card class="set-item">
         <div class="label">
-          <n-text class="name">自定义背景</n-text>
-          <n-text class="tip" :depth="3">支持图片或视频（50MB以内）</n-text>
+          <n-text class="name">Custom background</n-text>
+          <n-text class="tip" :depth="3">Supports image or video (up to 50MB)</n-text>
         </div>
         <div class="bg-actions">
           <n-button
@@ -62,10 +62,10 @@
             secondary
             @click="clearBackgroundImage"
           >
-            取消
+            Remove
           </n-button>
           <n-button size="small" type="primary" strong secondary @click="selectBackgroundImage">
-            {{ isCustomBackground ? "更换" : "选择文件" }}
+            {{ isCustomBackground ? "Replace" : "Select file" }}
           </n-button>
         </div>
         <input
@@ -83,7 +83,7 @@
       class="color-section"
       :class="{ disabled: settingStore.themeFollowCover }"
     >
-      <n-text class="section-title" :depth="2">选择主题色</n-text>
+      <n-text class="section-title" :depth="2">Choose theme color</n-text>
       <div class="color-grid">
         <div
           v-for="(colorData, key) in themeColors"
@@ -138,8 +138,8 @@
     <div v-else class="config-section">
       <n-card class="set-item">
         <div class="label">
-          <n-text class="name">放大倍数</n-text>
-          <n-text class="tip" :depth="3">调整背景图缩放比例</n-text>
+          <n-text class="name">Scale</n-text>
+          <n-text class="tip" :depth="3">Adjust background zoom level</n-text>
         </div>
         <n-slider
           v-model:value="statusStore.backgroundConfig.scale"
@@ -152,8 +152,8 @@
       </n-card>
       <n-card class="set-item">
         <div class="label">
-          <n-text class="name">遮罩透明度</n-text>
-          <n-text class="tip" :depth="3">覆盖在背景图上的黑色遮罩</n-text>
+          <n-text class="name">Mask opacity</n-text>
+          <n-text class="tip" :depth="3">Black overlay opacity on background</n-text>
         </div>
         <n-slider
           v-model:value="statusStore.backgroundConfig.maskOpacity"
@@ -166,8 +166,8 @@
       </n-card>
       <n-card class="set-item">
         <div class="label">
-          <n-text class="name">模糊度</n-text>
-          <n-text class="tip" :depth="3">背景图模糊程度</n-text>
+          <n-text class="name">Blur</n-text>
+          <n-text class="tip" :depth="3">Background blur level</n-text>
         </div>
         <n-slider
           v-model:value="statusStore.backgroundConfig.blur"
@@ -181,7 +181,7 @@
     </div>
     <!-- 自定义背景模式：选择主题色 -->
     <div v-if="isCustomBackground" class="color-section">
-      <n-text class="section-title" :depth="2">选择主题色</n-text>
+      <n-text class="section-title" :depth="2">Choose theme color</n-text>
       <div class="color-grid">
         <!-- 自动提取的颜色 -->
         <div
@@ -189,7 +189,7 @@
           class="color-item"
           :class="{ active: !statusStore.backgroundConfig.useCustomColor }"
           :style="{ '--color': statusStore.backgroundConfig.themeColor }"
-          title="自动提取"
+          title="Auto extracted"
           @click="
             () => {
               statusStore.backgroundConfig.useCustomColor = false;
@@ -213,7 +213,7 @@
           class="color-item"
           :class="{ active: statusStore.backgroundConfig.isSolid }"
           :style="{ '--color': '#9e9e9e' }"
-          title="纯色"
+          title="Solid"
           @click="
             () => {
               statusStore.backgroundConfig.useCustomColor = true;
@@ -236,7 +236,7 @@
               statusStore.backgroundConfig.useCustomColor && !statusStore.backgroundConfig.isSolid,
           }"
           :style="{ '--color': statusStore.backgroundConfig.customColor }"
-          title="自定义"
+          title="Custom"
         >
           <div class="color-circle custom-trigger">
             <SvgIcon v-if="statusStore.backgroundConfig.useCustomColor" name="Check" :size="16" />
@@ -254,7 +254,7 @@
               "
             />
           </div>
-          <n-text class="color-name" :depth="2">自定义</n-text>
+          <n-text class="color-name" :depth="2">Custom</n-text>
         </div>
       </div>
     </div>
@@ -283,12 +283,12 @@ const isCustomBackground = computed(() => statusStore.isCustomBackground);
 
 // 主题颜色变体选项
 const variantOptions = [
-  { label: "主色", value: "primary" },
-  { label: "次色", value: "secondary" },
-  { label: "第三色", value: "tertiary" },
-  { label: "中性色", value: "neutral" },
-  { label: "中性变体", value: "neutralVariant" },
-  { label: "错误色", value: "error" },
+  { label: "Primary", value: "primary" },
+  { label: "Secondary", value: "secondary" },
+  { label: "Tertiary", value: "tertiary" },
+  { label: "Neutral", value: "neutral" },
+  { label: "Neutral Variant", value: "neutralVariant" },
+  { label: "Error", value: "error" },
 ];
 
 // 主题颜色数据
@@ -317,7 +317,7 @@ const handleFileSelect = async (event: Event) => {
   // 检查文件大小（限制 50MB）
   const maxSize = 50 * 1024 * 1024;
   if (file.size > maxSize) {
-    window.$message.error("文件大小不能超过 50MB");
+    window.$message.error("File size cannot exceed 50MB");
     input.value = "";
     return;
   }
@@ -325,7 +325,7 @@ const handleFileSelect = async (event: Event) => {
   const isVideo = file.type.startsWith("video/");
   const isImage = file.type.startsWith("image/");
   if (!isImage && !isVideo) {
-    window.$message.error("请选择图片或视频文件");
+    window.$message.error("Please select an image or video file");
     input.value = "";
     return;
   }
@@ -359,10 +359,10 @@ const handleFileSelect = async (event: Event) => {
     statusStore.backgroundImageUrl = url;
     settingStore.themeFollowCover = false;
     settingStore.themeGlobalColor = true;
-    window.$message.success("背景设置成功");
+    window.$message.success("Background applied successfully");
   } catch (error) {
     console.error("Error setting background:", error);
-    window.$message.error("背景设置失败");
+    window.$message.error("Failed to apply background");
   }
   input.value = "";
 };
@@ -375,10 +375,10 @@ const clearBackgroundImage = async () => {
     statusStore.backgroundImageUrl = null;
     statusStore.themeBackgroundMode = "color";
     statusStore.backgroundConfig.themeColor = null;
-    window.$message.success("已恢复颜色模式");
+    window.$message.success("Restored color mode");
   } catch (error) {
     console.error("Error clearing background image:", error);
-    window.$message.error("操作失败");
+    window.$message.error("Operation failed");
   }
 };
 </script>

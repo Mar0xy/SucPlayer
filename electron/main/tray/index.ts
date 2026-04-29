@@ -23,7 +23,7 @@ let shuffleMode: ShuffleModeType = "off";
 
 // 全局数据
 let playState: PlayState = "pause";
-let playName: string = "未播放歌曲";
+let playName: string = "No song playing";
 let likeSong: boolean = false;
 let desktopLyricShow: boolean = false;
 let desktopLyricLock: boolean = false;
@@ -64,14 +64,14 @@ const getTrayIcon = (): NativeImage | null => {
 
     return image;
   } catch (error) {
-    trayLog.error(`获取托盘图标失败: ${error}`);
+    trayLog.error(`Failed to load tray icon: ${error}`);
     try {
       let fallbackImage = nativeImage.createFromPath(fallbackIconPath);
       fallbackImage = fallbackImage.resize({ width: 19, height: 19 });
       fallbackImage.setTemplateImage(true);
       return fallbackImage;
     } catch (fallbackError) {
-      trayLog.error(`备用托盘图标加载也失败: ${fallbackError}`);
+      trayLog.error(`Failed to load fallback tray icon: ${fallbackError}`);
       return null;
     }
   }
@@ -89,14 +89,14 @@ const getMenuIcon = (iconName: string): NativeImage | undefined => {
     const image = nativeImage.createFromPath(iconPath);
     return image.resize({ width: 16, height: 16 });
   } catch (error) {
-    trayLog.warn(`无法加载菜单图标: ${iconPath}`, error);
+    trayLog.warn(`Unable to load menu icon: ${iconPath}`, error);
     // 后备方案：尝试加载默认图标
     const defaultPath = join(__dirname, `../../public/icons/tray/${iconName}-dark.png`);
     try {
       const image = nativeImage.createFromPath(defaultPath);
       return image.resize({ width: 16, height: 16 });
     } catch (fallbackError) {
-      trayLog.error(`无法加载菜单图标后备方案: ${defaultPath}`, fallbackError);
+      trayLog.error(`Unable to load fallback menu icon: ${defaultPath}`, fallbackError);
       return undefined;
     }
   }
@@ -113,12 +113,12 @@ const createTrayMenu = (win: BrowserWindow): MenuItemConstructorOptions[] => {
   const getRepeatLabel = (mode: RepeatModeType): string => {
     switch (mode) {
       case "one":
-        return "单曲循环";
+        return "Repeat One";
       case "off":
-        return "不循环";
+        return "No Repeat";
       case "list":
       default:
-        return "列表循环";
+        return "Repeat All";
     }
   };
 
@@ -140,13 +140,13 @@ const createTrayMenu = (win: BrowserWindow): MenuItemConstructorOptions[] => {
     },
     {
       id: "toggle-like-song",
-      label: likeSong ? "从我喜欢中移除" : "添加到我喜欢",
+      label: likeSong ? "Remove from Liked Songs" : "Add to Liked Songs",
       icon: getMenuIcon(likeSong ? "like" : "unlike"),
       click: () => win.webContents.send("toggle-like-song"),
     },
     {
       id: "shuffle",
-      label: shuffleMode === "heartbeat" ? "心动模式" : "随机播放",
+      label: shuffleMode === "heartbeat" ? "Heartbeat Mode" : "Shuffle",
       icon: getMenuIcon("shuffle"),
       type: "checkbox",
       checked: shuffleMode !== "off",
@@ -158,21 +158,21 @@ const createTrayMenu = (win: BrowserWindow): MenuItemConstructorOptions[] => {
       icon: getMenuIcon(repeatMode === "one" ? "repeat-once" : "repeat"),
       submenu: [
         {
-          label: "列表循环",
+          label: "Repeat All",
           icon: getMenuIcon("repeat"),
           type: "radio",
           checked: repeatMode === "list",
           click: () => win.webContents.send("changeRepeat", "list"),
         },
         {
-          label: "单曲循环",
+          label: "Repeat One",
           icon: getMenuIcon("repeat-once"),
           type: "radio",
           checked: repeatMode === "one",
           click: () => win.webContents.send("changeRepeat", "one"),
         },
         {
-          label: "关闭循环",
+          label: "No Repeat",
           icon: getMenuIcon("repeat"),
           type: "radio",
           checked: repeatMode === "off",
@@ -185,19 +185,19 @@ const createTrayMenu = (win: BrowserWindow): MenuItemConstructorOptions[] => {
     },
     {
       id: "playNext",
-      label: "上一曲",
+      label: "Previous",
       icon: getMenuIcon("prev"),
       click: () => win.webContents.send("playPrev"),
     },
     {
       id: "playOrPause",
-      label: playState === "pause" ? "播放" : "暂停",
+      label: playState === "pause" ? "Play" : "Pause",
       icon: getMenuIcon(playState === "pause" ? "play" : "pause"),
       click: () => win.webContents.send(playState === "pause" ? "play" : "pause"),
     },
     {
       id: "playNext",
-      label: "下一曲",
+      label: "Next",
       icon: getMenuIcon("next"),
       click: () => win.webContents.send("playNext"),
     },
@@ -206,13 +206,13 @@ const createTrayMenu = (win: BrowserWindow): MenuItemConstructorOptions[] => {
     },
     {
       id: "toggle-desktop-lyric",
-      label: `${desktopLyricShow ? "关闭" : "开启"}桌面歌词`,
+      label: `${desktopLyricShow ? "Disable" : "Enable"} Desktop Lyric`,
       icon: getMenuIcon("lyric"),
       click: () => win.webContents.send("desktop-lyric:toggle"),
     },
     {
       id: "toggle-desktop-lyric-lock",
-      label: `${desktopLyricLock ? "解锁" : "锁定"}桌面歌词`,
+      label: `${desktopLyricLock ? "Unlock" : "Lock"} Desktop Lyric`,
       icon: getMenuIcon(desktopLyricLock ? "lock" : "unlock"),
       visible: desktopLyricShow,
       click: () => {
@@ -226,7 +226,7 @@ const createTrayMenu = (win: BrowserWindow): MenuItemConstructorOptions[] => {
     },
     {
       id: "toggle-taskbar-lyric",
-      label: `${(isMac ? isMacosLyricEnabled : taskbarLyricShow) ? "关闭" : "开启"}${isMac ? "状态栏" : "任务栏"}歌词`,
+      label: `${(isMac ? isMacosLyricEnabled : taskbarLyricShow) ? "Disable" : "Enable"} ${isMac ? "Status Bar" : "Taskbar"} Lyric`,
       icon: getMenuIcon("lyric"),
       visible: isWin || isMac,
       click: () => win.webContents.send("toggle-taskbar-lyric"),
@@ -236,7 +236,7 @@ const createTrayMenu = (win: BrowserWindow): MenuItemConstructorOptions[] => {
     },
     {
       id: "setting",
-      label: "全局设置",
+      label: "Settings",
       icon: getMenuIcon("setting"),
       click: () => {
         win.show();
@@ -249,7 +249,7 @@ const createTrayMenu = (win: BrowserWindow): MenuItemConstructorOptions[] => {
     },
     {
       id: "exit",
-      label: "退出",
+      label: "Quit",
       icon: getMenuIcon("power"),
       click: () => {
         app.quit();

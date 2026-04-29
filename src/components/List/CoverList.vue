@@ -60,13 +60,13 @@
               class="creator"
               depth="3"
             >
-              {{ item.creator?.name || item.creator || "未知" }}
+              {{ item.creator?.name || item.creator || "Unknown" }}
             </n-text>
             <!-- 更新提示 -->
             <n-text v-if="item.updateTip" class="tip" depth="3">{{ item.updateTip }}</n-text>
             <!-- 专辑信息 -->
             <div v-if="type === 'album'" class="meta">
-              <n-text class="count" depth="3">{{ item.count || 0 }}首</n-text>
+              <n-text class="count" depth="3">{{ item.count || 0 }} songs</n-text>
               <n-text class="date" depth="3">{{ formatTimestamp(item.createTime) }}</n-text>
             </div>
             <!-- 歌手 -->
@@ -76,7 +76,7 @@
                   {{
                     settingStore.hideBracketedContent
                       ? removeBrackets(ar.name)
-                      : ar.name || "未知艺术家"
+                      : ar.name || "Unknown artist"
                   }}
                 </n-text>
               </div>
@@ -85,7 +85,7 @@
                   {{
                     settingStore.hideBracketedContent
                       ? removeBrackets(item.artists)
-                      : item.artists || "未知艺术家"
+                      : item.artists || "Unknown artist"
                   }}
                 </n-text>
               </div>
@@ -96,7 +96,7 @@
       <!-- 加载更多 -->
       <n-flex v-if="loadMore" class="load-more" justify="center">
         <n-button :loading="loading" size="large" strong secondary round @click="emit('loadMore')">
-          加载更多
+          Load more
         </n-button>
       </n-flex>
       <!-- 右键菜单 -->
@@ -119,7 +119,7 @@
       </div>
     </div>
     <!-- 空列表 -->
-    <n-empty v-else :description="emptyDescription || '空空如也，怎么什么都没有啊'" size="large" />
+    <n-empty v-else :description="emptyDescription || 'Nothing here yet'" size="large" />
   </Transition>
 </template>
 
@@ -231,7 +231,7 @@ const getListData = async (id: number | string): Promise<SongType[]> => {
       if (isLocalPlaylist) {
         const result = localStore.getLocalPlaylistDetail(Number(id));
         if (!result) {
-          window.$message.error("本地歌单不存在");
+          window.$message.error("Local playlist does not exist");
           return [];
         }
         return result.songs;

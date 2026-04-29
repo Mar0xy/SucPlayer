@@ -22,7 +22,7 @@
           @click="emit('toSearch', statusStore.searchInputValue, 'keyword')"
         >
           <SvgIcon name="Search" :depth="3" />
-          <n-text class="text text-hidden">直接搜索：{{ statusStore.searchInputValue }}</n-text>
+          <n-text class="text text-hidden">Search directly: {{ statusStore.searchInputValue }}</n-text>
         </div>
         <!-- 搜索建议 -->
         <Transition name="fade" mode="out-in" @after-leave="calcSearchSuggestHeights">
@@ -84,23 +84,23 @@ const searchSuggestRef = ref<HTMLElement | null>(null);
 // 搜索建议分类
 const searchSuggestionsType = {
   songs: {
-    name: "单曲",
+    name: "Songs",
     icon: "Music",
   },
   artists: {
-    name: "歌手",
+    name: "Artists",
     icon: "Artist",
   },
   albums: {
-    name: "专辑",
+    name: "Albums",
     icon: "Album",
   },
   playlists: {
-    name: "歌单",
+    name: "Playlists",
     icon: "MusicList",
   },
   share: {
-    name: "分享的内容",
+    name: "Shared Content",
     icon: "Link",
   },
 };
@@ -182,10 +182,10 @@ const getLinkType = (val: string) => {
       artist: "artists",
     };
     const nameMap: Record<string, string> = {
-      song: "歌曲",
-      playlist: "歌单",
-      album: "专辑",
-      artist: "歌手",
+      song: "song",
+      playlist: "playlist",
+      album: "album",
+      artist: "artist",
     };
     return {
       type: typeMap[type],
@@ -193,7 +193,7 @@ const getLinkType = (val: string) => {
       id: id,
     };
   } catch (error) {
-    console.warn("解析链接失败:", error);
+    console.warn("Failed to parse link:", error);
     return null;
   }
 };
@@ -210,7 +210,7 @@ watchDebounced(
         order: ["share"],
         share: [
           {
-            name: `前往分享的${linkData.typeName}`,
+            name: `Go to shared ${linkData.typeName}`,
             id: linkData.id,
             realType: linkData.type,
           },

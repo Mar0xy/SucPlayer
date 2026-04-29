@@ -197,7 +197,7 @@ const artistName = computed(() => {
   if (Array.isArray(artists)) {
     return artists.map((ar) => ar.name).join(" / ");
   }
-  return (artists as string) || "未知艺术家";
+  return (artists as string) || "Unknown artist";
 });
 
 // 没有歌词强制回到第一页

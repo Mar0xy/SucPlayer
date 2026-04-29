@@ -49,7 +49,7 @@
                 <template #trigger>
                   <SvgIcon :depth="3" name="EyeLock" size="22" />
                 </template>
-                <n-text>隐私歌单</n-text>
+                <n-text>Private playlist</n-text>
               </n-popover>
             </template>
           </n-h2>
@@ -86,7 +86,7 @@
                     {{
                       settingStore.hideBracketedContent
                         ? removeBrackets(ar.name)
-                        : ar.name || "未知艺术家"
+                        : ar.name || "Unknown artist"
                     }}
                   </n-text>
                 </div>
@@ -101,12 +101,12 @@
                         ? removeBrackets(
                             typeof detailData.artists === "string" ? detailData.artists : undefined,
                           )
-                        : detailData.artists || "未知艺术家"
+                        : detailData.artists || "Unknown artist"
                     }}
                   </n-text>
                 </div>
                 <n-text v-else-if="config.showCreator">
-                  {{ detailData.creator?.name || "未知用户名" }}
+                  {{ detailData.creator?.name || "Unknown user" }}
                 </n-text>
               </div>
               <!-- 歌曲数量 -->
@@ -191,7 +191,7 @@
                 :value="searchValue"
                 :input-props="{ autocomplete: 'off' }"
                 class="search"
-                placeholder="模糊搜索"
+                placeholder="Fuzzy search"
                 clearable
                 round
                 @update:value="handleSearch"
@@ -209,13 +209,13 @@
                 @update:value="handleTabChange"
               >
                 <n-tab name="songs">
-                  歌曲
+                  Songs
                   <n-text v-if="detailData?.count" class="count" depth="3">
                     {{ detailData?.count }}
                   </n-text>
                 </n-tab>
                 <n-tab name="comments">
-                  评论
+                  Comments
                   <n-text
                     v-if="detailData?.commentCount"
                     class="count"
@@ -280,7 +280,7 @@ const props = withDefaults(defineProps<Props>(), {
   showSearch: true,
   hideCommentTab: false,
   titleText: "",
-  playButtonText: "播放",
+  playButtonText: "Play",
   moreOptions: () => [],
 });
 
@@ -307,7 +307,7 @@ watch(
 // 标题文本
 const titleText = computed(() => {
   if (props.titleText) return props.titleText;
-  return props.detailData?.name || "未知";
+  return props.detailData?.name || "Unknown";
 });
 
 // 处理播放全部
@@ -333,7 +333,7 @@ const handleTagClick = (tag: string) => {
 const handleDescriptionClick = () => {
   if (props.detailData?.description) {
     const title =
-      props.titleText || (props.config.titleType === "ellipsis" ? "专辑简介" : "节目简介");
+      props.titleText || (props.config.titleType === "ellipsis" ? "Album Description" : "Program Description");
     openDescModal(props.detailData.description, title);
   }
 };

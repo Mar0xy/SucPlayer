@@ -66,7 +66,7 @@ const open = (
 const songArtist = computed(() => {
   if (!currentSong.value) return "";
   const info = getPlayerInfoObj(currentSong.value);
-  return info?.artist || "未知艺术家";
+  return info?.artist || "Unknown artist";
 });
 
 const handleMenuClick = (_key: string, item: MenuOption) => {

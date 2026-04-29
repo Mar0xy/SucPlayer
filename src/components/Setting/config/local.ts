@@ -33,7 +33,7 @@ export const useLocalSettings = (): SettingConfig => {
       const path = await window.api.store.get("cachePath");
       cachePath.value = path || "";
     } catch (error) {
-      console.error("读取缓存路径失败:", error);
+      console.error("Failed to read cache path:", error);
     }
   };
 
@@ -55,10 +55,11 @@ export const useLocalSettings = (): SettingConfig => {
   // 确认更改缓存目录
   const confirmChangeCachePath = () => {
     window.$dialog.warning({
-      title: "更改缓存目录",
-      content: "更改缓存目录不会自动移动已有缓存文件，建议在清空缓存后再更改目录。确定要继续吗？",
-      positiveText: "确定更改",
-      negativeText: "取消",
+      title: "Change cache directory",
+      content:
+        "Changing the cache directory will not automatically move existing cache files. It is recommended to clear cache before switching. Continue?",
+      positiveText: "Confirm",
+      negativeText: "Cancel",
       onPositiveClick: () => {
         return changeCachePath();
       },
@@ -70,19 +71,20 @@ export const useLocalSettings = (): SettingConfig => {
     const res = await cacheManager.clearAll();
     await loadCacheSize();
     if (!res.success) {
-      window.$message.error("缓存清理失败: " + (res.message || "未知错误"));
+      window.$message.error("Failed to clear cache: " + (res.message || "Unknown error"));
     } else {
-      window.$message.success("缓存已清空");
+      window.$message.success("Cache cleared");
     }
   };
 
   // 确认清空缓存
   const confirmClearCache = () => {
     window.$dialog.warning({
-      title: "清空缓存",
-      content: "将删除所有缓存的音乐、歌词和本地数据，此操作不可恢复，确定要继续吗？",
-      positiveText: "清空缓存",
-      negativeText: "取消",
+      title: "Clear cache",
+      content:
+        "This will delete all cached music, lyrics, and local data. This action cannot be undone. Continue?",
+      positiveText: "Clear cache",
+      negativeText: "Cancel",
       onPositiveClick: () => {
         return clearCache();
       },
@@ -93,14 +95,14 @@ export const useLocalSettings = (): SettingConfig => {
 
   // 繁体变体标签
   const variantMap: Record<string, string> = {
-    s2t: "繁体中文 (标准)",
-    s2tw: "台湾正体",
-    s2hk: "香港繁体",
-    s2twp: "台湾正体 (含词汇)",
+    s2t: "Traditional Chinese (standard)",
+    s2tw: "Taiwan Traditional",
+    s2hk: "Hong Kong Traditional",
+    s2twp: "Taiwan Traditional (with phrases)",
   };
 
   const traditionalVariantLabel = computed(() => {
-    return variantMap[settingStore.traditionalChineseVariant] || "繁体中文";
+    return variantMap[settingStore.traditionalChineseVariant] || "Traditional Chinese";
   });
 
   // 默认下载音质选项
@@ -122,26 +124,26 @@ export const useLocalSettings = (): SettingConfig => {
   });
 
   const fileNameFormatOptions = [
-    { label: "歌曲名", value: "title" },
-    { label: "歌手 - 歌曲名", value: "artist-title" },
-    { label: "歌曲名 - 歌手", value: "title-artist" },
+    { label: "Song title", value: "title" },
+    { label: "Artist - Song title", value: "artist-title" },
+    { label: "Song title - Artist", value: "title-artist" },
   ];
 
   const folderStrategyOptions = [
-    { label: "不分文件夹", value: "none" },
-    { label: "按歌手分文件夹", value: "artist" },
-    { label: "按 歌手 \\ 专辑 分文件夹", value: "artist-album" },
+    { label: "No folder split", value: "none" },
+    { label: "Split by artist", value: "artist" },
+    { label: "Split by artist \\ album", value: "artist-album" },
   ];
 
   // 模拟播放下载开关
   const handlePlaybackDownloadChange = (value: boolean) => {
     if (value) {
       window.$dialog.warning({
-        title: "开启提示",
+        title: "Enable notice",
         content:
-          "模拟播放下载可能导致部分音质歌词嵌入异常且未经完整测试可能有不稳定情况，确认要打开吗？",
-        positiveText: "确认打开",
-        negativeText: "取消",
+          "Playback-based downloading may cause abnormal lyric embedding for some quality levels, and it is not fully tested. Enable anyway?",
+        positiveText: "Enable",
+        negativeText: "Cancel",
         onPositiveClick: () => {
           settingStore.usePlaybackForDownload = true;
         },
@@ -155,10 +157,10 @@ export const useLocalSettings = (): SettingConfig => {
   const handleUnlockDownloadChange = (value: boolean) => {
     if (value) {
       window.$dialog.warning({
-        title: "开启提示",
-        content: "开启此功能可能导致音质下降和与原曲不一致等情况，确认要打开吗？",
-        positiveText: "确认打开",
-        negativeText: "取消",
+        title: "Enable notice",
+        content: "Enabling this feature may reduce quality or produce results different from the original. Enable anyway?",
+        positiveText: "Enable",
+        negativeText: "Cancel",
         onPositiveClick: () => {
           settingStore.useUnlockForDownload = true;
         },
@@ -172,10 +174,11 @@ export const useLocalSettings = (): SettingConfig => {
   const handleLyricEncodingChange = (value: "utf-8" | "gbk" | "utf-16" | "iso-8859-1") => {
     if (value === settingStore.downloadLyricEncoding) return;
     window.$dialog.warning({
-      title: "更改编码提示",
-      content: "请确保你的编码为相应编码再开启，改变编码可能导致文件播放乱码。确认要更改吗？",
-      positiveText: "确认更改",
-      negativeText: "取消",
+      title: "Encoding change notice",
+      content:
+        "Please make sure your target player supports this encoding. Changing encoding may cause garbled text. Confirm change?",
+      positiveText: "Confirm",
+      negativeText: "Cancel",
       onPositiveClick: () => {
         settingStore.downloadLyricEncoding = value;
       },
@@ -192,13 +195,13 @@ export const useLocalSettings = (): SettingConfig => {
     onActivate,
     groups: [
       {
-        title: "本地歌曲",
+        title: "Local music",
         items: [
           {
             key: "showLocalCover",
-            label: "显示本地歌曲封面",
+            label: "Show local song covers",
             type: "switch",
-            description: "当数量过多时请勿开启，会严重影响性能",
+            description: "Do not enable when library is very large; it may hurt performance",
             value: computed({
               get: () => settingStore.showLocalCover,
               set: (v) => (settingStore.showLocalCover = v),
@@ -206,12 +209,12 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "localFolderDisplayMode",
-            label: "本地文件夹显示模式",
+            label: "Local folder display mode",
             type: "select",
-            description: "选择本地音乐页面文件夹的显示方式",
+            description: "Choose how folders are displayed on the local music page",
             options: [
-              { label: "标签页模式", value: "tab" },
-              { label: "下拉筛选模式", value: "dropdown" },
+              { label: "Tab mode", value: "tab" },
+              { label: "Dropdown filter mode", value: "dropdown" },
             ],
             value: computed({
               get: () => settingStore.localFolderDisplayMode,
@@ -220,7 +223,7 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "showDefaultLocalPath",
-            label: "显示本地默认歌曲目录",
+            label: "Show default local music directory",
             type: "switch",
             value: computed({
               get: () => settingStore.showDefaultLocalPath,
@@ -229,15 +232,15 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "localFilesPath",
-            label: "本地歌曲目录",
+            label: "Local music directories",
             type: "button",
-            buttonLabel: "管理目录",
-            description: "可在此增删本地歌曲目录，歌曲增删实时同步",
+            buttonLabel: "Manage directories",
+            description: "Add or remove local music directories with real-time sync",
             action: openLocalMusicDirectoryModal,
           },
           {
             key: "localLyricPath",
-            label: "本地歌词覆盖在线歌词",
+            label: "Use local lyrics over online lyrics",
             type: "custom",
             noWrapper: true,
             component: markRaw(LocalLyricDirectories),
@@ -245,13 +248,13 @@ export const useLocalSettings = (): SettingConfig => {
         ],
       },
       {
-        title: "缓存配置",
+        title: "Cache settings",
         items: [
           {
             key: "cacheEnabled",
-            label: "启用缓存",
+            label: "Enable cache",
             type: "switch",
-            description: "开启缓存会加快资源加载速度，但会占用更多磁盘空间",
+            description: "Caching improves loading speed but uses more disk space",
             value: computed({
               get: () => settingStore.cacheEnabled,
               set: (v) => (settingStore.cacheEnabled = v),
@@ -259,9 +262,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "songCacheEnabled",
-            label: "缓存歌曲",
+            label: "Cache songs",
             type: "switch",
-            description: "是否缓存歌曲音频，关闭后可节省缓存空间",
+            description: "Cache song audio; disabling can save cache space",
             value: computed({
               get: () => settingStore.songCacheEnabled,
               set: (v) => (settingStore.songCacheEnabled = v),
@@ -270,46 +273,46 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "cacheLimit",
-            label: "缓存大小上限",
+            label: "Cache size limit",
             type: "custom",
-            description: "达到上限后将清理最旧的缓存，可以是小数，最低 2GB",
+            description: "Oldest cache is cleaned when limit is reached; decimal allowed, minimum 2GB",
             component: markRaw(CacheSizeLimit),
             condition: () => settingStore.cacheEnabled,
             noWrapper: true,
           },
           {
             key: "cachePath",
-            label: "缓存目录",
+            label: "Cache directory",
             type: "button",
-            description: computed(() => cachePath.value || "未配置时将使用默认缓存目录"),
-            buttonLabel: "更改",
+            description: computed(() => cachePath.value || "Default cache directory will be used when unset"),
+            buttonLabel: "Change",
             action: confirmChangeCachePath,
             condition: () => settingStore.cacheEnabled,
           },
           {
             key: "clearCache",
-            label: "缓存占用与清理",
+            label: "Cache usage and cleanup",
             type: "button",
-            description: () => `当前缓存占用：${cacheSizeDisplay.value}`,
-            buttonLabel: "清空缓存",
+            description: () => `Current cache usage: ${cacheSizeDisplay.value}`,
+            buttonLabel: "Clear cache",
             action: confirmClearCache,
             componentProps: { type: "error" },
           },
         ],
       },
       {
-        title: "下载配置",
+        title: "Download settings",
         show: computed(() => statusStore.isDeveloperMode),
         items: [
           {
             key: "downloadPath",
-            label: "默认下载目录",
+            label: "Default download directory",
             type: "button",
-            description: computed(() => settingStore.downloadPath || "若不设置则无法进行下载"),
-            buttonLabel: "更改",
+            description: computed(() => settingStore.downloadPath || "Downloads are unavailable until this is set"),
+            buttonLabel: "Change",
             action: chooseDownloadPath,
             extraButton: {
-              label: "清除选择",
+              label: "Clear selection",
               type: "primary",
               secondary: true,
               strong: true,
@@ -319,10 +322,10 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "enableDownloadHttp2",
-            label: "启用 HTTP/2 下载",
+            label: "Enable HTTP/2 download",
             type: "switch",
             tags: [{ text: "Beta", type: "warning" }],
-            description: "使用 HTTP/2 协议进行下载",
+            description: "Download using HTTP/2 protocol",
             value: computed({
               get: () => settingStore.enableDownloadHttp2,
               set: (v) => (settingStore.enableDownloadHttp2 = v),
@@ -330,9 +333,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "downloadSongLevel",
-            label: "默认下载音质",
+            label: "Default download quality",
             type: "select",
-            description: "默认使用的音质，实际可用音质取决于账号权限和歌曲资源",
+            description: "Default quality to use; available quality depends on account permissions and song resources",
             options: downloadQualityOptions,
             value: computed({
               get: () => settingStore.downloadSongLevel,
@@ -341,9 +344,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "downloadThreadCount",
-            label: "下载线程数",
+            label: "Download threads",
             type: "slider",
-            description: "多线程下载可提高速度，默认为 8，建议设置在 4-16 之间",
+            description: "Multithreading can improve speed. Default is 8, recommended range is 4-16",
             min: 1,
             max: 32,
             step: 1,
@@ -354,9 +357,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "downloadMeta",
-            label: "下载歌曲元信息",
+            label: "Download song metadata",
             type: "switch",
-            description: "为当前下载歌曲附加封面及歌词等元信息",
+            description: "Attach metadata such as cover and lyrics for downloaded songs",
             value: computed({
               get: () => settingStore.downloadMeta,
               set: (v) => (settingStore.downloadMeta = v),
@@ -364,9 +367,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "downloadCover",
-            label: "同时下载封面",
+            label: "Download cover as well",
             type: "switch",
-            description: "下载歌曲时同时下载封面",
+            description: "Download cover together with songs",
             disabled: computed(() => !settingStore.downloadMeta),
             value: computed({
               get: () => settingStore.downloadCover,
@@ -375,9 +378,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "downloadLyric",
-            label: "同时下载歌词",
+            label: "Download lyrics as well",
             type: "switch",
-            description: "下载歌曲时同时下载歌词",
+            description: "Download lyrics together with songs",
             disabled: computed(() => !settingStore.downloadMeta),
             value: computed({
               get: () => settingStore.downloadLyric,
@@ -386,9 +389,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "downloadLyricTranslation",
-            label: "同时下载歌词翻译",
+            label: "Download translated lyrics",
             type: "switch",
-            description: "下载歌词时同时包含翻译",
+            description: "Include translations when downloading lyrics",
             disabled: computed(() => !settingStore.downloadMeta || !settingStore.downloadLyric),
             value: computed({
               get: () => settingStore.downloadLyricTranslation,
@@ -397,9 +400,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "downloadLyricRomaji",
-            label: "同时下载歌词音译",
+            label: "Download romaji lyrics",
             type: "switch",
-            description: "下载歌词时同时包含音译（罗马音）",
+            description: "Include transliteration (romaji) when downloading lyrics",
             disabled: computed(() => !settingStore.downloadMeta || !settingStore.downloadLyric),
             value: computed({
               get: () => settingStore.downloadLyricRomaji,
@@ -408,9 +411,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "fileNameFormat",
-            label: "音乐命名格式",
+            label: "Music file naming format",
             type: "select",
-            description: "选择下载文件的命名方式，建议包含歌手信息便于区分",
+            description: "Choose naming format for downloaded files; including artist info is recommended",
             options: fileNameFormatOptions,
             value: computed({
               get: () => settingStore.fileNameFormat,
@@ -419,9 +422,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "folderStrategy",
-            label: "文件智能分类",
+            label: "Smart file organization",
             type: "select",
-            description: "自动按歌手或歌手与专辑创建子文件夹进行分类",
+            description: "Automatically organize into subfolders by artist or artist+album",
             options: folderStrategyOptions,
             value: computed({
               get: () => settingStore.folderStrategy,
@@ -430,10 +433,10 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "usePlaybackForDownload",
-            label: "模拟播放下载",
+            label: "Playback-based download",
             type: "switch",
             tags: [{ text: "Beta", type: "warning" }],
-            description: "使用播放接口进行下载，可能解决部分下载失败问题",
+            description: "Use playback interface for downloading, which may solve some download failures",
             value: computed({
               get: () => settingStore.usePlaybackForDownload,
               set: (v) => handlePlaybackDownloadChange(v),
@@ -441,10 +444,10 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "useUnlockForDownload",
-            label: "使用解锁接口下载",
+            label: "Use unlock service for downloads",
             type: "switch",
             tags: [{ text: "Beta", type: "warning" }],
-            description: "利用配置的解锁服务获取下载链接（优先于默认方式）",
+            description: "Use configured unlock services to get download links (higher priority than default)",
             value: computed({
               get: () => settingStore.useUnlockForDownload,
               set: (v) => handleUnlockDownloadChange(v),
@@ -452,10 +455,10 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "downloadMakeYrc",
-            label: "下载时另存逐字歌词文件",
+            label: "Save word-level lyric file when downloading",
             type: "switch",
             tags: [{ text: "Beta", type: "warning" }],
-            description: "在有条件时保存独立的 YRC/TTML 逐字歌词文件（源文件仍内嵌 LRC）",
+            description: "Save independent YRC/TTML word-level lyric files when possible (source file still embeds LRC)",
             disabled: computed(() => !settingStore.downloadMeta || !settingStore.downloadLyric),
             value: computed({
               get: () => settingStore.downloadMakeYrc,
@@ -464,9 +467,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "downloadSaveAsAss",
-            label: "下载时另存为 ASS 文件",
+            label: "Save as ASS file when downloading",
             type: "switch",
-            description: "生成 ASS 字幕文件以支持第三方播放器识别（源文件仍内嵌 LRC）",
+            description: "Generate ASS subtitle file for third-party player support (source file still embeds LRC)",
             disabled: computed(() => !settingStore.downloadMeta || !settingStore.downloadLyric),
             value: computed({
               get: () => settingStore.downloadSaveAsAss,
@@ -475,12 +478,12 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "downloadLyricToTraditional",
-            label: "下载歌词转繁体",
+            label: "Convert downloaded lyrics to Traditional Chinese",
             type: "switch",
             description: () =>
               h("div", {
                 innerHTML:
-                  "下载的歌词文件将转换为繁体中文（包括 LRC、YRC、TTML）<br />使用歌词设置中的繁体变体：" +
+                  "Downloaded lyric files will be converted to Traditional Chinese (including LRC, YRC, TTML)<br />Using variant from lyric settings: " +
                   traditionalVariantLabel.value,
               }),
             disabled: computed(() => !settingStore.downloadMeta || !settingStore.downloadLyric),
@@ -491,9 +494,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "downloadLyricEncoding",
-            label: "下载的歌词文件编码格式",
+            label: "Downloaded lyric file encoding",
             type: "select",
-            description: "部分车载或老旧播放器可能仅支持 GBK 编码",
+            description: "Some car players or older players may only support GBK encoding",
             options: [
               { label: "UTF-8", value: "utf-8" },
               { label: "GBK", value: "gbk" },
@@ -507,9 +510,9 @@ export const useLocalSettings = (): SettingConfig => {
           },
           {
             key: "saveMetaFile",
-            label: "保留元信息文件",
+            label: "Keep metadata files",
             type: "switch",
-            description: "是否在下载目录中保留元信息文件",
+            description: "Whether to keep metadata files in the download directory",
             disabled: computed(() => !settingStore.downloadMeta),
             value: computed({
               get: () => settingStore.saveMetaFile,

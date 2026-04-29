@@ -1,14 +1,14 @@
 <template>
   <div class="update-playlist">
     <n-form ref="updateFormRef" :model="updateFormData" :rules="updateFormRules">
-      <n-form-item label="歌单名" path="name">
+      <n-form-item label="Playlist Name" path="name">
         <n-input
           v-model:value="updateFormData.name"
           :disabled="isLiked"
-          placeholder="请输入歌单名"
+          placeholder="Enter playlist name"
         />
       </n-form-item>
-      <n-form-item label="歌单描述" path="desc">
+      <n-form-item label="Playlist Description" path="desc">
         <n-input
           v-model:value="updateFormData.desc"
           :autosize="{
@@ -16,24 +16,24 @@
             maxRows: 6,
           }"
           :maxlength="800"
-          placeholder="请输入歌单描述"
+          placeholder="Enter playlist description"
           type="textarea"
           show-count
           clearable
         />
       </n-form-item>
-      <n-form-item v-if="!isLocal" label="歌单分类" path="tags">
+      <n-form-item v-if="!isLocal" label="Playlist Tags" path="tags">
         <n-select
           v-model:value="updateFormData.tags"
           :options="tagList"
-          placeholder="请选择歌单标签"
+          placeholder="Select playlist tags"
           filterable
           multiple
           @update:value="checkTags"
         />
       </n-form-item>
     </n-form>
-    <n-button class="create" type="primary" @click="toUpdatePlaylist"> 编辑 </n-button>
+    <n-button class="create" type="primary" @click="toUpdatePlaylist"> Edit </n-button>
   </div>
 </template>
 
@@ -71,7 +71,7 @@ const isLiked = computed(() => dataStore.userLikeData.playlists?.[0]?.id === pro
 // 表单数据
 const updateFormRef = ref<FormInst | null>(null);
 const updateFormData = ref<UpdateFormType>({
-  name: isLiked.value ? "我喜欢的音乐" : props.data.name,
+  name: isLiked.value ? "Liked Songs" : props.data.name,
   desc: props.data.description,
   tags: props.data.tags,
 });
@@ -97,7 +97,7 @@ const tagList = computed<SelectOption[]>(() => {
 const checkTags = (tags: string[]) => {
   if (size(tags) > 3) {
     updateFormData.value.tags = tags.slice(0, 3);
-    window.$message.warning("最多只能有3个标签");
+    window.$message.warning("At most 3 tags are allowed");
   }
 };
 
@@ -116,9 +116,9 @@ const toUpdatePlaylist = debounce(
       });
       if (success) {
         emit("success");
-        window.$message.success("本地歌单编辑成功");
+        window.$message.success("Local playlist updated successfully");
       } else {
-        window.$message.error("本地歌单编辑失败");
+        window.$message.error("Failed to update local playlist");
       }
       return;
     }
@@ -132,10 +132,10 @@ const toUpdatePlaylist = debounce(
     );
     if (result.code === 200) {
       emit("success");
-      window.$message.success("歌单编辑成功");
+      window.$message.success("Playlist updated successfully");
       await updateUserLikePlaylist();
     } else {
-      window.$message.error(result.message || "歌单编辑失败，请重试");
+      window.$message.error(result.message || "Failed to update playlist, please try again");
     }
   },
   300,

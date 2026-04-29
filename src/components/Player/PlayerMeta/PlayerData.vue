@@ -9,7 +9,7 @@
         {{
           settingStore.hideBracketedContent
             ? removeBrackets(musicStore.playSong.name)
-            : musicStore.playSong.name || "未知曲目"
+            : musicStore.playSong.name || "Unknown track"
         }}
       </span>
       <!-- 额外信息 -->
@@ -29,8 +29,8 @@
           <div class="player-tip">
             {{
               musicStore.playSong.pc
-                ? "云盘歌曲，由用户上传"
-                : "该歌曲暂时无法播放，为您采用其他音源，可能会与原曲存在差别"
+                ? "Cloud song uploaded by user"
+                : "This song cannot be played right now. An alternative source is used and may differ from the original"
             }}
           </div>
         </n-popover>
@@ -53,7 +53,7 @@
       >
         <!-- 音质 -->
         <span v-if="settingStore.showPlayerQuality" class="meta-item">
-          {{ !statusStore.songQuality ? "未知音质" : statusStore.songQuality }}
+          {{ !statusStore.songQuality ? "Unknown quality" : statusStore.songQuality }}
         </span>
         <!-- 歌词模式 -->
         <n-popselect
@@ -99,7 +99,7 @@
           <span class="ar">{{
             settingStore.hideBracketedContent
               ? removeBrackets(musicStore.playSong.artists)
-              : musicStore.playSong.artists || "未知艺术家"
+              : musicStore.playSong.artists || "Unknown artist"
           }}</span>
         </div>
       </div>
@@ -107,7 +107,7 @@
         <SvgIcon :depth="3" name="Artist" size="20" />
         <div class="ar-list">
           <span class="ar" @click="showCreatorTip">
-            {{ musicStore.playSong.dj?.creator || "未知艺术家" }}
+            {{ musicStore.playSong.dj?.creator || "Unknown artist" }}
           </span>
         </div>
       </div>
@@ -122,14 +122,14 @@
           {{
             (settingStore.hideBracketedContent
               ? removeBrackets(musicStore.playSong.album?.name)
-              : musicStore.playSong.album?.name) || "未知专辑"
+              : musicStore.playSong.album?.name) || "Unknown album"
           }}
         </span>
         <span v-else class="name-text text-hidden">
           {{
             (settingStore.hideBracketedContent
               ? removeBrackets(musicStore.playSong.album)
-              : musicStore.playSong.album) || "未知专辑"
+              : musicStore.playSong.album) || "Unknown album"
           }}
         </span>
       </div>
@@ -140,7 +140,7 @@
         @click="jumpToRadio"
       >
         <SvgIcon :depth="3" name="Podcast" size="20" />
-        <span class="name-text text-hidden">{{ musicStore.playSong.dj?.name || "播客电台" }}</span>
+        <span class="name-text text-hidden">{{ musicStore.playSong.dj?.name || "Podcast Radio" }}</span>
       </div>
     </n-flex>
   </div>
@@ -183,14 +183,14 @@ const lyricMode = computed(() => {
 
 const lyricSourceOptions = computed(() => {
   const options = [
-    { label: "自动", value: "auto" },
-    { label: "官方优先", value: "official" },
+    { label: "Auto", value: "auto" },
+    { label: "Official first", value: "official" },
   ];
   if (settingStore.enableQQMusicLyric) {
-    options.push({ label: "QM 优先", value: "qm" });
+    options.push({ label: "QM first", value: "qm" });
   }
   if (settingStore.enableOnlineTTMLLyric) {
-    options.push({ label: "TTML 优先", value: "ttml" });
+    options.push({ label: "TTML first", value: "ttml" });
   }
   return options;
 });
@@ -204,7 +204,7 @@ const leftMargin = computed(() => {
 
 /** 音频源选项 */
 const audioSourceOptions = computed(() => {
-  const options = [{ label: "自动", value: "auto" }];
+  const options = [{ label: "Auto", value: "auto" }];
   settingStore.songUnlockServer.forEach((server) => {
     if (server.enabled) {
       options.push({
@@ -235,9 +235,9 @@ const sourceMap: Record<string, string> = {
 
 /** 音频源名称 */
 const audioSourceText = computed(() => {
-  if (musicStore.playSong.path) return "本地";
-  if (musicStore.playSong.type === "streaming") return "流媒体";
-  if (musicStore.playSong.pc) return "云盘";
+  if (musicStore.playSong.path) return "Local";
+  if (musicStore.playSong.type === "streaming") return "Streaming";
+  if (musicStore.playSong.pc) return "Cloud";
   if (statusStore.audioSource) {
     return sourceMap[statusStore.audioSource] || statusStore.audioSource.toUpperCase();
   }
@@ -258,7 +258,7 @@ const jumpPage = debounce(
 );
 
 // 暂不支持查看主播主页
-const showCreatorTip = () => window.$message.info("暂不支持查看主播主页");
+const showCreatorTip = () => window.$message.info("Opening creator profile is not supported yet");
 
 // 跳转到播客电台页面
 const jumpToRadio = debounce(

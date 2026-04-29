@@ -55,7 +55,7 @@ export async function getConverter(mode: ConverterMode): Promise<(text: string) 
     await initializeWasm();
 
     if (!wasmModule) {
-      throw new Error("OpenCC Wasm 加载失败");
+      throw new Error("Failed to load OpenCC Wasm");
     }
 
     let converterInstance = converters.get(mode);
@@ -67,7 +67,7 @@ export async function getConverter(mode: ConverterMode): Promise<(text: string) 
 
     return (text: string) => converterInstance.convert(text);
   } catch (e) {
-    console.error(`[OpenCC] 为模式 ${mode} 初始化转换器失败`, e);
+    console.error(`[OpenCC] Failed to initialize converter for mode ${mode}`, e);
     return (text: string) => text;
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <n-flex class="equalizer" size="large" vertical>
-    <n-alert :show-icon="false"> 实验性功能，请谨慎使用 </n-alert>
+    <n-alert :show-icon="false"> Experimental feature, use with caution </n-alert>
     <n-flex align="center" justify="space-between" :size="8">
       <n-flex wrap :size="8" class="eq-presets">
         <n-tag
@@ -54,15 +54,15 @@ const freqLabels = frequencies.map((f) => (f >= 1000 ? `${f / 1000}kHz` : `${f}H
 
 // 预设（单位 dB），范围建议在 [-12, 12]
 const presetList = {
-  acoustic: { label: "原声", bands: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
-  pop: { label: "流行", bands: [-1, -1, 0, 2, 4, 4, 2, 1, -1, 1] },
-  dance: { label: "舞曲", bands: [4, 6, 7, 0, 2, 3, 5, 4, 3, 0] },
-  rock: { label: "摇滚", bands: [5, 3, 3, 1, 0, -1, 0, 2, 3, 5] },
-  classical: { label: "古典", bands: [5, 4, 3, 2, -1, -1, 0, 2, 3, 5] },
-  jazz: { label: "爵士", bands: [3, 3, 2, 2, -1, -1, 0, 2, 2, 5] },
-  vocal: { label: "人声", bands: [-2, -1, 0, 2, 4, 4, 2, 0, -1, -2] },
-  bass: { label: "重低音", bands: [6, 6, 8, 2, 0, 0, 0, 0, 0, 0] },
-  custom: { label: "自定义", bands: [] as number[] },
+  acoustic: { label: "Acoustic", bands: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+  pop: { label: "Pop", bands: [-1, -1, 0, 2, 4, 4, 2, 1, -1, 1] },
+  dance: { label: "Dance", bands: [4, 6, 7, 0, 2, 3, 5, 4, 3, 0] },
+  rock: { label: "Rock", bands: [5, 3, 3, 1, 0, -1, 0, 2, 3, 5] },
+  classical: { label: "Classical", bands: [5, 4, 3, 2, -1, -1, 0, 2, 3, 5] },
+  jazz: { label: "Jazz", bands: [3, 3, 2, 2, -1, -1, 0, 2, 2, 5] },
+  vocal: { label: "Vocal", bands: [-2, -1, 0, 2, 4, 4, 2, 0, -1, -2] },
+  bass: { label: "Bass Boost", bands: [6, 6, 8, 2, 0, 0, 0, 0, 0, 0] },
+  custom: { label: "Custom", bands: [] as number[] },
 } as const;
 
 const enabled = ref<boolean>(statusStore.eqEnabled);

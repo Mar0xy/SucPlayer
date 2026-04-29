@@ -42,13 +42,13 @@ export const useKeyboardSettings = (): SettingConfig => {
   return {
     groups: [
       {
-        title: "全局快捷键",
+        title: "Global shortcuts",
         items: [
           {
             key: "globalOpen",
-            label: "开启全局快捷键",
+            label: "Enable global shortcuts",
             type: "switch",
-            description: "可能会导致与其他软件相互冲突，请谨慎开启",
+            description: "May conflict with other applications, enable with caution",
             value: computed({
               get: () => shortcutStore.globalOpen,
               set: (v) => updateGlobalOpen(v),
@@ -57,26 +57,26 @@ export const useKeyboardSettings = (): SettingConfig => {
         ],
       },
       {
-        title: "全局快捷键更改",
+        title: "Global shortcut mappings",
         items: createShortcutItems(globalShortcutKeys, true),
       },
       {
-        title: "恢复全局默认",
+        title: "Restore global defaults",
         items: [
           {
             key: "resetShortcut",
-            label: "恢复默认全局快捷键",
+            label: "Restore default global shortcuts",
             type: "button",
-            buttonLabel: "恢复默认",
+            buttonLabel: "Restore defaults",
             action: () => {
               window.$dialog.warning({
-                title: "重置快捷键",
-                content: "确定重置当前快捷键配置？",
-                positiveText: "重置",
-                negativeText: "取消",
+                title: "Reset shortcuts",
+                content: "Reset current shortcut configuration?",
+                positiveText: "Reset",
+                negativeText: "Cancel",
                 onPositiveClick: () => {
                   shortcutStore.$reset();
-                  window.$message.success("快捷键重置成功");
+                  window.$message.success("Shortcuts reset successfully");
                 },
               });
             },
@@ -84,7 +84,7 @@ export const useKeyboardSettings = (): SettingConfig => {
         ],
       },
       {
-        title: "页面内快捷键",
+        title: "In-page shortcuts",
         items: createShortcutItems(pageShortcutKeys, false),
       },
     ],

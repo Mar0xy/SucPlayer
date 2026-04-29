@@ -63,7 +63,7 @@ export const openUserAgreement = async () => {
       });
     },
     onEsc: () => {
-      window.$message.warning("请先阅读并同意用户协议");
+      window.$message.warning("Please read and accept the user agreement first");
     },
   });
 };
@@ -77,7 +77,7 @@ export const openPlaylistPageManager = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "500px" },
-    title: "歌单界面配置",
+    title: "Playlist Page Settings",
     content: () => {
       return h(PlaylistPageManager);
     },
@@ -93,7 +93,7 @@ export const openFullscreenPlayerManager = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "500px" },
-    title: "全屏播放器配置",
+    title: "Fullscreen Player Settings",
     content: () => {
       return h(FullscreenPlayerManager);
     },
@@ -109,7 +109,7 @@ export const openContextMenuManager = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "500px" },
-    title: "右键菜单配置",
+    title: "Context Menu Settings",
     content: () => {
       return h(ContextMenuManager);
     },
@@ -123,7 +123,7 @@ export const openUserLogin = async (
   onSuccess?: () => void,
   disableUid: boolean = false,
 ) => {
-  if (showTip) window.$message.warning("请登录后使用");
+  if (showTip) window.$message.warning("Please sign in first");
   const { default: Login } = await import("@/components/Modal/Login/Login.vue");
   const modal = window.$modal.create({
     preset: "card",
@@ -165,7 +165,7 @@ export const openJumpArtist = async (data: SongType["artists"], id?: number) => 
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: "跳转到歌手",
+    title: "Go to artist",
     content: () => {
       return h(JumpArtist, { artist: data, onClose: () => modal.destroy() });
     },
@@ -181,7 +181,7 @@ export const openSongInfoEditor = async (song: SongType) => {
     autoFocus: false,
     trapFocus: false,
     style: { width: "600px" },
-    title: "编辑歌曲信息",
+    title: "Edit Song Info",
     content: () => {
       return h(SongInfoEditor, { song, onClose: () => modal.destroy() });
     },
@@ -190,7 +190,7 @@ export const openSongInfoEditor = async (song: SongType) => {
 
 // 添加到歌单
 export const openPlaylistAdd = async (data: SongType[], isLocal: boolean) => {
-  if (!data.length) return window.$message.warning("请正确选择歌曲");
+  if (!data.length) return window.$message.warning("Please select valid songs");
   if (!isLogin() && !isLocal) return openUserLogin();
   const { default: PlaylistAdd } = await import("@/components/Modal/PlaylistAdd.vue");
   const modal = window.$modal.create({
@@ -198,7 +198,7 @@ export const openPlaylistAdd = async (data: SongType[], isLocal: boolean) => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: isLocal ? "添加到本地歌单" : "添加到歌单",
+    title: isLocal ? "Add to local playlist" : "Add to playlist",
     content: () => {
       return h(PlaylistAdd, { data, isLocal, onClose: () => modal.destroy() });
     },
@@ -220,7 +220,7 @@ export const openBatchList = async (data: SongType[], isLocal: boolean, playList
     style: {
       maxWidth: "70vw",
     },
-    title: "批量操作",
+    title: "Batch Actions",
     content: () => h(BatchList, { data, isLocal, playListId }),
   });
 };
@@ -233,7 +233,7 @@ export const openCloudMatch = async (id: number, index: number) => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: "云盘歌曲纠正",
+    title: "Cloud Song Correction",
     content: () => {
       return h(CloudMatch, { id, index, onClose: () => modal.destroy() });
     },
@@ -248,7 +248,7 @@ export const openCreatePlaylist = async (isLocal: boolean = false) => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: isLocal ? "新建本地歌单" : "新建歌单",
+    title: isLocal ? "Create local playlist" : "Create playlist",
     content: () => {
       return h(CreatePlaylist, { isLocal, onClose: () => modal.destroy() });
     },
@@ -274,7 +274,7 @@ export const openUpdatePlaylist = async (
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: isLocal ? "编辑本地歌单" : "编辑歌单",
+    title: isLocal ? "Edit local playlist" : "Edit playlist",
     content: () => {
       return h(UpdatePlaylist, {
         id,
@@ -295,9 +295,9 @@ export const openDownloadSong = async (song: SongType) => {
   const dataStore = useDataStore();
   if (!isLogin()) return openUserLogin();
   // 是否可下载
-  if (!song) return window.$message.warning("请正确选择歌曲");
+  if (!song) return window.$message.warning("Please select a valid song");
   if (song.free !== 0 && dataStore.userData.vipType === 0 && !song?.pc) {
-    return window.$message.warning("账号会员等级不足，请提升权限");
+    return window.$message.warning("Your account level is insufficient for this action");
   }
   const { default: DownloadModal } = await import("@/components/Modal/DownloadModal.vue");
   const modal = window.$modal.create({
@@ -305,7 +305,7 @@ export const openDownloadSong = async (song: SongType) => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: "下载歌曲",
+    title: "Download song",
     content: () => {
       return h(DownloadModal, { songId: song.id, onClose: () => modal.destroy() });
     },
@@ -316,7 +316,7 @@ export const openDownloadSong = async (song: SongType) => {
 export const openDownloadSongs = async (songs: SongType[]): Promise<void> => {
   if (!isLogin()) return openUserLogin();
   if (!songs || songs.length === 0) {
-    window.$message.warning("请选择要下载的歌曲");
+    window.$message.warning("Please select songs to download");
     return;
   }
   const { default: DownloadModal } = await import("@/components/Modal/DownloadModal.vue");
@@ -325,7 +325,7 @@ export const openDownloadSongs = async (songs: SongType[]): Promise<void> => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: "批量下载",
+    title: "Batch download",
     content: () => {
       return h(DownloadModal, { songs, onClose: () => modal.destroy() });
     },
@@ -334,7 +334,7 @@ export const openDownloadSongs = async (songs: SongType[]): Promise<void> => {
 
 // 打开设置
 export const openSetting = async (type: SettingType = "general", scrollTo?: string) => {
-  if (isModalOpen("setting", "设置页面已打开")) return;
+  if (isModalOpen("setting", "Settings page is already open")) return;
   setModalOpen("setting");
   const { default: MainSetting } = await import("@/components/Setting/MainSetting.vue");
   window.$modal.create({
@@ -362,7 +362,7 @@ export const openUpdateApp = async (data: UpdateInfoType) => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: "发现新版本",
+    title: "New version available",
     content: () => {
       return h(UpdateApp, { data, onClose: () => modal.destroy() });
     },
@@ -377,7 +377,7 @@ export const openChangeRate = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: "播放速度",
+    title: "Playback speed",
     content: () => {
       return h(ChangeRate);
     },
@@ -392,7 +392,7 @@ export const openAutoClose = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: "自动关闭",
+    title: "Auto close",
     content: () => {
       return h(AutoClose);
     },
@@ -407,7 +407,7 @@ export const openABLoop = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "500px" },
-    title: "AB 循环",
+    title: "AB loop",
     content: () => {
       return h(ABLoop);
     },
@@ -422,7 +422,7 @@ export const openEqualizer = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "620px" },
-    title: "均衡器",
+    title: "Equalizer",
     content: () => {
       return h(Equalizer);
     },
@@ -433,7 +433,7 @@ export const openEqualizer = async () => {
  * 打开简介弹窗
  * @param content 简介内容
  */
-export const openDescModal = (content: string, title: string = "歌单简介") => {
+export const openDescModal = (content: string, title: string = "Playlist description") => {
   window.$modal.create({
     preset: "card",
     transformOrigin: "center",
@@ -462,7 +462,7 @@ export const openSongUnlockManager = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "500px" },
-    title: "音源管理",
+    title: "Audio Source Manager",
     content: () => {
       return h(SongUnlockManager);
     },
@@ -478,7 +478,7 @@ export const openSidebarHideManager = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "500px" },
-    title: "侧边栏显示管理",
+    title: "Sidebar Visibility",
     content: () => {
       return h(SidebarHideManager);
     },
@@ -493,7 +493,7 @@ export const openCoverManager = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "500px" },
-    title: "封面显示配置",
+    title: "Cover Display Settings",
     content: () => {
       return h(CoverManager);
     },
@@ -509,7 +509,7 @@ export const openHomePageSectionManager = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "500px" },
-    title: "首页栏目配置",
+    title: "Home Section Settings",
     content: () => {
       return h(HomePageSectionManager);
     },
@@ -524,7 +524,7 @@ export const openCopyLyrics = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "500px" },
-    title: "复制歌词",
+    title: "Copy Lyrics",
     content: () => {
       return h(CopyLyrics, {
         onClose: () => modal.destroy(),
@@ -541,7 +541,7 @@ export const openCopySongInfo = async (songId: number) => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "500px" },
-    title: "歌曲详情复制",
+    title: "Copy Song Details",
     content: () => {
       return h(CopySongInfo, {
         songId,
@@ -559,7 +559,7 @@ export const openAMLLServer = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: "AMLL TTML DB 服务器配置",
+    title: "AMLL TTML DB Server Settings",
     content: () => {
       return h(AMLLServer, {
         onClose: () => modal.destroy(),
@@ -576,7 +576,7 @@ export const openFontManager = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "700px" },
-    title: "字体设置",
+    title: "Font Settings",
     content: () => {
       return h(FontManager);
     },
@@ -591,7 +591,7 @@ export const openCustomCode = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "700px" },
-    title: "自定义代码注入",
+    title: "Custom Code Injection",
     content: () => {
       return h(CustomCode);
     },
@@ -616,7 +616,7 @@ export const openStreamingServerConfig = async (
     maskClosable: false,
     closeOnEsc: false,
     style: { width: "500px" },
-    title: server ? "编辑流媒体服务" : "添加流媒体服务",
+    title: server ? "Edit streaming service" : "Add streaming service",
     content: () => {
       return h(StreamingServerConfig, {
         server,
@@ -632,7 +632,7 @@ export const openStreamingServerConfig = async (
 
 /** 打开主题配置弹窗 */
 export const openThemeConfig = async () => {
-  if (isModalOpen("themeConfig", "主题配置已打开")) return;
+  if (isModalOpen("themeConfig", "Theme settings are already open")) return;
   setModalOpen("themeConfig");
   const { default: ThemeConfig } = await import("@/components/Modal/ThemeConfig.vue");
   window.$modal.create({
@@ -642,7 +642,7 @@ export const openThemeConfig = async () => {
     showMask: false,
     draggable: true,
     style: { width: "500px" },
-    title: "主题配置",
+    title: "Theme Settings",
     size: "small",
     content: () => {
       return h(ThemeConfig);
@@ -663,7 +663,7 @@ export const openScalingModal = async () => {
     autoFocus: false,
     showMask: false,
     style: { width: "400px" },
-    title: "界面缩放",
+    title: "UI Scaling",
     content: () => {
       return h(ScalingModal);
     },
@@ -681,7 +681,7 @@ export const openLocalMusicDirectoryModal = async () => {
     maskClosable: false,
     closeOnEsc: false,
     style: { width: "600px" },
-    title: "目录管理",
+    title: "Directory Manager",
     content: () => {
       return h(LocalMusicDirectory);
     },
@@ -696,7 +696,7 @@ export const openExcludeLyric = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: "歌词排除",
+    title: "Lyric Exclusions",
     content: () => {
       return h(ExcludeLyrics, {
         onClose: () => modal.destroy(),
@@ -713,7 +713,7 @@ export const openExcludeComment = async () => {
     transformOrigin: "center",
     autoFocus: false,
     style: { width: "600px" },
-    title: "评论排除",
+    title: "Comment Exclusions",
     content: () => {
       return h(ExcludeComment, {
         onClose: () => modal.destroy(),

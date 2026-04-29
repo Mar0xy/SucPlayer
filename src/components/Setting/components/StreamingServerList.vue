@@ -2,15 +2,15 @@
   <n-card class="set-item" id="server-list-choose" content-style="flex-direction: column">
     <n-flex justify="space-between">
       <div class="label">
-        <n-text class="name">{{ item?.label || "服务器列表" }}</n-text>
+        <n-text class="name">{{ item?.label || "Server list" }}</n-text>
         <n-text class="tip" :depth="3" v-if="item?.description" v-html="item.description" />
-        <n-text class="tip" :depth="3" v-else>在此添加和管理您的流媒体服务器</n-text>
+        <n-text class="tip" :depth="3" v-else>Add and manage your streaming servers here</n-text>
       </div>
       <n-button strong secondary @click="handleAdd">
         <template #icon>
           <SvgIcon name="Add" />
         </template>
-        添加
+        Add
       </n-button>
     </n-flex>
     <n-collapse-transition :show="servers.length > 0">
@@ -27,7 +27,7 @@
               {{ getServerTypeLabel(server.type) }}
             </n-tag>
             <n-tag v-if="isServerActive(server.id)" size="small" type="success" round>
-              已连接
+              Connected
             </n-tag>
           </n-flex>
           <n-text class="tip" :depth="3">{{ server.url }}</n-text>
@@ -60,7 +60,7 @@
                 </template>
               </n-button>
             </template>
-            确定要删除服务器"{{ server.name }}"吗？
+            Are you sure you want to delete server "{{ server.name }}"?
           </n-popconfirm>
         </n-flex>
       </n-card>
@@ -106,9 +106,9 @@ const handleAdd = () => {
   openStreamingServerConfig(null, async (config) => {
     try {
       await streamingStore.addServer(config);
-      window.$message.success("服务器已添加");
+      window.$message.success("Server added");
     } catch (error) {
-      window.$message.error("添加失败：" + (error instanceof Error ? error.message : "未知错误"));
+      window.$message.error("Add failed: " + (error instanceof Error ? error.message : "Unknown error"));
     }
   });
 };
@@ -118,9 +118,11 @@ const handleEdit = (server: StreamingServerConfig) => {
   openStreamingServerConfig(server, async (config) => {
     try {
       await streamingStore.updateServer(server.id, config);
-      window.$message.success("服务器已更新");
+      window.$message.success("Server updated");
     } catch (error) {
-      window.$message.error("更新失败：" + (error instanceof Error ? error.message : "未知错误"));
+      window.$message.error(
+        "Update failed: " + (error instanceof Error ? error.message : "Unknown error"),
+      );
     }
   });
 };
@@ -129,9 +131,9 @@ const handleEdit = (server: StreamingServerConfig) => {
 const handleDelete = async (serverId: string) => {
   try {
     await streamingStore.removeServer(serverId);
-    window.$message.success("服务器已删除");
+    window.$message.success("Server deleted");
   } catch (error) {
-    window.$message.error("删除失败：" + (error instanceof Error ? error.message : "未知错误"));
+    window.$message.error("Delete failed: " + (error instanceof Error ? error.message : "Unknown error"));
   }
 };
 
@@ -141,12 +143,14 @@ const handleConnect = async (server: StreamingServerConfig) => {
   try {
     const success = await streamingStore.connectToServer(server.id);
     if (success) {
-      window.$message.success(`已连接到 ${server.name}`);
+      window.$message.success(`Connected to ${server.name}`);
     } else {
-      window.$message.error(streamingStore.connectionStatus.value.error || "连接失败");
+      window.$message.error(streamingStore.connectionStatus.value.error || "Connection failed");
     }
   } catch (error) {
-    window.$message.error("连接失败：" + (error instanceof Error ? error.message : "未知错误"));
+    window.$message.error(
+      "Connection failed: " + (error instanceof Error ? error.message : "Unknown error"),
+    );
   } finally {
     connectingServerId.value = null;
   }

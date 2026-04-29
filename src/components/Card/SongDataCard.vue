@@ -15,7 +15,7 @@
     </n-image>
     <Transition name="fade" mode="out-in">
       <div v-if="data" class="data">
-        <n-text class="name">{{ data.name || "未知曲目" }}</n-text>
+        <n-text class="name">{{ data.name || "Unknown track" }}</n-text>
         <div v-if="Array.isArray(data.artists)" class="artists text-hidden">
           <SvgIcon name="Artist" :depth="3" />
           <n-text v-for="ar in data.artists" :key="ar.id" class="ar">
@@ -28,17 +28,17 @@
             {{
               settingStore.hideBracketedContent
                 ? removeBrackets(data.artists)
-                : data.artists || "未知艺术家"
+                : data.artists || "Unknown artist"
             }}
           </n-text>
         </div>
         <div class="album text-hidden">
           <SvgIcon name="Album" :depth="3" />
           <n-text v-if="isObject(data.album)" class="album-text">
-            {{ data.album?.name || "未知专辑" }}
+            {{ data.album?.name || "Unknown album" }}
           </n-text>
           <n-text v-else class="album-text">
-            {{ data.album || "未知专辑" }}
+            {{ data.album || "Unknown album" }}
           </n-text>
         </div>
       </div>

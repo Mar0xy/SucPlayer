@@ -1,15 +1,15 @@
 <template>
   <div class="cloud-match">
     <n-form :model="matchFormData" :rules="matchFormRules">
-      <n-form-item path="sid" label="原歌曲 ID">
+      <n-form-item path="sid" label="Original Song ID">
         <n-input-number v-model:value="matchFormData.sid" :show-button="false" disabled />
       </n-form-item>
-      <n-form-item path="asid" label="匹配的 ID">
+      <n-form-item path="asid" label="Matched ID">
         <n-flex :size="12" :wrap="false" class="input">
           <n-input-number
             v-model:value="matchFormData.asid"
             :show-button="false"
-            placeholder="请输入要匹配的歌曲 ID"
+            placeholder="Enter target song ID"
             @input="isSongNormal = false"
           />
           <n-button
@@ -17,7 +17,7 @@
             :type="isSongNormal ? 'success' : 'primary'"
             @click="testSongId"
           >
-            {{ isSongNormal ? "验证成功" : "验证" }}
+            {{ isSongNormal ? "Verified" : "Verify" }}
           </n-button>
         </n-flex>
       </n-form-item>
@@ -27,8 +27,8 @@
       <SongDataCard :data="matchSongData" />
     </n-collapse-transition>
     <n-flex class="menu" justify="end">
-      <n-button strong secondary @click="emit('close')"> 取消 </n-button>
-      <n-button type="primary" strong secondary @click="correctSong"> 确认纠正 </n-button>
+      <n-button strong secondary @click="emit('close')"> Cancel </n-button>
+      <n-button type="primary" strong secondary @click="correctSong"> Confirm correction </n-button>
     </n-flex>
   </div>
 </template>
@@ -66,23 +66,23 @@ const matchSongData = ref<SongType | null>(null);
 
 // 表单数据
 const matchFormData = ref<MatchFormType>({ sid: props.id, asid: null });
-const matchFormRules: FormRules = { asid: { ...numberRule, message: "请输入歌曲 ID" } };
+const matchFormRules: FormRules = { asid: { ...numberRule, message: "Please enter a song ID" } };
 
 // 验证歌曲 ID
 const testSongId = debounce(
   async () => {
     const asid = matchFormData.value.asid;
     if (!asid) {
-      window.$message.warning("请输入歌曲 ID");
+      window.$message.warning("Please enter a song ID");
       return;
     }
     // 获取歌曲详情
     const { songs } = await songDetail(asid);
     // 结果是否为空
     if (!songs?.length) {
-      window.$message.warning("未找到该歌曲，请重试");
+      window.$message.warning("Song not found, please try again");
     } else {
-      window.$message.success("验证成功");
+      window.$message.success("Verification succeeded");
       isSongNormal.value = true;
       matchSongData.value = formatSongsList(songs)[0];
     }
@@ -96,15 +96,15 @@ const correctSong = debounce(
   async () => {
     const userId = dataStore.userData.userId;
     if (!matchFormData.value.asid || !userId) {
-      window.$message.warning("获取必要信息失败，请重试");
+      window.$message.warning("Failed to get required information, please try again");
       return;
     }
     if (matchFormData.value.sid === matchFormData.value.asid) {
-      window.$message.warning("与原歌曲 ID 一致，无需纠正");
+      window.$message.warning("Same as original song ID, no correction needed");
       return;
     }
     if (!isSongNormal.value) {
-      window.$message.warning("歌曲未通过验证，请重试");
+      window.$message.warning("Song has not passed verification, please try again");
       return;
     }
     // 开始纠正
@@ -116,9 +116,9 @@ const correctSong = debounce(
         dataStore.cloudPlayList[props.index] = matchSongData.value;
         dataStore.setCloudPlayList(dataStore.cloudPlayList);
       }
-      window.$message.success("歌曲信息纠正成功");
+      window.$message.success("Song info corrected successfully");
     } else {
-      window.$message.error(result.message || "纠正失败，请重试");
+      window.$message.error(result.message || "Correction failed, please try again");
     }
   },
   300,

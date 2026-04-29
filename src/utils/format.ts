@@ -298,7 +298,7 @@ const getCoverSizeUrl = (url: string, size: number | null = null) => {
     }
     return imageUrl;
   } catch (error) {
-    console.error("图片链接处理出错：", error);
+    console.error("Error processing image URL:", error);
     return "/images/song.jpg?asset";
   }
 };
@@ -354,23 +354,23 @@ export const getPlayerInfoObj = (
   if (!playSongData) return null;
 
   // 标题
-  const name = `${playSongData.name || "未知歌曲"}`;
+  const name = `${playSongData.name || "Unknown song"}`;
 
   // 歌手
   const artist =
     playSongData.type === "radio"
-      ? playSongData.dj?.creator || "未知播客"
+      ? playSongData.dj?.creator || "Unknown podcast"
       : Array.isArray(playSongData.artists)
         ? playSongData.artists.map((artists: { name: string }) => artists.name).join(sep)
-        : String(playSongData?.artists || "未知歌手");
+        : String(playSongData?.artists || "Unknown artist");
 
   // 专辑
   const album =
     playSongData.type === "radio"
-      ? playSongData.dj?.name || "未知播客"
+      ? playSongData.dj?.name || "Unknown podcast"
       : typeof playSongData.album === "object"
         ? playSongData.album.name
-        : String(playSongData.album || "未知专辑");
+        : String(playSongData.album || "Unknown album");
 
   return { name, artist, album };
 };

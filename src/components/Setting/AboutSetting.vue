@@ -1,7 +1,7 @@
 <template>
   <div class="setting-type">
     <div class="set-list">
-      <n-h3 prefix="bar"> 关于软件 </n-h3>
+      <n-h3 prefix="bar"> About </n-h3>
       <n-card class="set-item">
         <n-flex align="center" class="about">
           <SvgIcon name="SPlayer" size="26" />
@@ -19,10 +19,10 @@
             secondary
             @click="checkUpdate"
           >
-            {{ statusStore.updateCheck ? "检查更新中" : "检查更新" }}
+            {{ statusStore.updateCheck ? "Checking for updates" : "Check for updates" }}
           </n-button>
           <n-button v-if="isElectron" type="primary" strong secondary @click="handleOpenLog">
-            打开日志
+            Open logs
           </n-button>
         </n-flex>
       </n-card>
@@ -32,12 +32,12 @@
             <n-collapse-item name="version">
               <template #header>
                 <n-flex class="version">
-                  <n-text>最新版本</n-text>
+                  <n-text>Latest version</n-text>
                   <n-tag :bordered="false" size="small" type="primary">
                     {{ newVersion?.version || "v0.0.0" }}
                   </n-tag>
                   <n-tag v-if="newVersion?.prerelease" class="test" size="small" type="warning">
-                    测试版
+                    Nightly
                   </n-tag>
                   <n-text :depth="3" class="time">{{ newVersion?.time }}</n-text>
                 </n-flex>
@@ -49,10 +49,10 @@
       </n-collapse-transition>
     </div>
     <div class="set-list">
-      <n-h3 prefix="bar"> 特别鸣谢 </n-h3>
+      <n-h3 prefix="bar"> Special Thanks </n-h3>
       <n-flex vertical :size="12" style="margin-bottom: 12px">
         <n-text :depth="3" style="margin-left: 4px; font-size: 12px" class="tip">
-          注：以下排名不分先后
+          Note: The following are in no particular order
         </n-text>
         <n-card
           v-for="(item, index) in specialContributors"
@@ -97,7 +97,7 @@
       </n-flex>
     </div>
     <div class="set-list">
-      <n-h3 prefix="bar"> 开发人员 </n-h3>
+      <n-h3 prefix="bar"> Developers </n-h3>
       <n-flex :size="12" class="link">
         <n-card
           v-for="(item, index) in developers"
@@ -127,7 +127,7 @@
     <Transition name="fade" mode="out-in">
       <div v-if="allContributors.length > 0" class="set-list">
         <n-collapse arrow-placement="right">
-          <n-collapse-item title="更多贡献者" name="1">
+          <n-collapse-item title="More contributors" name="1">
             <n-flex :size="12" class="link">
               <n-card
                 v-for="(item, index) in allContributors"
@@ -158,7 +158,7 @@
       </div>
     </Transition>
     <div class="set-list">
-      <n-h3 prefix="bar"> 社区与资讯 </n-h3>
+      <n-h3 prefix="bar"> Community & News </n-h3>
       <n-flex :size="12" class="link">
         <n-card
           v-for="(item, index) in communityData"
@@ -173,7 +173,7 @@
       </n-flex>
     </div>
     <div class="set-list">
-      <n-h3 prefix="bar"> 历史版本 </n-h3>
+      <n-h3 prefix="bar"> Version History </n-h3>
       <n-collapse-transition :show="oldVersion?.length > 0">
         <n-collapse accordion>
           <n-collapse-item
@@ -256,17 +256,17 @@ const contributors = [
   {
     name: "NeteaseCloudMusicApiEnhanced",
     url: "https://github.com/neteasecloudmusicapienhanced/api-enhanced",
-    description: "网易云音乐 API 备份 + 增强",
+    description: "Netease Cloud Music API backup + enhancement",
   },
   {
     name: "applemusic-like-lyrics",
     url: "https://github.com/Steve-xmh/applemusic-like-lyrics",
-    description: "类 Apple Music 歌词显示组件库",
+    description: "Apple Music-like lyric display component library",
   },
   {
     name: "NeteaseCloudMusicApi",
     url: "https://github.com/Binaryify/NeteaseCloudMusicApi",
-    description: "网易云音乐 API",
+    description: "Netease Cloud Music API",
   },
   {
     name: "UnblockNeteaseMusic",
@@ -279,22 +279,22 @@ const contributors = [
 const specialContributors = [
   {
     name: "imsyy",
-    description: "每天在屎山和 PR 之间徘徊的作者",
+    description: "The author who battles legacy code and PRs every day",
     avatar: "/images/avatar/imsyy.webp",
-    buttonText: "个人主页",
+    buttonText: "Homepage",
     url: "https://imsyy.top",
   },
   {
-    name: "Kazukokawagawa 池鱼鱼！",
+    name: "Kazukokawagawa",
     description:
-      "这里是什么？万能的池鱼！在开发过程中找出了一堆没人能想得到的诡异Bug，有非同寻常的Bug体质，可以用2天写完别人一个月commit",
+      "A bug-hunting wizard who found many edge-case issues and made major contributions",
     avatar: "/images/avatar/chiyu.webp",
-    buttonText: "个人博客",
+    buttonText: "Blog",
     url: "https://chiyu.it/",
   },
   {
     name: "MoYingJi",
-    description: "这个人一点都不神秘，虽然写了一点，但就像什么都没有写",
+    description: "Subtle but meaningful contributions",
     avatar: "/images/avatar/moyingji.webp",
     buttonText: "GitHub",
     url: "https://github.com/MoYingJi",
@@ -311,7 +311,7 @@ const specialContributors = [
 // 社区数据
 const communityData = [
   {
-    name: "加入交流群",
+    name: "Join community group",
     url: "https://qm.qq.com/cgi-bin/qm/qr?k=2-cVSf1bE0AvAehCib00qFEFdUvPaJ_k&jump_from=webapi&authKey=1NEhib9+GsmsXVo2rCc0IbRaVHeeRXJJ0gbsyKDcIwDdAzYySOubkFCvkV32+7Cw",
     icon: "QQ",
   },
@@ -321,7 +321,7 @@ const communityData = [
     icon: "Github",
   },
   {
-    name: "官方博客",
+    name: "Official blog",
     url: packageJson.blog,
     icon: "RssFeed",
   },
@@ -371,15 +371,15 @@ const openDeveloperMode = useThrottleFn(() => {
   developerModeClickCount.value++;
   const isEnabled = statusStore.developerMode;
   if (developerModeClickCount.value >= 5 && developerModeClickCount.value < 8) {
-    const action = isEnabled ? "关闭" : "开启";
-    window.$message.info(`再点击${8 - developerModeClickCount.value}次以${action}开发者模式`);
+    const action = isEnabled ? "disable" : "enable";
+    window.$message.info(`Click ${8 - developerModeClickCount.value} more times to ${action} developer mode`);
   } else if (developerModeClickCount.value >= 8) {
     developerModeClickCount.value = 0;
     statusStore.developerMode = !isEnabled;
     if (!isEnabled) {
-      window.$message.warning("开发者模式已开启，请谨慎使用！");
+      window.$message.warning("Developer mode enabled. Use with caution!");
     } else {
-      window.$message.success("开发者模式已关闭");
+      window.$message.success("Developer mode disabled");
     }
   }
 }, 100);

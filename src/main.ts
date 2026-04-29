@@ -38,8 +38,8 @@ app.config.errorHandler = (err, _instance, info) => {
   const nonCriticalKeywords = [
     "timeout",
     "Network Error",
-    "网络",
-    "超时",
+    "network",
+    "timed out",
     "ECONNABORTED",
     "ECONNREFUSED",
     "ENOTFOUND",
@@ -52,11 +52,11 @@ app.config.errorHandler = (err, _instance, info) => {
     nonCriticalKeywords.some((kw) => message.includes(kw));
 
   if (isNonCritical) {
-    console.warn("[Vue ErrorHandler] 已忽略非致命错误：", err, info);
+    console.warn("[Vue ErrorHandler] Non-critical error ignored:", err, info);
     return;
   }
   // 致命错误正常抛出
-  console.error("[Vue ErrorHandler] 致命错误：", err, info);
+  console.error("[Vue ErrorHandler] Fatal error:", err, info);
 };
 
 // app

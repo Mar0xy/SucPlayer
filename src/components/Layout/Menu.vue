@@ -80,7 +80,7 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
         {
           key: "home",
           link: "home",
-          label: "为我推荐",
+          label: "For You",
           icon: renderIcon("Home", {
             style: {
               transform: "translateY(-1px)",
@@ -90,7 +90,7 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
         {
           key: "discover",
           link: "discover",
-          label: "发现音乐",
+          label: "Discover",
           show: !settingStore.sidebarHide.hideDiscover,
           icon: renderIcon("Discover", {
             style: {
@@ -102,7 +102,7 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
           key: "personal-fm",
           label: () =>
             h("div", { class: "user-liked roaming-label" }, [
-              h(NText, null, () => "私人漫游"),
+              h(NText, null, () => "Personal FM"),
               h(NButton, {
                 type: "tertiary",
                 round: true,
@@ -122,7 +122,7 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
         {
           key: "radio-hot",
           link: "radio-hot",
-          label: "播客电台",
+          label: "Podcast Radio",
           show: !settingStore.sidebarHide.hideRadioHot,
           icon: renderIcon("Record", {
             style: {
@@ -138,7 +138,7 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
           key: "like-songs",
           label: () =>
             h("div", { class: "user-liked" }, [
-              h(NText, null, () => "我喜欢的音乐"),
+              h(NText, null, () => "Liked Songs"),
               !settingStore.sidebarHide.hideHeartbeatMode
                 ? h(NButton, {
                     type: statusStore.shuffleMode === "heartbeat" ? "primary" : "default",
@@ -158,14 +158,14 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
         {
           key: "like",
           link: "like",
-          label: "我的收藏",
+          label: "My Favorites",
           show: !settingStore.sidebarHide.hideLike,
           icon: renderIcon("Star"),
         },
         {
           key: "cloud",
           link: "cloud",
-          label: "我的云盘",
+          label: "My Cloud",
           show: isLogin() === 1 && !settingStore.sidebarHide.hideCloud,
           icon: renderIcon("Cloud"),
         },
@@ -179,7 +179,7 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
                 value: dataStore.downloadingSongs.length,
                 offset: [22, 13],
               },
-              () => "下载管理",
+              () => "Downloads",
             ),
           show: statusStore.isDeveloperMode && isElectron && !settingStore.sidebarHide.hideDownload,
           icon: renderIcon("Download"),
@@ -187,21 +187,21 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
         {
           key: "streaming",
           link: "streaming",
-          label: "流媒体",
+          label: "Streaming",
           show: settingStore.streamingEnabled,
           icon: renderIcon("Stream"),
         },
         {
           key: "local",
           link: "local",
-          label: "本地歌曲",
+          label: "Local Music",
           show: isElectron && !settingStore.sidebarHide.hideLocal,
           icon: renderIcon("FolderMusic"),
         },
         {
           key: "history",
           link: "history",
-          label: "最近播放",
+          label: "Recently Played",
           show: !settingStore.sidebarHide.hideHistory,
           icon: renderIcon("History"),
         },
@@ -216,14 +216,14 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
           label: () =>
             h("div", { class: "user-list" }, [
               h(NText, { depth: 3 }, () =>
-                statusStore.playlistMode === "online" ? "创建的歌单" : "本地歌单",
+                statusStore.playlistMode === "online" ? "Created Playlists" : "Local Playlists",
               ),
               h(
                 NPopselect,
                 {
                   options: [
-                    { label: "在线歌单", value: "online" },
-                    { label: "本地歌单", value: "local" },
+                    { label: "Online Playlists", value: "online" },
+                    { label: "Local Playlists", value: "local" },
                   ],
                   value: statusStore.playlistMode,
                   trigger: "click",
@@ -267,7 +267,7 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
             h(
               "div",
               { class: "user-list" },
-              h(NText, { depth: 3 }, () => ["收藏的歌单"]),
+              h(NText, { depth: 3 }, () => ["Saved Playlists"]),
             ),
           children: [...likedPlaylist.value],
         },
@@ -276,14 +276,14 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
         {
           key: "local",
           link: "local",
-          label: "音乐库",
+          label: "Music Library",
           show: isElectron,
           icon: renderIcon("FolderMusic"),
         },
         {
           key: "local-albums",
           link: "local-albums",
-          label: "专辑",
+          label: "Albums",
           show:
             isElectron &&
             (localStore.localSongs?.length > 0 || settingStore.localFilesPath?.length > 0),
@@ -292,7 +292,7 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
         {
           key: "local-artists",
           link: "local-artists",
-          label: "艺术家",
+          label: "Artists",
           show:
             isElectron &&
             (localStore.localSongs?.length > 0 || settingStore.localFilesPath?.length > 0),
@@ -310,7 +310,7 @@ const menuOptions = computed<MenuOption[] | MenuGroupOption[]>(() => {
           icon: statusStore.menuCollapsed ? renderIcon("PlaylistAdd") : undefined,
           label: () =>
             h("div", { class: "user-list" }, [
-              h(NText, { depth: 3 }, () => "本地歌单"),
+              h(NText, { depth: 3 }, () => "Local Playlists"),
               h(NButton, {
                 type: "tertiary",
                 round: true,
@@ -400,7 +400,7 @@ const menuUpdate = (key: string, item: MenuOption) => {
   // 私人漫游
   if (key === "personal-fm") {
     if (!musicStore.personalFMSong?.id) {
-      window.$message.error("开启私人漫游出错，请重试");
+      window.$message.error("Failed to start Personal FM, please try again");
       return;
     }
     if (statusStore.personalFmMode) {
@@ -412,7 +412,7 @@ const menuUpdate = (key: string, item: MenuOption) => {
       player.playSong();
     }
     statusStore.showFullPlayer = true;
-    window.$message.info("已开启私人漫游", { icon: renderIcon("Radio") });
+    window.$message.info("Personal FM enabled", { icon: renderIcon("Radio") });
     return;
   }
   if (typeof key === "number") {

@@ -3,30 +3,30 @@
     <n-flex vertical size="large">
       <n-card class="switch-card" size="small">
         <n-flex align="center" justify="space-between">
-          <n-text>启用歌词排除</n-text>
+          <n-text>Enable lyric exclusion</n-text>
           <n-switch v-model:value="enableExcludeLyrics" :round="false" />
         </n-flex>
       </n-card>
 
       <n-tabs v-model:value="page" animated>
-        <n-tab-pane name="options" tab="排除选项">
+        <n-tab-pane name="options" tab="Exclusion options">
           <div class="set-list">
             <n-card class="set-item">
               <div class="label">
-                <n-text class="name">TTML 歌词排除</n-text>
+                <n-text class="name">TTML lyric exclusion</n-text>
                 <n-text class="tip" :depth="3">
-                  是否要对 TTML 歌词进行歌词排除 <br />
-                  AMLL TTML DB
-                  对此有硬性规定，不得包含作词、作曲等歌词无关内容，因此大多情况下无需开启
+                  Apply lyric exclusion to TTML lyrics <br />
+                  AMLL TTML DB enforces strict standards and usually excludes non-lyric metadata
+                  like composer/lyricist info, so this is typically unnecessary
                 </n-text>
               </div>
               <n-switch v-model:value="enableExcludeTTML" class="set" :round="false" />
             </n-card>
             <n-card v-if="isElectron" class="set-item">
               <div class="label">
-                <n-text class="name">本地歌词排除</n-text>
+                <n-text class="name">Local lyric exclusion</n-text>
                 <n-text class="tip" :depth="3">
-                  是否要对来自本地的歌词进行歌词排除，这包含本地覆盖的在线歌词和本地歌曲中的歌词
+                  Apply lyric exclusion to local lyrics, including local overrides and local song lyrics
                 </n-text>
               </div>
               <n-switch v-model:value="enableExcludeLocalLyrics" class="set" :round="false" />
@@ -34,10 +34,10 @@
           </div>
         </n-tab-pane>
 
-        <n-tab-pane name="keywords" tab="元数据关键词">
+        <n-tab-pane name="keywords" tab="Metadata keywords">
           <n-scrollbar style="max-height: 50vh">
             <n-flex vertical :size="12">
-              <n-text depth="3">元数据关键词过滤（匹配冒号前的关键词）</n-text>
+              <n-text depth="3">Metadata keyword filtering (matches keywords before colon)</n-text>
               <n-dynamic-tags v-model:value="filterKeywords" />
               <n-popconfirm @positive-click="clearKeywords">
                 <template #trigger>
@@ -45,19 +45,19 @@
                     <template #icon>
                       <SvgIcon name="DeleteSweep" />
                     </template>
-                    清空元数据关键词
+                    Clear metadata keywords
                   </n-button>
                 </template>
-                <n-text> 确定要清空所有元数据关键词规则吗？ </n-text>
+                <n-text> Are you sure you want to clear all metadata keyword rules? </n-text>
               </n-popconfirm>
             </n-flex>
           </n-scrollbar>
         </n-tab-pane>
 
-        <n-tab-pane name="regexes" tab="正则表达式">
+        <n-tab-pane name="regexes" tab="Regular Expressions">
           <n-scrollbar style="max-height: 50vh">
             <n-flex vertical :size="12">
-              <n-text depth="3">正则过滤（支持 JavaScript 正则表达式）</n-text>
+              <n-text depth="3">Regex filtering (supports JavaScript regular expressions)</n-text>
               <n-dynamic-tags v-model:value="filterRegexes" />
               <n-popconfirm @positive-click="clearRegexes">
                 <template #trigger>
@@ -65,10 +65,10 @@
                     <template #icon>
                       <SvgIcon name="DeleteSweep" />
                     </template>
-                    清空正则表达式
+                    Clear regex rules
                   </n-button>
                 </template>
-                <n-text> 确定要清空所有正则表达式规则吗？ </n-text>
+                <n-text> Are you sure you want to clear all regex rules? </n-text>
               </n-popconfirm>
             </n-flex>
           </n-scrollbar>
@@ -87,19 +87,21 @@
                     <template #icon>
                       <SvgIcon name="DeleteSweep" />
                     </template>
-                    清空全部
+                    Clear all
                   </n-button>
                 </template>
-                <n-text> 确定要清空所有过滤规则（元数据关键词和正则表达式）吗？ </n-text>
+                <n-text>
+                  Are you sure you want to clear all filters (metadata keywords and regex)?
+                </n-text>
               </n-popconfirm>
-              <n-button secondary @click="importFilters"> 导入 </n-button>
-              <n-button secondary @click="exportFilters"> 导出 </n-button>
+              <n-button secondary @click="importFilters"> Import </n-button>
+              <n-button secondary @click="exportFilters"> Export </n-button>
             </n-flex>
           </n-collapse-transition>
         </n-flex>
         <n-flex>
-          <n-button @click="handleClose">取消</n-button>
-          <n-button type="primary" @click="saveFilter">保存</n-button>
+          <n-button @click="handleClose">Cancel</n-button>
+          <n-button type="primary" @click="saveFilter">Save</n-button>
         </n-flex>
       </n-flex>
     </n-flex>
@@ -171,10 +173,10 @@ const importFilters = () => {
         if (data.regexes && Array.isArray(data.regexes)) {
           filterRegexes.value = data.regexes;
         }
-        window.$message.success("规则导入成功");
+        window.$message.success("Rules imported successfully");
       } catch (error) {
         console.error("Import filters error:", error);
-        window.$message.error("规则文件解析失败");
+        window.$message.error("Failed to parse rule file");
       }
     };
     reader.readAsText(file);
@@ -189,7 +191,7 @@ const saveFilter = () => {
   settingStore.enableExcludeLyricsLocal = enableExcludeLocalLyrics.value;
   settingStore.excludeLyricsUserKeywords = filterKeywords.value;
   settingStore.excludeLyricsUserRegexes = filterRegexes.value;
-  window.$message.success("设置已保存");
+  window.$message.success("Settings saved");
   handleClose();
 };
 

@@ -54,7 +54,7 @@ server.interceptors.request.use(
     return request;
   },
   (error: AxiosError) => {
-    console.error("请求发送失败：", error);
+    console.error("Request failed to send:", error);
     return Promise.reject(error);
   },
 );
@@ -69,7 +69,7 @@ server.interceptors.response.use(
       error.message.includes("timeout") ||
       error.message.includes("Network Error")
     ) {
-      window.$message?.warning("网络请求超时，请检查网络连接");
+      window.$message?.warning("Network request timed out, please check your connection");
       // 返回 null 而非 reject，业务代码需要检查返回值
       return Promise.resolve({ data: null });
     }
@@ -78,22 +78,22 @@ server.interceptors.response.use(
     // 状态码处理（仅记录日志，不触发弹窗）
     switch (response?.status) {
       case 400:
-        console.warn("客户端错误：", response.status, response.statusText);
+        console.warn("Client error:", response.status, response.statusText);
         break;
       case 401:
-        console.warn("未授权：", response.status, response.statusText);
+        console.warn("Unauthorized:", response.status, response.statusText);
         break;
       case 403:
-        console.warn("禁止访问：", response.status, response.statusText);
+        console.warn("Forbidden:", response.status, response.statusText);
         break;
       case 404:
-        console.warn("未找到资源：", response.status, response.statusText);
+        console.warn("Resource not found:", response.status, response.statusText);
         break;
       case 500:
-        console.warn("服务器错误：", response.status, response.statusText);
+        console.warn("Server error:", response.status, response.statusText);
         break;
       default:
-        console.warn("未处理的错误：", error.message);
+        console.warn("Unhandled error:", error.message);
     }
     // 返回错误
     return Promise.reject(error);

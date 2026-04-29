@@ -25,7 +25,7 @@
         :class="['info', { 'no-cover': settingStore.hiddenCovers.personalFM }]"
       >
         <n-text class="name text-hidden">
-          {{ musicStore.personalFMSong?.name || "未知曲目" }}
+          {{ musicStore.personalFMSong?.name || "Unknown track" }}
         </n-text>
         <div v-if="Array.isArray(musicStore.personalFMSong?.artists)" class="artists text-hidden">
           <SvgIcon name="Artist" :depth="3" />
@@ -36,7 +36,7 @@
         <div v-if="isObject(musicStore.personalFMSong.album)" class="album text-hidden">
           <SvgIcon name="Album" :depth="3" />
           <n-text class="album-text">
-            {{ musicStore.personalFMSong.album?.name || "未知专辑" }}
+            {{ musicStore.personalFMSong.album?.name || "Unknown album" }}
           </n-text>
         </div>
         <!-- 功能 -->
@@ -77,7 +77,7 @@
         <!-- 图标 -->
         <div class="radio">
           <SvgIcon :depth="3" name="Radio" />
-          <n-text :depth="3">私人FM</n-text>
+          <n-text :depth="3">Personal FM</n-text>
         </div>
       </div>
     </Transition>

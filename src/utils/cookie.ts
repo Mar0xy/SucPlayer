@@ -21,7 +21,7 @@ export const setCookies = (cookieValue: string) => {
       decodedCookie = decodeURIComponent(cookieValue);
     }
   } catch (e) {
-    console.warn("Cookie URL解码失败，使用原始值:", e);
+    console.warn("Failed to decode cookie URL, using original value:", e);
   }
   // 确保以分号结尾（用于正确分割）
   if (!decodedCookie.endsWith(";")) decodedCookie += ";";

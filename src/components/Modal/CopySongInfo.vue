@@ -1,16 +1,16 @@
 <template>
   <div class="copy-song-info">
-    <n-spin :show="loading" description="获取歌曲详情中">
+    <n-spin :show="loading" description="Loading song details">
       <n-scrollbar style="max-height: 70vh">
         <n-form :size="'small'" ref="formRef">
-          <n-form-item label="歌曲名称">
+          <n-form-item label="Song Name">
             <n-input-group>
-              <n-input :value="songInfo?.name" readonly placeholder="暂无歌曲名称" />
+              <n-input :value="songInfo?.name" readonly placeholder="No song name" />
               <n-button
                 type="primary"
                 strong
                 secondary
-                @click="copyText(songInfo?.name, '歌曲名称')"
+                @click="copyText(songInfo?.name, 'song name')"
               >
                 <template #icon>
                   <SvgIcon name="Copy" />
@@ -18,22 +18,22 @@
               </n-button>
             </n-input-group>
           </n-form-item>
-          <n-form-item label="别名" v-if="songInfo?.alia">
+          <n-form-item label="Alias" v-if="songInfo?.alia">
             <n-input-group>
-              <n-input :value="songInfo?.alia" readonly placeholder="暂无别名" />
-              <n-button type="primary" strong secondary @click="copyText(songInfo?.alia, '别名')">
+              <n-input :value="songInfo?.alia" readonly placeholder="No alias" />
+              <n-button type="primary" strong secondary @click="copyText(songInfo?.alia, 'alias')">
                 <template #icon>
                   <SvgIcon name="Copy" />
                 </template>
               </n-button>
             </n-input-group>
           </n-form-item>
-          <n-divider class="divider"> 制作人员 </n-divider>
+          <n-divider class="divider"> Credits </n-divider>
           <template v-for="(artist, index) in artistsList" :key="index">
             <n-grid :cols="24" :x-gap="12">
               <n-form-item-gi
                 :span="14"
-                :label="artistsList.length > 1 ? `歌手 ${index + 1}` : '歌手'"
+                :label="artistsList.length > 1 ? `Artist ${index + 1}` : 'Artist'"
               >
                 <n-input-group>
                   <n-input :value="artist.name" readonly />
@@ -41,7 +41,7 @@
                     type="primary"
                     strong
                     secondary
-                    @click="copyText(artist.name, '歌手名称')"
+                    @click="copyText(artist.name, 'artist name')"
                   >
                     <template #icon>
                       <SvgIcon name="Copy" />
@@ -56,7 +56,7 @@
                     type="primary"
                     strong
                     secondary
-                    @click="copyText(String(artist.id), '歌手ID')"
+                    @click="copyText(String(artist.id), 'artist ID')"
                   >
                     <template #icon>
                       <SvgIcon name="Copy" />
@@ -67,14 +67,14 @@
             </n-grid>
           </template>
           <n-grid :cols="24" :x-gap="12" v-if="albumData">
-            <n-form-item-gi :span="14" label="专辑">
+            <n-form-item-gi :span="14" label="Album">
               <n-input-group>
-                <n-input :value="albumData.name" readonly placeholder="暂无专辑信息" />
+                <n-input :value="albumData.name" readonly placeholder="No album info" />
                 <n-button
                   type="primary"
                   strong
                   secondary
-                  @click="copyText(albumData.name, '专辑名称')"
+                  @click="copyText(albumData.name, 'album name')"
                 >
                   <template #icon>
                     <SvgIcon name="Copy" />
@@ -89,7 +89,7 @@
                   type="primary"
                   strong
                   secondary
-                  @click="copyText(String(albumData.id), '专辑ID')"
+                  @click="copyText(String(albumData.id), 'album ID')"
                 >
                   <template #icon>
                     <SvgIcon name="Copy" />
@@ -98,16 +98,16 @@
               </n-input-group>
             </n-form-item-gi>
           </n-grid>
-          <n-divider class="divider"> 歌曲信息 </n-divider>
+          <n-divider class="divider"> Song Info </n-divider>
           <n-grid :cols="24" :x-gap="12">
-            <n-form-item-gi :span="12" label="歌曲 ID">
+            <n-form-item-gi :span="12" label="Song ID">
               <n-input-group>
                 <n-input :value="String(songInfo?.id || '')" readonly />
                 <n-button
                   type="primary"
                   strong
                   secondary
-                  @click="copyText(String(songInfo?.id), '歌曲ID')"
+                  @click="copyText(String(songInfo?.id), 'song ID')"
                 >
                   <template #icon>
                     <SvgIcon name="Copy" />
@@ -115,10 +115,10 @@
                 </n-button>
               </n-input-group>
             </n-form-item-gi>
-            <n-form-item-gi :span="12" label="时长">
+            <n-form-item-gi :span="12" label="Duration">
               <n-input-group>
                 <n-input :value="duration" readonly />
-                <n-button type="primary" strong secondary @click="copyText(duration, '时长')">
+                <n-button type="primary" strong secondary @click="copyText(duration, 'duration')">
                   <template #icon>
                     <SvgIcon name="Copy" />
                   </template>
@@ -127,14 +127,14 @@
             </n-form-item-gi>
           </n-grid>
           <n-grid :cols="24" :x-gap="12">
-            <n-form-item-gi :span="24" label="发布时间" v-if="publishTime">
+            <n-form-item-gi :span="24" label="Publish Time" v-if="publishTime">
               <n-input-group>
                 <n-input :value="publishTime" readonly />
                 <n-button
                   type="primary"
                   strong
                   secondary
-                  @click="copyText(publishTime, '发布时间')"
+                  @click="copyText(publishTime, 'publish time')"
                 >
                   <template #icon>
                     <SvgIcon name="Copy" />
@@ -143,10 +143,10 @@
               </n-input-group>
             </n-form-item-gi>
           </n-grid>
-          <n-form-item label="歌曲链接">
+          <n-form-item label="Song Link">
             <n-input-group>
-              <n-input :value="songLink" readonly placeholder="暂无链接" />
-              <n-button type="primary" strong secondary @click="copyText(songLink, '链接')">
+              <n-input :value="songLink" readonly placeholder="No link" />
+              <n-button type="primary" strong secondary @click="copyText(songLink, 'link')">
                 <template #icon>
                   <SvgIcon name="Copy" />
                 </template>
@@ -157,7 +157,7 @@
       </n-scrollbar>
     </n-spin>
     <n-button block @click="handleCopyAll" :disabled="!songInfo" type="primary" secondary>
-      复制全部信息
+      Copy all information
     </n-button>
   </div>
 </template>
@@ -212,39 +212,39 @@ const fetchSongDetail = async () => {
     const result = await songDetail(props.songId);
     const songs = formatSongsList(result?.songs);
     if (!songs || songs.length === 0) {
-      window.$message.error("获取歌曲详情失败");
+      window.$message.error("Failed to get song details");
       return;
     }
     songInfo.value = songs[0];
   } catch (error) {
-    console.error("获取歌曲详情失败：", error);
-    window.$message.error("获取歌曲详情失败");
+    console.error("Failed to get song details:", error);
+    window.$message.error("Failed to get song details");
   } finally {
     loading.value = false;
   }
 };
 
 const copyText = (text: string | undefined, label: string) => {
-  if (text) copyData(text, `已复制${label}`);
+  if (text) copyData(text, `Copied ${label}`);
 };
 
 // 复制全部
 const handleCopyAll = () => {
   if (!songInfo.value) return;
   const lines = [
-    `歌曲：${songInfo.value.name}`,
-    songInfo.value.alia ? `别名：${songInfo.value.alia}` : "",
-    `歌手：${artistsList.value.map((a) => `${a.name}${a.id ? ` (ID: ${a.id})` : ""}`).join(" / ")}`,
+    `Song: ${songInfo.value.name}`,
+    songInfo.value.alia ? `Alias: ${songInfo.value.alia}` : "",
+    `Artist: ${artistsList.value.map((a) => `${a.name}${a.id ? ` (ID: ${a.id})` : ""}`).join(" / ")}`,
     albumData.value
-      ? `专辑：${albumData.value.name}${albumData.value.id ? ` (ID: ${albumData.value.id})` : ""}`
+      ? `Album: ${albumData.value.name}${albumData.value.id ? ` (ID: ${albumData.value.id})` : ""}`
       : "",
-    `歌曲ID：${songInfo.value.id}`,
-    duration.value ? `时长：${duration.value}` : "",
-    publishTime.value ? `发布时间：${publishTime.value}` : "",
-    `链接：${songLink.value}`,
+    `Song ID: ${songInfo.value.id}`,
+    duration.value ? `Duration: ${duration.value}` : "",
+    publishTime.value ? `Publish Time: ${publishTime.value}` : "",
+    `Link: ${songLink.value}`,
   ].filter((line) => line);
 
-  copyData(lines, "已复制全部信息");
+  copyData(lines, "Copied all information");
 };
 
 onMounted(() => {

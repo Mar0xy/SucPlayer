@@ -26,10 +26,10 @@ export const useGeneralSettings = (): SettingConfig => {
   const handleModeChange = (val: boolean) => {
     if (val) {
       window.$dialog.warning({
-        title: "开启在线服务",
-        content: "确定开启软件的在线服务？更改将在热重载后生效！",
-        positiveText: "开启",
-        negativeText: "取消",
+        title: "Enable online services",
+        content: "Enable online services for the app? Changes will take effect after hot reload.",
+        positiveText: "Enable",
+        negativeText: "Cancel",
         onPositiveClick: async () => {
           useOnlineService.value = true;
           settingStore.useOnlineService = true;
@@ -47,10 +47,11 @@ export const useGeneralSettings = (): SettingConfig => {
       });
     } else {
       window.$dialog.warning({
-        title: "关闭在线服务",
-        content: "确定关闭软件的在线服务？关闭后将只能播放本地音乐！更改将在热重载后生效！",
-        positiveText: "关闭",
-        negativeText: "取消",
+        title: "Disable online services",
+        content:
+          "Disable online services for the app? After disabling, only local music can be played. Changes will take effect after hot reload.",
+        positiveText: "Disable",
+        negativeText: "Cancel",
         onPositiveClick: async () => {
           useOnlineService.value = false;
           settingStore.useOnlineService = false;
@@ -94,21 +95,21 @@ export const useGeneralSettings = (): SettingConfig => {
       };
       const result = await window.api.store.export(rendererData);
       if (result && result.success) {
-        window.$message.success(`设置导出成功: ${result.path}`);
+        window.$message.success(`Settings exported successfully: ${result.path}`);
       } else {
-        const errorMsg = result?.error === "cancelled" ? "已取消导出" : "设置导出失败";
+        const errorMsg = result?.error === "cancelled" ? "Export canceled" : "Failed to export settings";
         if (result?.error !== "cancelled") {
           window.$message.error(errorMsg);
         }
       }
     } catch {
-      window.$message.error("设置导出出错");
+      window.$message.error("Error while exporting settings");
     }
   };
 
   const importSettings = async () => {
     window.$dialog.warning({
-      title: "导入设置",
+      title: "Import settings",
       content: () =>
         h("div", null, [
           h(
@@ -116,13 +117,13 @@ export const useGeneralSettings = (): SettingConfig => {
             { type: "warning", showIcon: true, style: { marginBottom: "12px" } },
             {
               default: () =>
-                "导入设置将覆盖当前所有配置（包括主题、快捷键、音效设置等）并重启软件。",
+                "Importing settings will overwrite all current configurations (including theme, shortcuts, audio effects, etc.) and restart the app.",
             },
           ),
-          h("div", null, "是否继续？"),
+          h("div", null, "Continue?"),
         ]),
-      positiveText: "确定",
-      negativeText: "取消",
+      positiveText: "Confirm",
+      negativeText: "Cancel",
       onPositiveClick: async () => {
         try {
           const result = await window.api.store.import();
@@ -146,20 +147,20 @@ export const useGeneralSettings = (): SettingConfig => {
             }
 
             if (restoredCount > 0 || data.electron) {
-              window.$message.success("设置导入成功，即将重启");
+              window.$message.success("Settings imported successfully, restarting soon");
               setTimeout(() => {
                 window.location.reload();
               }, 1000);
             } else {
-              window.$message.warning("未找到可恢复的设置数据");
+              window.$message.warning("No recoverable settings data found");
             }
           } else {
             if (result?.error !== "cancelled") {
-              window.$message.error("设置导入失败: " + (result?.error || "未知错误"));
+              window.$message.error("Failed to import settings: " + (result?.error || "Unknown error"));
             }
           }
         } catch (error) {
-          window.$message.error("设置导入出错");
+          window.$message.error("Error while importing settings");
           console.error(error);
         }
       },
@@ -169,30 +170,30 @@ export const useGeneralSettings = (): SettingConfig => {
   // --- Reset Logic (from other.ts) ---
   const resetSetting = () => {
     window.$dialog.warning({
-      title: "警告",
-      content: "此操作将重置所有设置，是否继续?",
-      positiveText: "确定",
-      negativeText: "取消",
+      title: "Warning",
+      content: "This action will reset all settings. Continue?",
+      positiveText: "Confirm",
+      negativeText: "Cancel",
       onPositiveClick: () => {
         settingStore.$reset();
         if (isElectron) window.electron.ipcRenderer.send("reset-setting");
-        window.$message.success("设置重置完成");
+        window.$message.success("Settings reset completed");
       },
     });
   };
 
   const clearAllData = () => {
     window.$dialog.warning({
-      title: "高危操作",
-      content: "此操作将重置所有设置并清除全部数据，同时将退出登录状态，是否继续?",
-      positiveText: "确定",
-      negativeText: "取消",
+      title: "High-risk operation",
+      content: "This action will reset all settings, clear all data, and log you out. Continue?",
+      positiveText: "Confirm",
+      negativeText: "Cancel",
       onPositiveClick: async () => {
         window.localStorage.clear();
         window.sessionStorage.clear();
         await dataStore.deleteDB();
         if (isElectron) window.electron.ipcRenderer.send("reset-setting");
-        window.$message.loading("数据清除完成，软件即将热重载", {
+        window.$message.loading("Data cleared. The app will hot reload shortly", {
           duration: 3000,
           onAfterLeave: () => window.location.reload(),
         });
@@ -203,14 +204,14 @@ export const useGeneralSettings = (): SettingConfig => {
   return {
     groups: [
       {
-        title: "系统行为",
+        title: "System behavior",
         show: isElectron,
         items: [
           {
             key: "useOnlineService",
-            label: "在线服务",
+            label: "Online services",
             type: "switch",
-            description: "是否开启软件的在线服务",
+            description: "Whether to enable online services",
             value: computed({
               get: () => useOnlineService.value,
               set: (v) => handleModeChange(v),
@@ -218,13 +219,13 @@ export const useGeneralSettings = (): SettingConfig => {
           },
           {
             key: "closeAppMethod",
-            label: "关闭软件时",
+            label: "When closing the app",
             type: "select",
-            description: "选择关闭软件的方式",
+            description: "Choose how the app closes",
             disabled: computed(() => settingStore.showCloseAppTip),
             options: [
-              { label: "最小化到任务栏", value: "hide" },
-              { label: "直接退出", value: "close" },
+              { label: "Minimize to tray", value: "hide" },
+              { label: "Exit directly", value: "close" },
             ],
             value: computed({
               get: () => settingStore.closeAppMethod,
@@ -233,7 +234,7 @@ export const useGeneralSettings = (): SettingConfig => {
           },
           {
             key: "showCloseAppTip",
-            label: "每次关闭前都进行提醒",
+            label: "Always remind before closing",
             type: "switch",
             value: computed({
               get: () => settingStore.showCloseAppTip,
@@ -242,9 +243,9 @@ export const useGeneralSettings = (): SettingConfig => {
           },
           {
             key: "showTaskbarProgress",
-            label: "任务栏显示播放进度",
+            label: "Show playback progress on taskbar",
             type: "switch",
-            description: "是否在任务栏显示歌曲播放进度",
+            description: "Whether to show song progress on the taskbar",
             value: computed({
               get: () => settingStore.showTaskbarProgress,
               set: (v) => {
@@ -255,10 +256,10 @@ export const useGeneralSettings = (): SettingConfig => {
           },
           {
             key: "orpheusProtocol",
-            label: "通过 Orpheus 协议唤起本应用",
+            label: "Launch this app via Orpheus protocol",
             type: "switch",
             description:
-              "该协议通常用于官方网页端唤起官方客户端， 启用后可能导致官方客户端无法被唤起",
+              "This protocol is usually used by the official web client to launch the official desktop client. Enabling it may prevent launching the official client",
             value: computed({
               get: () => settingStore.registryProtocol.orpheus,
               set: (v) => {
@@ -269,9 +270,9 @@ export const useGeneralSettings = (): SettingConfig => {
           },
           {
             key: "checkUpdateOnStart",
-            label: "自动检查更新",
+            label: "Check updates automatically",
             type: "switch",
-            description: "在每次开启软件时自动检查更新",
+            description: "Automatically check for updates at startup",
             value: computed({
               get: () => settingStore.checkUpdateOnStart,
               set: (v) => (settingStore.checkUpdateOnStart = v),
@@ -279,12 +280,12 @@ export const useGeneralSettings = (): SettingConfig => {
           },
           {
             key: "updateChannel",
-            label: "更新通道",
+            label: "Update channel",
             type: "select",
-            description: "切换更新通道（测试版可体验最新功能，但不保证稳定性）",
+            description: "Switch update channel (nightly has newer features but may be unstable)",
             options: [
-              { label: "正式版", value: "stable" },
-              { label: "测试版", value: "nightly" },
+              { label: "Stable", value: "stable" },
+              { label: "Nightly", value: "nightly" },
             ],
             value: computed({
               get: () => updateChannel.value,
@@ -303,12 +304,12 @@ export const useGeneralSettings = (): SettingConfig => {
         ],
       },
       {
-        title: "搜索设置",
+        title: "Search settings",
         items: [
           {
             key: "showSearchHistory",
-            label: "显示搜索历史",
-            description: "是否在搜索框的默认显示内容中显示当前搜索历史",
+            label: "Show search history",
+            description: "Whether to show search history in the default search panel",
             type: "switch",
             value: computed({
               get: () => settingStore.showSearchHistory,
@@ -317,10 +318,10 @@ export const useGeneralSettings = (): SettingConfig => {
           },
           {
             key: "showHotSearch",
-            label: "显示热搜榜",
+            label: "Show trending searches",
             type: "switch",
             show: computed(() => settingStore.useOnlineService),
-            description: "是否在搜索框的默认显示内容中显示热搜榜单",
+            description: "Whether to show trending search list in the default search panel",
             value: computed({
               get: () => settingStore.showHotSearch,
               set: (v) => (settingStore.showHotSearch = v),
@@ -328,10 +329,10 @@ export const useGeneralSettings = (): SettingConfig => {
           },
           {
             key: "enableSearchKeyword",
-            label: "搜索关键词建议",
+            label: "Search keyword suggestions",
             type: "switch",
             show: computed(() => settingStore.useOnlineService),
-            description: "将搜索框闲置时的默认显示内容替换为搜索关键词建议",
+            description: "Replace default idle search panel content with keyword suggestions",
             value: computed({
               get: () => settingStore.enableSearchKeyword,
               set: (v) => (settingStore.enableSearchKeyword = v),
@@ -339,13 +340,13 @@ export const useGeneralSettings = (): SettingConfig => {
           },
           {
             key: "searchInputBehavior",
-            label: "搜索框行为",
+            label: "Search box behavior",
             type: "select",
-            description: "自定义搜索框的行为模式",
+            description: "Customize search box behavior",
             options: [
-              { label: "保留搜索词", value: "normal" },
-              { label: "失焦后清空", value: "clear" },
-              { label: "同步搜索词", value: "sync" },
+              { label: "Keep keyword", value: "normal" },
+              { label: "Clear on blur", value: "clear" },
+              { label: "Sync keyword", value: "sync" },
             ],
             value: computed({
               get: () => settingStore.searchInputBehavior,
@@ -354,9 +355,9 @@ export const useGeneralSettings = (): SettingConfig => {
           },
           {
             key: "hideBracketedContent",
-            label: "隐藏括号与别名",
+            label: "Hide bracketed text and aliases",
             type: "switch",
-            description: "隐藏歌曲名与专辑名中的括号内容和别名",
+            description: "Hide bracketed text and aliases in song and album names",
             value: computed({
               get: () => settingStore.hideBracketedContent,
               set: (v) => (settingStore.hideBracketedContent = v),
@@ -364,25 +365,25 @@ export const useGeneralSettings = (): SettingConfig => {
           },
           {
             key: "configExcludeComment",
-            label: "评论排除配置",
+            label: "Comment exclusion rules",
             type: "button",
-            description: "配置排除评论的规则（关键词或正则表达式）",
-            buttonLabel: "配置",
+            description: "Configure exclusion rules for comments (keywords or regex)",
+            buttonLabel: "Configure",
             action: openExcludeComment,
           },
         ],
       },
       {
-        title: "其他设置",
+        title: "Other settings",
         items: [
           {
             key: "shareUrlFormat",
-            label: "分享链接格式",
+            label: "Share link format",
             type: "select",
-            description: "自定义分享链接的生成格式",
+            description: "Customize generated share link format",
             options: [
-              { label: "网页版", value: "web" },
-              { label: "移动版", value: "mobile" },
+              { label: "Web", value: "web" },
+              { label: "Mobile", value: "mobile" },
             ],
             value: computed({
               get: () => settingStore.shareUrlFormat,
@@ -392,48 +393,48 @@ export const useGeneralSettings = (): SettingConfig => {
         ],
       },
       {
-        title: "备份与恢复",
+        title: "Backup and restore",
         tags: [{ text: "Beta", type: "warning" }],
         show: isElectron,
         items: [
           {
             key: "exportSettings",
-            label: "导出设置",
+            label: "Export settings",
             type: "button",
-            description: "将当前所有设置导出为 JSON 文件",
-            buttonLabel: "导出设置",
+            description: "Export all current settings to a JSON file",
+            buttonLabel: "Export settings",
             action: exportSettings,
             componentProps: { type: "primary" },
           },
           {
             key: "importSettings",
-            label: "导入设置",
+            label: "Import settings",
             type: "button",
-            description: "从 JSON 文件恢复设置（导入后将自动重启）",
-            buttonLabel: "导入设置",
+            description: "Restore settings from a JSON file (auto restarts after import)",
+            buttonLabel: "Import settings",
             action: importSettings,
             componentProps: { type: "primary" },
           },
         ],
       },
       {
-        title: "重置",
+        title: "Reset",
         items: [
           {
             key: "resetSetting",
-            label: "重置所有设置",
+            label: "Reset all settings",
             type: "button",
-            description: "重置所有设置，恢复软件默认值",
-            buttonLabel: "重置设置",
+            description: "Reset all settings to defaults",
+            buttonLabel: "Reset settings",
             action: resetSetting,
             componentProps: { type: "warning" },
           },
           {
             key: "clearAllData",
-            label: "清除全部数据",
+            label: "Clear all data",
             type: "button",
-            description: "重置所有设置，清除全部数据",
-            buttonLabel: "清除全部",
+            description: "Reset all settings and clear all data",
+            buttonLabel: "Clear all",
             action: clearAllData,
             componentProps: { type: "error" },
           },

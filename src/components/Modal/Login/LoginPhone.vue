@@ -1,14 +1,14 @@
 <template>
   <div class="login-phone">
     <n-form ref="phoneFormRef" :model="phoneFormData" :rules="phoneFormRules" class="phone-form">
-      <n-form-item label="国家" path="country">
+      <n-form-item label="Country" path="country">
         <n-select v-model:value="phoneFormData.country" filterable :options="countryListData" />
       </n-form-item>
-      <n-form-item label="手机号" path="phone">
+      <n-form-item label="Phone" path="phone">
         <n-input-number
           v-model:value="phoneFormData.phone"
           :show-button="false"
-          placeholder="请输入手机号"
+          placeholder="Enter phone number"
           passively-activated
           clearable
         >
@@ -17,12 +17,12 @@
           </template>
         </n-input-number>
       </n-form-item>
-      <n-form-item label="验证码" path="captcha">
+      <n-form-item label="Captcha" path="captcha">
         <n-input-number
           v-model:value="phoneFormData.captcha"
           :show-button="false"
           :disabled="phoneFormData.phone === null"
-          placeholder="请输入短信验证码"
+          placeholder="Enter SMS captcha"
           passively-activated
           clearable
         >
@@ -35,7 +35,7 @@
         </n-button>
       </n-form-item>
       <n-form-item :show-label="false">
-        <n-button class="login" type="primary" @click="login"> 登录 </n-button>
+        <n-button class="login" type="primary" @click="login"> Login </n-button>
       </n-form-item>
     </n-form>
   </div>
@@ -68,21 +68,21 @@ const phoneFormData = ref<PhoneFormType>({
   captcha: null,
 });
 const phoneFormRules = computed<FormRules>(() => ({
-  country: { ...numberRule, message: "请选择国家" },
+  country: { ...numberRule, message: "Please select a country" },
   phone:
     phoneFormData.value.country === 86
       ? { ...phoneRule, key: "phone" }
       : {
           ...numberRule,
           key: "phone",
-          message: "请输入手机号",
+          message: "Please enter phone number",
         },
-  captcha: { ...numberRule, message: "请输入正确的验证码" },
+  captcha: { ...numberRule, message: "Please enter a valid captcha" },
 }));
 
 // 验证码数据
 const captchaTime = ref<number>(60);
-const captchaText = ref<string>("获取验证码");
+const captchaText = ref<string>("Get Captcha");
 const captchaDisabled = ref<boolean>(false);
 
 // 国家列表
@@ -108,11 +108,11 @@ const getCountryListData = async () => {
     }));
     countryListData.value = transformedData;
   } catch (error) {
-    console.error("获取国家列表失败：", error);
+    console.error("Failed to fetch country list:", error);
     countryListData.value = [
       {
         key: "86",
-        label: "中国 (+86)",
+        label: "China (+86)",
         value: 86,
       },
     ];
@@ -135,10 +135,10 @@ const getCaptcha = async (e: MouseEvent) => {
   );
   if (result.code === 200) {
     resumeTime();
-    window.$message.success("验证码发送成功");
+    window.$message.success("Captcha sent successfully");
   } else {
     captchaDisabled.value = false;
-    window.$message.error("验证码发送失败，请重试");
+    window.$message.error("Failed to send captcha, please try again");
   }
 };
 
@@ -150,7 +150,7 @@ const { pause: pauseTime, resume: resumeTime } = useIntervalFn(
     if (captchaTime.value <= 0) {
       pauseTime();
       captchaTime.value = 60;
-      captchaText.value = "重新获取";
+      captchaText.value = "Resend";
       captchaDisabled.value = false;
     }
   },
@@ -172,7 +172,7 @@ const login = debounce(async (e: MouseEvent) => {
     phoneFormData.value.country as number,
   );
   if (captchaResult.code !== 200) {
-    window.$message.error("验证码错误，请重试");
+    window.$message.error("Invalid captcha, please try again");
     return;
   }
   // 登录
@@ -182,7 +182,7 @@ const login = debounce(async (e: MouseEvent) => {
     phoneFormData.value.country as number,
   );
   if (loginResult.code !== 200) {
-    window.$message.error("登录失败，请重试");
+    window.$message.error("Login failed, please try again");
     return;
   }
   // 是否含有 MUSIC_U
@@ -192,7 +192,7 @@ const login = debounce(async (e: MouseEvent) => {
     // 储存登录信息
     emit("saveLogin", loginResult, "phone");
   } else {
-    window.$message.error("登录出错，请重试");
+    window.$message.error("Login error, please try again");
   }
 }, 300);
 

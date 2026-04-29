@@ -1,125 +1,139 @@
 <!-- 用户协议 -->
 <template>
   <div class="user-agreement">
-    <n-h1 class="title">软件许可使用协议</n-h1>
+    <n-h1 class="title">Software License Agreement</n-h1>
     <n-scrollbar class="scrollbar">
       <n-flex class="date" justify="center">
-        <n-tag round>生效日期：2024 年 7 月 16 日</n-tag>
-        <n-tag type="warning" round>更新日期：2025 年 12 月 10 日</n-tag>
-        <n-tag type="info" round>协议版本：v2.0</n-tag>
+        <n-tag round>Effective Date: July 16, 2024</n-tag>
+        <n-tag type="warning" round>Updated Date: December 10, 2025</n-tag>
+        <n-tag type="info" round>Agreement Version: v2.0</n-tag>
       </n-flex>
-      <n-alert type="warning" title="重要声明">
-        SPlayer 是一款完全免费且开源的音乐播放软件，遵循 AGPL-3.0 开源协议发布。
-        本软件永远不会向用户收取任何费用。如果您是从第三方渠道付费购买本软件，
-        您可能遇到了诈骗，请立即停止使用并举报。
+      <n-alert type="warning" title="Important Notice">
+        SPlayer is a completely free and open-source music player released under AGPL-3.0.
+        This software will never charge users any fees. If you paid for this software from a third-party source,
+        you may have encountered a scam. Please stop using it immediately and report it.
       </n-alert>
       <n-p>
-        欢迎使用 SPlayer（以下简称"本软件"）。本软件是一个本地音乐播放软件，可能会调用第三方 API
-        来增强其功能。请在使用本软件前仔细阅读本用户协议。本协议是您（以下简称"用户"）与 SPlayer
-        开发团队（以下简称"开发者"）之间的法律协议。一旦您下载、安装或使用本软件，即表示您同意接受本协议的所有条款和条件。
+        Welcome to SPlayer ("the Software"). This software is a local music player and may call third-party APIs
+        to enhance functionality. Please read this agreement carefully before using the Software. This agreement is a
+        legal agreement between you ("User") and the SPlayer development team ("Developer"). By downloading,
+        installing, or using the Software, you agree to all terms and conditions in this agreement.
       </n-p>
-      <n-h3 prefix="bar"> 软件使用 </n-h3>
+      <n-h3 prefix="bar"> Software Use </n-h3>
       <n-ol>
-        <n-li>本软件是一款本地音乐播放软件，允许用户播放存储在设备上的音频文件。</n-li>
-        <n-li>开发者保留随时修改、更新或终止软件及其功能的权利，而无需提前通知用户。</n-li>
-        <n-li>用户必须年满 18 岁或在父母或监护人的监督下使用本软件。</n-li>
+        <n-li>The Software is a local music player that allows users to play audio files stored on their devices.</n-li>
+        <n-li>The Developer reserves the right to modify, update, or terminate the Software and its features at any time without prior notice.</n-li>
+        <n-li>Users must be at least 18 years old, or use the Software under parent or guardian supervision.</n-li>
       </n-ol>
-      <n-h3 prefix="bar"> 开源许可 </n-h3>
+      <n-h3 prefix="bar"> Open Source License </n-h3>
       <n-ol>
-        <n-li>本软件是基于 AGPL-3.0 许可发布的开源软件。</n-li>
-        <n-li>用户在使用、修改和分发 SPlayer 时，必须遵守 AGPL-3.0 许可的条款和条件。</n-li>
+        <n-li>The Software is open-source software released under the AGPL-3.0 license.</n-li>
+        <n-li>When using, modifying, or distributing SPlayer, users must comply with AGPL-3.0 terms and conditions.</n-li>
         <n-li>
-          AGPL-3.0 许可的详细信息可以在以下链接找到：
+          More details of the AGPL-3.0 license can be found at:
           <n-a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank">
             GNU Affero General Public License v3.0
           </n-a>
         </n-li>
       </n-ol>
-      <n-h3 prefix="bar"> 第三方 </n-h3>
+      <n-h3 prefix="bar"> Third-Party Services </n-h3>
       <n-ol>
-        <n-li>本软件可能会调用第三方 API 以提供额外功能（例如，歌词显示、专辑封面获取等）。</n-li>
+        <n-li>The Software may call third-party APIs to provide additional features (for example, lyrics display or album artwork retrieval).</n-li>
         <n-li>
-          开发者不对第三方 API 的准确性、完整性或合法性负责。用户使用第三方 API
-          时，应遵守第三方提供商的服务条款和隐私政策。
+          The Developer is not responsible for the accuracy, completeness, or legality of third-party APIs.
+          Users must comply with third-party providers' terms of service and privacy policies.
         </n-li>
-        <n-li>由于第三方 API 引起的任何问题或纠纷，开发者不承担任何责任。</n-li>
+        <n-li>The Developer is not liable for any issues or disputes caused by third-party APIs.</n-li>
       </n-ol>
-      <n-h3 prefix="bar"> 用户责任 </n-h3>
+      <n-h3 prefix="bar"> User Responsibilities </n-h3>
       <n-ol>
         <n-li>
-          用户应遵守所有适用的法律法规，确保通过合法手段获取音乐文件，并在使用本软件时不侵犯任何第三方的版权或其他合法权益。
+          Users must comply with all applicable laws and regulations, obtain music files through legal means,
+          and avoid infringing any third-party copyrights or other lawful rights while using the Software.
         </n-li>
         <n-li>
-          用户不得使用本软件进行任何非法活动，包括但不限于侵犯版权、传播恶意软件、非法获取数据等。
-        </n-li>
-      </n-ol>
-      <n-h3 prefix="bar"> 知识产权 </n-h3>
-      <n-ol>
-        <n-li>
-          除了根据 AGPL-3.0
-          许可使用的开源部分外，本软件及其所有内容（包括但不限于软件、标识、图形、用户界面、脚本和服务名称）均为开发者或其许可方的财产，受知识产权法保护。
-        </n-li>
-        <n-li> 未经开发者书面许可，用户不得复制、修改、分发、出售或租赁本软件及其内容。 </n-li>
-      </n-ol>
-      <n-h3 prefix="bar"> 免责声明 </n-h3>
-      <n-ol>
-        <n-li>
-          本软件按“现状”提供，不提供任何形式的明示或暗示保证，包括但不限于适销性、特定用途适用性和非侵权性。
-        </n-li>
-        <n-li>
-          开发者不保证本软件的功能不会中断或无错误，也不保证本软件适用于用户的特定需求。
-        </n-li>
-        <n-li> 用户使用本软件过程中产生的任何直接或间接损失，开发者不承担任何责任。 </n-li>
-      </n-ol>
-      <n-h3 prefix="bar"> 责任限制 </n-h3>
-      <n-ol>
-        <n-li>
-          在适用法律允许的最大范围内，开发者对因使用或无法使用本软件而导致的任何间接、偶然、特殊、继发或惩罚性损害不承担责任，即使开发者已被告知此类损害的可能性。
-        </n-li>
-        <n-li>
-          在任何情况下，开发者对用户的全部责任，不论是合同、侵权（包括过失）或其他方面的责任，总额不超过用户为使用本软件所支付的费用（如果有）。
+          Users must not use the Software for illegal activities, including but not limited to copyright infringement,
+          malware distribution, or illegal data acquisition.
         </n-li>
       </n-ol>
-      <n-h3 prefix="bar"> 终止 </n-h3>
+      <n-h3 prefix="bar"> Intellectual Property </n-h3>
       <n-ol>
-        <n-li> 开发者有权在不提前通知的情况下，因任何原因或无原因终止本协议。 </n-li>
-        <n-li> 本协议终止后，用户应停止使用本软件并删除其所有副本。 </n-li>
+        <n-li>
+          Except for open-source parts under AGPL-3.0, the Software and all its content (including but not limited to software,
+          logos, graphics, user interfaces, scripts, and service names) are owned by the Developer or its licensors and
+          protected by intellectual property laws.
+        </n-li>
+        <n-li>Without written permission from the Developer, users may not copy, modify, distribute, sell, or lease the Software and its content.</n-li>
       </n-ol>
-      <n-h3 prefix="bar"> 隐私政策 </n-h3>
+      <n-h3 prefix="bar"> Disclaimer </n-h3>
       <n-ol>
-        <n-li> 本软件可能会收集和使用用户的某些信息，以提供和改进软件服务。 </n-li>
         <n-li>
-          开发者承诺保护用户的隐私，不会将用户信息出售给第三方。详细的隐私政策请参考我们的隐私声明。
+          The Software is provided "as is" without express or implied warranties,
+          including but not limited to merchantability, fitness for a particular purpose, and non-infringement.
+        </n-li>
+        <n-li>
+          The Developer does not guarantee uninterrupted or error-free operation,
+          nor guarantee that the Software meets specific user requirements.
+        </n-li>
+        <n-li>The Developer is not liable for any direct or indirect losses arising from use of the Software.</n-li>
+      </n-ol>
+      <n-h3 prefix="bar"> Limitation of Liability </n-h3>
+      <n-ol>
+        <n-li>
+          To the maximum extent permitted by law, the Developer shall not be liable for any indirect, incidental,
+          special, consequential, or punitive damages arising from use or inability to use the Software,
+          even if advised of such possibility.
+        </n-li>
+        <n-li>
+          In any case, the Developer's total liability to the user, whether in contract, tort (including negligence),
+          or otherwise, shall not exceed the amount paid by the user for the Software (if any).
         </n-li>
       </n-ol>
-      <n-h3 prefix="bar"> 更新与变更 </n-h3>
+      <n-h3 prefix="bar"> Termination </n-h3>
       <n-ol>
-        <n-li> 开发者保留随时更新和修改本协议的权利。 </n-li>
+        <n-li>The Developer may terminate this agreement at any time, with or without reason, without prior notice.</n-li>
+        <n-li>After termination, users must stop using the Software and delete all copies.</n-li>
+      </n-ol>
+      <n-h3 prefix="bar"> Privacy Policy </n-h3>
+      <n-ol>
+        <n-li>The Software may collect and use certain user information to provide and improve services.</n-li>
         <n-li>
-          更新后的协议将通过适当的方式通知用户，包括但不限于在本软件中发布或通过电子邮件发送通知。
+          The Developer is committed to protecting user privacy and will not sell user information to third parties.
+          Please refer to our privacy statement for details.
         </n-li>
       </n-ol>
-      <n-h3 prefix="bar"> 其他 </n-h3>
+      <n-h3 prefix="bar"> Updates and Changes </n-h3>
       <n-ol>
-        <n-li> 本协议受中华人民共和国法律管辖，不考虑其法律冲突条款。</n-li>
+        <n-li>The Developer reserves the right to update and modify this agreement at any time.</n-li>
         <n-li>
-          如果本协议的任何条款被视为无效或不可执行，该条款将被修改以反映双方的意图，其余条款仍然完全有效。
+          Updated agreements will be communicated appropriately, including but not limited to publication in the Software
+          or notification by email.
+        </n-li>
+      </n-ol>
+      <n-h3 prefix="bar"> Miscellaneous </n-h3>
+      <n-ol>
+        <n-li>This agreement is governed by the laws of the People's Republic of China, without regard to conflict-of-law rules.</n-li>
+        <n-li>
+          If any provision of this agreement is deemed invalid or unenforceable, it will be modified to reflect the parties' intent,
+          and the remaining provisions will remain fully effective.
         </n-li>
         <n-li>
-          本协议的所有标题仅仅是为了醒目及阅读方便，本身并没有实际涵义，不能作为解释本协议涵义的依据。
+          Section titles in this agreement are for readability only and do not affect interpretation.
         </n-li>
         <n-li>
-          本协议构成您与开发者之间关于使用本软件的完整协议，并取代之前的所有口头或书面协议和陈述。
+          This agreement constitutes the complete agreement between you and the Developer regarding use of the Software,
+          and supersedes all prior oral or written agreements and representations.
         </n-li>
       </n-ol>
       <n-card ref="readOverRef">
-        若你（使用者）接受以上协议，请点击下面的“同意并使用”按钮签署本协议，若不接受，请点击“不同意”后软件将退出并清除本软件的所有数据。
+        If you (the user) accept this agreement, click "Agree and continue" below to sign it.
+        If you do not accept, click "Disagree" and the app will exit and clear all app data.
       </n-card>
     </n-scrollbar>
     <n-flex justify="center">
-      <n-button v-if="isElectron" type="error" @click="closeApp">不同意</n-button>
+      <n-button v-if="isElectron" type="error" @click="closeApp">Disagree</n-button>
       <n-button type="success" @click="agreeToAgreement" :disabled="!isReadOver">
-        {{ isReadOver ? "同意并使用" : "请先完整阅读" }}
+        {{ isReadOver ? "Agree and continue" : "Please read to the end first" }}
       </n-button>
     </n-flex>
   </div>

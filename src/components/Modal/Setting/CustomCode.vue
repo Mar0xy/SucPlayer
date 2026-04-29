@@ -1,33 +1,35 @@
 <template>
   <n-scrollbar style="max-height: 70vh" class="custom-code">
-    <n-alert type="error" title="高危操作警告">
-      在此处输入任意内容都可能会导致应用出现异常，包括但不限于界面错乱、功能异常、数据丢失等，请谨慎操作！<br />
-      请勿输入来源不明或他人提供的代码！恶意代码可能窃取您的账号信息、泄露隐私数据，或导致应用崩溃等异常行为。
+    <n-alert type="error" title="High-Risk Operation Warning">
+      Entering arbitrary content here may cause application issues, including UI glitches, feature failures, or data loss. Proceed with caution.<br />
+      Do not paste unknown or untrusted code. Malicious code may steal account data, leak privacy data, or crash the application.
     </n-alert>
     <div class="code-section">
-      <n-h3 prefix="bar">自定义 CSS</n-h3>
-      <n-text :depth="3"> 输入自定义 CSS 样式，将会被注入到页面中 </n-text>
+      <n-h3 prefix="bar">Custom CSS</n-h3>
+      <n-text :depth="3"> Enter custom CSS styles. They will be injected into the page. </n-text>
       <n-input
         v-model:value="customCss"
         :autosize="{ minRows: 6, maxRows: 12 }"
         type="textarea"
-        placeholder="/* 输入自定义 CSS */"
+        placeholder="/* Enter custom CSS */"
         style="font-family: monospace"
       />
     </div>
     <div class="code-section">
-      <n-h3 prefix="bar">自定义 JavaScript</n-h3>
-      <n-text :depth="3"> 输入自定义 JavaScript 代码，将在应用启动时执行（ 重启后生效 ） </n-text>
+      <n-h3 prefix="bar">Custom JavaScript</n-h3>
+      <n-text :depth="3">
+        Enter custom JavaScript. It runs on app startup (effective after restart).
+      </n-text>
       <n-input
         v-model:value="customJs"
         :autosize="{ minRows: 6, maxRows: 12 }"
         type="textarea"
-        placeholder="// 输入自定义 JavaScript"
+        placeholder="// Enter custom JavaScript"
         style="font-family: monospace"
       />
     </div>
     <n-flex justify="end" style="margin-top: 16px">
-      <n-button type="primary" strong @click="saveCode">保存</n-button>
+      <n-button type="primary" strong @click="saveCode">Save</n-button>
     </n-flex>
   </n-scrollbar>
 </template>
@@ -45,7 +47,7 @@ const customJs = ref(settingStore.customJs);
 const saveCode = () => {
   settingStore.customCss = customCss.value;
   settingStore.customJs = customJs.value;
-  window.$message.success("自定义代码已保存");
+  window.$message.success("Custom code saved");
 };
 
 watch(

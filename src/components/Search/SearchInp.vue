@@ -53,7 +53,7 @@ const searchInpMenuRef = ref<InstanceType<typeof SearchInpMenu> | null>(null);
 // 搜索框数据
 const searchInputRef = ref<HTMLInputElement | null>(null);
 const searchPlaceholder = ref<string>(
-  settingStore.useOnlineService ? "搜索音乐 / 视频" : "搜索本地音乐",
+  settingStore.useOnlineService ? "Search Music / Video" : "Search Local Music",
 );
 const searchRealkeyword = ref<string>("");
 
@@ -111,7 +111,7 @@ const setSearchHistory = (keyword: string) => {
 // 更换搜索框关键词
 const updatePlaceholder = async () => {
   if (!settingStore.enableSearchKeyword) {
-    searchPlaceholder.value = "搜索音乐 / 视频";
+    searchPlaceholder.value = "Search Music / Video";
     return;
   }
   try {
@@ -119,8 +119,8 @@ const updatePlaceholder = async () => {
     searchPlaceholder.value = result.data.showKeyword;
     searchRealkeyword.value = result.data.realkeyword;
   } catch (error) {
-    console.error("搜索关键词获取失败：", error);
-    searchPlaceholder.value = "搜索音乐 / 视频";
+    console.error("Failed to fetch search keyword:", error);
+    searchPlaceholder.value = "Search Music / Video";
   }
 };
 
@@ -134,8 +134,8 @@ const toSearch = async (key: any, type: string = "keyword") => {
     statusStore.searchInputValue = "";
   }
   // 未输入内容且不存在推荐
-  if (!key && searchPlaceholder.value === "搜索音乐 / 视频") return;
-  if (!key && searchPlaceholder.value !== "搜索音乐 / 视频" && searchRealkeyword.value) {
+  if (!key && searchPlaceholder.value === "Search Music / Video") return;
+  if (!key && searchPlaceholder.value !== "Search Music / Video" && searchRealkeyword.value) {
     key = searchRealkeyword.value?.trim();
   }
   // 本地搜索

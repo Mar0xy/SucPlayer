@@ -52,7 +52,7 @@
           <div class="placeholder">
             <div class="title">
               <SvgIcon name="Fire" />
-              <span>热门评论</span>
+              <span>Hot Comments</span>
             </div>
           </div>
           <CommentList
@@ -67,7 +67,7 @@
       <div class="placeholder">
         <div class="title">
           <SvgIcon name="Message" />
-          <span>全部评论</span>
+          <span>All Comments</span>
           <span v-if="statusStore.songCommentCount > 0" class="count">
             {{ statusStore.songCommentCount }}
           </span>

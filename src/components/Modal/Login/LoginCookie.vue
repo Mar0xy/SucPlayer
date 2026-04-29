@@ -1,23 +1,23 @@
 <template>
   <div class="login-cookie">
-    <n-alert :bordered="false" title="如何获取 Cookie">
+    <n-alert :bordered="false" title="How to get Cookie">
       <template #icon>
         <SvgIcon name="Help" />
       </template>
-      可在官方的
+      You can get it from the official
       <n-a href="https://music.163.com/" target="_blank">网页端</n-a>
-      或点击下方的自动获取，只需要 Cookie 中的 <code>MUSIC_U</code> 字段即可，例如：
-      <code>MUSIC_U=00C7...;</code><br />请注意：必须以 <code>;</code> 结束
+      or click auto-fetch below. Only the <code>MUSIC_U</code> field is required, for example:
+      <code>MUSIC_U=00C7...;</code><br />Note: it must end with <code>;</code>
     </n-alert>
     <n-input
       v-model:value="cookie"
       :autosize="{ minRows: 3, maxRows: 6 }"
       type="textarea"
-      placeholder="请输入 Cookie"
+      placeholder="Enter Cookie"
     />
     <n-flex class="menu">
-      <n-button v-if="isElectron" type="primary" @click="openWeb">自动获取</n-button>
-      <n-button type="primary" @click="login">登录</n-button>
+      <n-button v-if="isElectron" type="primary" @click="openWeb">Auto Fetch</n-button>
+      <n-button type="primary" @click="login">Login</n-button>
     </n-flex>
   </div>
 </template>
@@ -36,11 +36,11 @@ const cookie = ref<string>();
 // 开启窗口
 const openWeb = () => {
   window.$dialog.info({
-    title: "使用前告知",
+    title: "Before you continue",
     content:
-      "请知悉，该功能仍旧无法确保账号的安全性！请自行决定是否使用！如遇打开窗口后页面出现白屏或者无法点击等情况，请关闭后重试",
-    positiveText: "我已了解",
-    negativeText: "取消",
+      "This feature still cannot guarantee account security. Use at your own discretion. If the opened page is blank or unclickable, close it and try again.",
+    positiveText: "I understand",
+    negativeText: "Cancel",
     onPositiveClick: () => window.electron.ipcRenderer.send("open-login-web"),
   });
 };
@@ -48,7 +48,7 @@ const openWeb = () => {
 // Cookie 登录
 const login = async () => {
   if (!cookie.value) {
-    window.$message.warning("请输入 Cookie");
+    window.$message.warning("Please enter Cookie");
     return;
   }
   cookie.value = cookie.value.trim();
@@ -64,7 +64,7 @@ const login = async () => {
   // 检查是否包含 MUSIC_U
   const hasMusicU = cookie.value.includes("MUSIC_U") || decodedCookie.includes("MUSIC_U");
   if (!hasMusicU) {
-    window.$message.warning("请输入有效的 Cookie（必须包含 MUSIC_U）");
+    window.$message.warning("Please enter a valid Cookie (must include MUSIC_U)");
     return;
   }
   // 如果原始cookie没有以分号结尾，自动添加（setCookies会处理URL编码的情况）
@@ -74,7 +74,7 @@ const login = async () => {
   }
   // 写入 Cookie
   try {
-    window.$message.success("登录成功");
+    window.$message.success("Login successful");
     // 保存登录信息
     emit(
       "saveLogin",
@@ -86,8 +86,8 @@ const login = async () => {
     );
     emit("close");
   } catch (error) {
-    window.$message.error("登录失败，请重试");
-    console.error("Cookie 登录出错：", error);
+    window.$message.error("Login failed, please try again");
+    console.error("Cookie login error:", error);
   }
 };
 

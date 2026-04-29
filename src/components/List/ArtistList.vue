@@ -45,7 +45,7 @@
       <!-- 加载更多 -->
       <n-flex v-if="loadMore" class="load-more" justify="center">
         <n-button :loading="loading" size="large" strong secondary round @click="emit('loadMore')">
-          加载更多
+          Load more
         </n-button>
       </n-flex>
     </div>
@@ -62,7 +62,7 @@
       </div>
     </div>
     <!-- 空列表 -->
-    <n-empty v-else description="空空如也，怎么什么都没有啊" size="large" />
+    <n-empty v-else description="Nothing here yet" size="large" />
   </Transition>
 </template>
 

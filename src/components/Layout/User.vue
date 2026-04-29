@@ -24,7 +24,7 @@
         </div>
         <n-flex v-if="isDesktop" :wrap="false" class="user-data" size="small">
           <n-text class="name text-hidden">
-            {{ dataStore.userLoginStatus ? dataStore.userData.name || "未知用户名" : "未登录" }}
+            {{ dataStore.userLoginStatus ? dataStore.userData.name || "Unknown user" : "Not logged in" }}
           </n-text>
           <!-- VIP -->
           <img
@@ -39,7 +39,7 @@
     <div class="user-menu" @click="userMenuShow = false">
       <!-- 用户信息 -->
       <n-flex class="user-info" align="center" justify="center" vertical>
-        <n-text class="nickname text-hidden">{{ dataStore.userData.name || "未知用户名" }}</n-text>
+        <n-text class="nickname text-hidden">{{ dataStore.userData.name || "Unknown user" }}</n-text>
         <n-flex align="center" size="small">
           <n-tag :bordered="false" size="small" round type="warning">
             Lv.{{ dataStore.userData.level ?? 0 }}
@@ -66,13 +66,13 @@
         </div>
       </div>
       <n-flex v-else align="center" vertical>
-        <n-text>UID 登录模式</n-text>
-        <n-text :depth="3">部分功能暂不可用</n-text>
+        <n-text>UID login mode</n-text>
+        <n-text :depth="3">Some features are temporarily unavailable</n-text>
       </n-flex>
       <n-divider />
       <!-- 多账号 -->
       <div class="account-list" v-if="dataStore.userLoginStatus && dataStore.loginType !== 'uid'">
-        <n-text class="subtitle" :depth="3">切换账号</n-text>
+        <n-text class="subtitle" :depth="3">Switch account</n-text>
         <div
           v-for="account in otherAccounts"
           :key="account.userId"
@@ -89,7 +89,7 @@
           <template #icon>
             <SvgIcon name="Add" />
           </template>
-          添加账号
+          Add account
         </n-button>
       </div>
       <n-divider v-if="dataStore.userLoginStatus" />
@@ -98,7 +98,7 @@
         <template #icon>
           <SvgIcon name="Power" />
         </template>
-        退出登录
+        Log out
       </n-button>
     </div>
   </n-popover>
@@ -141,17 +141,17 @@ const openMenu = () => {
 const userLikeData = computed(() => {
   return [
     {
-      label: "歌单",
+      label: "Playlists",
       name: "like-playlists",
       value: dataStore.userLikeData.playlists.length,
     },
     {
-      label: "专辑",
+      label: "Albums",
       name: "like-albums",
       value: dataStore.userLikeData.albums.length,
     },
     {
-      label: "歌手",
+      label: "Artists",
       name: "like-artists",
       value: dataStore.userLikeData.artists.length,
     },
@@ -179,7 +179,7 @@ const checkLoginStatus = async () => {
   else if (dataStore.userData.userId !== 0) {
     dataStore.userLoginStatus = false;
     dataStore.userData.userId = 0;
-    window.$message.warning("登录已过期，请重新登录", { duration: 2000 });
+    window.$message.warning("Login expired, please sign in again", { duration: 2000 });
     openUserLogin();
   }
 };
@@ -204,7 +204,7 @@ const handleRemoveAccount = (userId: number) => {
 const handleAddAccount = async () => {
   // 限制账号数量
   if (dataStore.userList.length >= 3) {
-    window.$message.warning("最多只能保留 3 个账号");
+    window.$message.warning("You can keep up to 3 accounts");
     return;
   }
 
@@ -220,10 +220,10 @@ const handleAddAccount = async () => {
     async () => {
       // 登录成功回调
       // 此时新 cookies 已设置，store 已更新
-      window.$message.loading("正在更新数据...");
+      window.$message.loading("Updating data...");
       try {
         await updateUserData();
-        window.$message.success("登录成功");
+        window.$message.success("Login successful");
         // router.push("/");
       } catch (error) {
         console.error("Login update failed", error);
@@ -240,10 +240,10 @@ const isLogout = () => {
     return;
   }
   window.$dialog.warning({
-    title: "退出登录",
-    content: "确认退出当前用户登录？",
-    positiveText: "确认登出",
-    negativeText: "取消",
+    title: "Log out",
+    content: "Are you sure you want to log out of the current account?",
+    positiveText: "Confirm logout",
+    negativeText: "Cancel",
     onPositiveClick: () => {
       // 退出时保存当前账号，方便下次登录
       saveCurrentAccount();

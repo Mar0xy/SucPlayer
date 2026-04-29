@@ -10,8 +10,8 @@
     <n-drawer-content :native-scrollbar="false" closable>
       <template #header>
         <div class="playlist-header">
-          <n-text class="name">播放队列</n-text>
-          <n-text class="count" depth="3"> {{ dataStore.playList.length }} 首歌曲 </n-text>
+          <n-text class="name">Play Queue</n-text>
+          <n-text class="count" depth="3"> {{ dataStore.playList.length }} songs </n-text>
         </div>
       </template>
       <Transition name="fade" mode="out-in">
@@ -60,8 +60,8 @@
                 <!-- 拖拽手柄 -->
                 <div
                   class="drag-handle"
-                  @mousedown="handlePointerDown($event, index, songData.name || '未知曲目')"
-                  @touchstart.passive="handlePointerDown($event, index, songData.name || '未知曲目')"
+                  @mousedown="handlePointerDown($event, index, songData.name || 'Unknown track')"
+                  @touchstart.passive="handlePointerDown($event, index, songData.name || 'Unknown track')"
                   @click.stop
                 >
                   <SvgIcon :size="20" name="Menu" />
@@ -80,21 +80,21 @@
                 </div>
                 <!-- 信息 -->
                 <div class="data">
-                  <n-text class="name text-hidden">{{ songData.name || "未知曲目" }}</n-text>
+                  <n-text class="name text-hidden">{{ songData.name || "Unknown track" }}</n-text>
                   <div v-if="Array.isArray(songData?.artists)" class="artists">
                     <n-text v-for="ar in songData.artists" :key="ar.id" depth="3" class="ar">
                       {{ settingStore.hideBracketedContent ? removeBrackets(ar.name) : ar.name }}
                     </n-text>
                   </div>
                   <div v-else-if="songData.type === 'radio'" class="artists">
-                    <n-text class="ar" depth="3"> 播客电台 </n-text>
+                    <n-text class="ar" depth="3"> Podcast Radio </n-text>
                   </div>
                   <div v-else class="artists">
                     <n-text class="ar" depth="3">
                       {{
                         settingStore.hideBracketedContent
                           ? removeBrackets(songData?.artists)
-                          : songData?.artists || "未知艺术家"
+                          : songData?.artists || "Unknown artist"
                       }}
                     </n-text>
                   </div>
@@ -109,7 +109,7 @@
         </VirtualScroll>
         <n-empty
           v-else
-          description="播放列表暂无歌曲，快去添加吧"
+          description="Play queue is empty. Add some songs"
           class="tip"
           size="large"
           style="margin-top: 60px"
@@ -122,7 +122,7 @@
               <template #icon>
                 <SvgIcon name="DeleteSweep" />
               </template>
-              清空列表
+              Clear list
             </n-button>
           </n-gi>
           <n-gi>
@@ -136,7 +136,7 @@
               <template #icon>
                 <SvgIcon name="Location" />
               </template>
-              当前播放
+              Current song
             </n-button>
           </n-gi>
         </n-grid>
@@ -155,7 +155,7 @@
               left: `${dragLabelPosition.left}px`,
             }"
           >
-            <n-text class="drag-label-name">{{ dragLabelData.name || "未知曲目" }}</n-text>
+            <n-text class="drag-label-name">{{ dragLabelData.name || "Unknown track" }}</n-text>
           </div>
         </Transition>
       </Teleport>
@@ -195,13 +195,13 @@ const scrollToItem = (index: number) => {
 // 清空播放列表
 const cleanPlayList = () => {
   window.$dialog.warning({
-    title: "清空播放列表",
-    content: "确认清空全部播放列表吗？",
-    positiveText: "确认",
-    negativeText: "取消",
+    title: "Clear Play Queue",
+    content: "Are you sure you want to clear the entire play queue?",
+    positiveText: "Confirm",
+    negativeText: "Cancel",
     onPositiveClick: () => {
       player.cleanPlayList();
-      window.$message.success("播放列表已清空");
+      window.$message.success("Play queue cleared");
     },
   });
 };

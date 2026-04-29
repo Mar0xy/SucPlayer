@@ -52,10 +52,10 @@ const emit = defineEmits<{
 
 // 状态提示
 const qrCodeTip = {
-  800: "二维码过期，即将重试",
-  801: "请打开云音乐 APP 扫码登录",
-  802: "扫描成功，请在客户端确认登录",
-  803: "登录成功",
+  800: "QR code expired, retrying",
+  801: "Open the Netease app and scan to login",
+  802: "Scan successful, please confirm login in app",
+  803: "Login successful",
 } as const;
 
 // 二维码数据
@@ -65,7 +65,7 @@ const qrStatusCode = ref<keyof typeof qrCodeTip>(801);
 
 // 提示文本
 const qrTipText = computed(() => {
-  return qrCodeTip[qrStatusCode.value] || "遇到未知状态，请重试";
+  return qrCodeTip[qrStatusCode.value] || "Unknown status, please try again";
 });
 
 // 待确认数据
@@ -88,7 +88,7 @@ const getQrData = async () => {
     resumeCheck();
   } catch (error) {
     pauseCheck();
-    console.error("二维码获取失败：", error);
+    console.error("Failed to get QR code:", error);
   }
 };
 
@@ -122,7 +122,7 @@ const checkQrStatus = async () => {
         // 储存登录信息
         emit("saveLogin", { code: 200, cookie }, "qr");
       } else {
-        window.$message.error("登录出错，请重试");
+        window.$message.error("Login error, please try again");
         getQrData();
       }
       break;

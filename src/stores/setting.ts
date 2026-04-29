@@ -709,12 +709,12 @@ export const useSettingStore = defineStore("setting", {
     searchInputBehavior: "normal",
     showHomeGreeting: true,
     homePageSections: [
-      { key: "playlist", name: "专属歌单", visible: true, order: 0 },
-      { key: "radar", name: "雷达歌单", visible: true, order: 1 },
-      { key: "artist", name: "歌手推荐", visible: true, order: 2 },
-      { key: "video", name: "推荐 MV", visible: true, order: 3 },
-      { key: "radio", name: "推荐播客", visible: true, order: 4 },
-      { key: "album", name: "新碟上架", visible: true, order: 5 },
+      { key: "playlist", name: "Personalized Playlists", visible: true, order: 0 },
+      { key: "radar", name: "Radar Playlists", visible: true, order: 1 },
+      { key: "artist", name: "Recommended Artists", visible: true, order: 2 },
+      { key: "video", name: "Recommended MVs", visible: true, order: 3 },
+      { key: "radio", name: "Recommended Podcasts", visible: true, order: 4 },
+      { key: "album", name: "New Albums", visible: true, order: 5 },
     ],
     userAgreementVersion: "",
     registryProtocol: {
@@ -779,7 +779,7 @@ export const useSettingStore = defineStore("setting", {
       const targetVersion = CURRENT_SETTING_SCHEMA_VERSION;
 
       if (currentVersion !== targetVersion) {
-        console.log(`[Setting Migration] 检测到版本差异: ${currentVersion} -> ${targetVersion}`);
+        console.log(`[Setting Migration] Version difference detected: ${currentVersion} -> ${targetVersion}`);
         // 保存当前完整状态
         const currentState = { ...this.$state } as Partial<SettingState>;
         // 计算需要更新的字段（迁移返回的更新）
@@ -796,7 +796,7 @@ export const useSettingStore = defineStore("setting", {
         this.$patch(updates);
         // 统一设置版本号
         this.schemaVersion = targetVersion;
-        console.log(`[Setting Migration] 迁移完成，已更新到版本 ${targetVersion}`);
+        console.log(`[Setting Migration] Migration completed, updated to version ${targetVersion}`);
       }
     },
     // 更换明暗模式
@@ -814,13 +814,13 @@ export const useSettingStore = defineStore("setting", {
         this.themeMode = mode;
       }
       window.$message.info(
-        `已切换至
+        `Switched to
         ${
           this.themeMode === "auto"
-            ? "跟随系统"
+            ? "System"
             : this.themeMode === "light"
-              ? "浅色模式"
-              : "深色模式"
+              ? "Light mode"
+              : "Dark mode"
         }`,
         {
           showIcon: false,

@@ -92,7 +92,7 @@ export const fuzzySearch = (keyword: string, data: SongType[]): SongType[] => {
 
     return fuse.search(keyword).map((result) => result.item);
   } catch (error) {
-    console.error("模糊搜索出现错误：", error);
+    console.error("Error during fuzzy search:", error);
     return [];
   }
 };
@@ -170,10 +170,10 @@ export const copyData = async (text: any, message?: string) => {
   if (navigator.clipboard && window.isSecureContext) {
     try {
       await navigator.clipboard.writeText(content);
-      window.$message.success(message ?? "已复制到剪贴板");
+      window.$message.success(message ?? "Copied to clipboard");
       return;
     } catch (err) {
-      console.error("clipboard.writeText 失败，尝试降级方案", err);
+      console.error("clipboard.writeText failed, trying fallback", err);
     }
   }
   // 降级方案
@@ -192,13 +192,13 @@ export const copyData = async (text: any, message?: string) => {
     const success = document.execCommand("copy");
     document.body.removeChild(textarea);
     if (success) {
-      window.$message.success(message ?? "已复制到剪贴板");
+      window.$message.success(message ?? "Copied to clipboard");
     } else {
-      throw new Error("execCommand 返回 false");
+      throw new Error("execCommand returned false");
     }
   } catch (error) {
-    window.$message.error("复制出错，请重试");
-    console.error("复制出错：", error);
+    window.$message.error("Copy failed, please try again");
+    console.error("Copy failed:", error);
   }
 };
 
@@ -290,9 +290,9 @@ const changeLocalPath =
     options: ChangeLocalPathOptions = {
       settingsKey: "localFilesPath",
       includeSubFolders: true,
-      title: "选择文件夹",
+      title: "Select folder",
       errorConsole: "Error changing local path",
-      errorMessage: "更改本地歌曲文件夹出错，请重试",
+      errorMessage: "Failed to change local music folder, please try again",
     },
   ) =>
   async (delIndex?: number) => {
@@ -347,11 +347,11 @@ const changeLocalPath =
       }
       // 显示结果提示
       if (addedCount > 0 && skippedCount > 0) {
-        window.$message.success(`成功添加 ${addedCount} 个目录，跳过 ${skippedCount} 个重复目录`);
+        window.$message.success(`Added ${addedCount} folders, skipped ${skippedCount} duplicates`);
       } else if (addedCount > 0) {
-        window.$message.success(`成功添加 ${addedCount} 个目录`);
+        window.$message.success(`Added ${addedCount} folders`);
       } else if (skippedCount > 0) {
-        window.$message.warning(`所选目录已存在或有重叠，已跳过`);
+        window.$message.warning("Selected folders already exist or overlap and were skipped");
       }
     } catch (error) {
       console.error(`${errorConsole}: `, error);
@@ -366,9 +366,9 @@ const changeLocalPath =
 export const changeLocalMusicPath = changeLocalPath({
   settingsKey: "localFilesPath",
   includeSubFolders: true,
-  title: "选择本地歌曲文件夹",
+  title: "Select local music folder",
   errorConsole: "Error changing local path",
-  errorMessage: "更改本地歌曲文件夹出错，请重试",
+  errorMessage: "Failed to change local music folder, please try again",
 });
 
 /**
@@ -378,9 +378,9 @@ export const changeLocalMusicPath = changeLocalPath({
 export const changeLocalLyricPath = changeLocalPath({
   settingsKey: "localLyricPath",
   includeSubFolders: true,
-  title: "选择本地歌词文件夹",
+  title: "Select local lyric folder",
   errorConsole: "Error changing local lyric path",
-  errorMessage: "更改本地歌词文件夹出错，请重试",
+  errorMessage: "Failed to change local lyric folder, please try again",
 });
 
 /**

@@ -134,7 +134,7 @@ const getLocalCover = async () => {
       localCoverDataUrl.value = "";
     }
   } catch (error) {
-    console.error("获取本地封面失败:", error);
+    console.error("Failed to load local cover:", error);
     localCoverDataUrl.value = "";
   }
 };

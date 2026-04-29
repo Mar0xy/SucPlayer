@@ -56,9 +56,9 @@ export const formatCommentTime = (timestamp: number): string => {
   const timeComment = dayjs(timestamp);
   const diffMinute = timeNow.diff(timeComment, "minute");
 
-  if (diffMinute < 1) return "刚刚发布";
-  if (diffMinute < 60) return `${diffMinute} 分钟前`;
-  if (diffMinute < 1440) return `${Math.floor(diffMinute / 60)} 小时前`;
+  if (diffMinute < 1) return "Just now";
+  if (diffMinute < 60) return `${diffMinute} minutes ago`;
+  if (diffMinute < 1440) return `${Math.floor(diffMinute / 60)} hours ago`;
 
   // 超过一天：同年只显示日期，跨年显示完整日期
   const format = timeComment.year() === timeNow.year() ? "MM-DD HH:mm" : "YYYY-MM-DD HH:mm";
@@ -81,16 +81,16 @@ export const calculateProgress = (currentTime: number, duration: number): number
 export const getGreeting = (): string => {
   const hour = dayjs().hour();
   const greetings: [number, string][] = [
-    [6, "凌晨好"],
-    [9, "早上好"],
-    [12, "上午好"],
-    [14, "中午好"],
-    [17, "下午好"],
-    [19, "傍晚好"],
-    [22, "晚上好"],
-    [24, "夜深了"],
+    [6, "Late night"],
+    [9, "Good morning"],
+    [12, "Good late morning"],
+    [14, "Good noon"],
+    [17, "Good afternoon"],
+    [19, "Good evening"],
+    [22, "Good night"],
+    [24, "It's late"],
   ];
-  return greetings.find(([limit]) => hour < limit)?.[1] ?? "夜深了";
+  return greetings.find(([limit]) => hour < limit)?.[1] ?? "It's late";
 };
 
 /** 判断时间戳是否在当天6点之前 */

@@ -52,7 +52,7 @@ export const toLogout = async (clearUserList = false): Promise<void> => {
   }
   // 跳转首页
   router.push("/");
-  window.$message.success("成功退出登录");
+  window.$message.success("Logged out successfully");
 };
 
 // 刷新登录
@@ -93,8 +93,8 @@ export const saveCurrentAccount = () => {
   const loginType = dataStore.loginType;
 
   // 校验：如果必须信息缺失，不保存
-  if (!userId || !name || name === "未知用户名") {
-    console.warn("用户信息不完整，无法保存");
+  if (!userId || !name || name === "Unknown user") {
+    console.warn("User information is incomplete and cannot be saved");
     return;
   }
 
@@ -138,7 +138,7 @@ export const switchAccount = async (userId: number) => {
   const dataStore = useDataStore();
   const account = dataStore.userList.find((u) => u.userId === userId);
   if (!account) {
-    window.$message.error("找不到该账号信息");
+    window.$message.error("Account information not found");
     return;
   }
   // 保存当前（如果已登录且不是要切换的同一个）
@@ -170,7 +170,7 @@ export const switchAccount = async (userId: number) => {
   // 刷新页面
   // window.location.reload();
   // 重新获取用户数据
-  window.$message.loading("正在切换账号...");
+  window.$message.loading("Switching account...");
   try {
     // 恢复上次登录时间
     if (account.lastLoginTime) {
@@ -178,12 +178,12 @@ export const switchAccount = async (userId: number) => {
     }
     await refreshLoginData();
     await updateUserData();
-    window.$message.success("切换账号成功");
+    window.$message.success("Account switched successfully");
     // 跳转首页
     router.push("/");
   } catch (error) {
     console.error("Failed to switch account:", error);
-    window.$message.error("切换账号失败");
+    window.$message.error("Failed to switch account");
     // 回滚或踢出
     dataStore.userLoginStatus = false;
     router.push("/");
@@ -199,7 +199,7 @@ export const removeAccount = (userId: number) => {
   const index = dataStore.userList.findIndex((u) => u.userId === userId);
   if (index !== -1) {
     dataStore.userList.splice(index, 1);
-    window.$message.success("账号已移除");
+    window.$message.success("Account removed");
   }
 };
 
@@ -335,17 +335,17 @@ export const toLikeSong: DebouncedFunc<(song: SongType, like: boolean) => Promis
   async (song: SongType, like: boolean): Promise<void> => {
     try {
       if (!isLogin()) {
-        window.$message.warning("请登录后使用");
+        window.$message.warning("Please sign in first");
         return;
       }
       if (isLogin() === 2) {
-        window.$message.warning("该登录模式暂不支持该操作");
+        window.$message.warning("This action is not supported in current login mode");
         return;
       }
       const dataStore = useDataStore();
       const { id, path, type } = song;
       if (path || type === "streaming") {
-        window.$message.warning("该类型歌曲暂未实现");
+        window.$message.warning("This song type is not supported yet");
         return;
       }
       const likeList = dataStore.userLikeData.songs;
@@ -353,20 +353,20 @@ export const toLikeSong: DebouncedFunc<(song: SongType, like: boolean) => Promis
       await likeSong(id, like);
       if (like && !exists) {
         likeList.push(id);
-        window.$message.success("已添加到我喜欢的音乐");
+        window.$message.success("Added to Liked Songs");
       } else if (!like && exists) {
         likeList.splice(likeList.indexOf(id), 1);
-        window.$message.success("已取消喜欢");
+        window.$message.success("Removed from Liked Songs");
       } else if (like && exists) {
-        window.$message.info("我喜欢的音乐中已存在该歌曲");
+        window.$message.info("This song is already in Liked Songs");
       }
       // 更新
       dataStore.setUserLikeData("songs", likeList);
       // ipc
       if (isElectron) window.electron.ipcRenderer.send("like-status-change", like);
     } catch (error) {
-      window.$message.error(`${like ? "喜欢" : "取消"}音乐时发生错误`);
-      console.error("❌ 更新喜欢歌曲时失败:", error);
+      window.$message.error(`${like ? "Like" : "Unlike"} action failed`);
+      console.error("❌ Failed to update liked songs:", error);
     }
   },
   300,
@@ -384,21 +384,21 @@ const toLikeSomething = (
       // 错误情况
       if (!id) return;
       if (!isLogin()) {
-        window.$message.warning("请登录后使用");
+        window.$message.warning("Please sign in first");
         return;
       }
       if (isLogin() === 2) {
-        window.$message.warning("该登录模式暂不支持该操作");
+        window.$message.warning("This action is not supported in current login mode");
         return;
       }
       // 请求
       const { code } = await request()(id, like ? 1 : 2);
       if (code === 200) {
-        window.$message.success((like ? "" : "取消") + actionName + thingName + "成功");
+        window.$message.success(`${like ? "" : "Cancel "}${actionName} ${thingName} succeeded`);
         // 更新
         await update();
       } else {
-        window.$message.success((like ? "" : "取消") + actionName + thingName + "失败，请重试");
+        window.$message.success(`${like ? "" : "Cancel "}${actionName} ${thingName} failed, please retry`);
         return;
       }
     },
@@ -408,25 +408,25 @@ const toLikeSomething = (
 
 // 收藏/取消收藏歌单
 export const toLikePlaylist = toLikeSomething(
-  "收藏",
-  "歌单",
+  "Favorite",
+  "playlist",
   () => likePlaylist,
   updateUserLikePlaylist,
 );
 
 // 收藏/取消收藏专辑
-export const toLikeAlbum = toLikeSomething("收藏", "专辑", () => likeAlbum, updateUserLikeAlbums);
+export const toLikeAlbum = toLikeSomething("Favorite", "album", () => likeAlbum, updateUserLikeAlbums);
 
 // 收藏/取消收藏歌手
 export const toLikeArtist = toLikeSomething(
-  "收藏",
-  "歌手",
+  "Favorite",
+  "artist",
   () => likeArtist,
   updateUserLikeArtists,
 );
 
 // 订阅/取消订阅播客
-export const toSubRadio = toLikeSomething("订阅", "播客", () => radioSub, updateUserLikeDjs);
+export const toSubRadio = toLikeSomething("Subscribe", "podcast", () => radioSub, updateUserLikeDjs);
 
 // 循环获取用户喜欢数据
 const setUserLikeDataLoop = async <T>(
@@ -504,7 +504,7 @@ export const updateDailySongsData = async (refresh = false) => {
     const songsData = formatSongsList(result.data.dailySongs);
     // 更新数据
     musicStore.dailySongsData = { timestamp: Date.now(), list: songsData };
-    if (refresh) window.$message.success("每日推荐更新成功");
+    if (refresh) window.$message.success("Daily recommendations updated");
   } catch (error) {
     console.error("❌ Error updating daily songs data:", error);
     throw error;
@@ -524,15 +524,15 @@ export const deleteSongs = async (
   const { callback, songName } = options;
   try {
     window.$dialog.warning({
-      title: "删除歌曲",
+      title: "Delete song",
       content:
         ids?.length > 1
-          ? "确定删除这些选中的歌曲吗？"
+          ? "Are you sure you want to delete selected songs?"
           : songName
-            ? `确定删除歌曲 ${songName} 吗？`
-            : "确定删除这个歌曲吗？",
-      positiveText: "删除",
-      negativeText: "取消",
+            ? `Are you sure you want to delete ${songName}?`
+            : "Are you sure you want to delete this song?",
+      positiveText: "Delete",
+      negativeText: "Cancel",
       onPositiveClick: async () => {
         // 本地歌单
         if (pid.toString().length === 16) {
@@ -543,9 +543,9 @@ export const deleteSongs = async (
           );
           if (success) {
             if (isFunction(callback)) callback();
-            window.$message.success("删除成功");
+            window.$message.success("Deleted successfully");
           } else {
-            window.$message.error("删除失败");
+            window.$message.error("Delete failed");
           }
           return;
         }
@@ -553,13 +553,13 @@ export const deleteSongs = async (
         const result = await playlistTracks(pid, ids, "del");
         if (result.status === 200) {
           if (result.body?.code !== 200) {
-            window.$message.error(result.body?.message || "删除歌曲失败，请重试");
+            window.$message.error(result.body?.message || "Failed to delete songs, please retry");
             return;
           }
           if (isFunction(callback)) callback();
-          window.$message.success("删除成功");
+          window.$message.success("Deleted successfully");
         } else {
-          window.$message.error(result?.message || "删除歌曲失败，请重试");
+          window.$message.error(result?.message || "Failed to delete songs, please retry");
         }
       },
     });

@@ -8,11 +8,11 @@
       <n-tag type="warning">
         {{ data?.version || "v0.0.0" }}
       </n-tag>
-      <n-tag v-if="isPrerelease" type="error"> 测试版 </n-tag>
+      <n-tag v-if="isPrerelease" type="error"> Pre-release </n-tag>
     </n-flex>
     <!-- 测试版警告 -->
     <n-alert v-if="isPrerelease" type="warning" :bordered="false" class="prerelease-warning">
-      当前更新为测试版本，可能包含未完成的功能或已知问题，请谨慎更新
+      This update is a pre-release and may include unfinished features or known issues.
     </n-alert>
     <n-scrollbar style="max-height: 500px">
       <div
@@ -21,14 +21,14 @@
         v-html="data.releaseNotes"
         @click="handleMarkdownClick"
       />
-      <div v-else class="markdown-body">暂无更新日志</div>
+      <div v-else class="markdown-body">No release notes</div>
     </n-scrollbar>
     <n-flex class="menu" justify="end">
-      <n-button strong secondary @click="emit('close')"> 取消 </n-button>
-      <n-button type="warning" strong secondary @click="goDownload"> 前往下载 </n-button>
+      <n-button strong secondary @click="emit('close')"> Cancel </n-button>
+      <n-button type="warning" strong secondary @click="goDownload"> Go to download page </n-button>
       <!-- 已下载完成：显示立即安装 -->
       <n-button v-if="statusStore.updateDownloaded" type="success" strong @click="doInstall">
-        立即安装
+        Install now
       </n-button>
       <!-- 下载中：显示进度 -->
       <n-button
@@ -39,8 +39,8 @@
       >
         {{
           statusStore.updateDownloading
-            ? `下载中 ${statusStore.updateDownloadProgress}%`
-            : "立即更新"
+            ? `Downloading ${statusStore.updateDownloadProgress}%`
+            : "Update now"
         }}
       </n-button>
     </n-flex>

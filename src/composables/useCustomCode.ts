@@ -28,9 +28,9 @@ export const useCustomCode = () => {
     try {
       const customFn = new Function(settingStore.customJs);
       customFn();
-      console.log("[CustomCode] 自定义 JavaScript 已执行");
+      console.log("[CustomCode] Custom JavaScript executed");
     } catch (error) {
-      console.error("[CustomCode] 自定义 JavaScript 执行失败:", error);
+      console.error("[CustomCode] Failed to execute custom JavaScript:", error);
     }
   };
 
